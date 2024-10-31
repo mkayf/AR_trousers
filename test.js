@@ -1,0 +1,1 @@
+console.log('Official website of AR trousers')
