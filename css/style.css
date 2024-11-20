@@ -553,6 +553,18 @@ p{
         font-size: 2rem;
         margin: 0 4px;
     }
+
+    .latest-products-section .view-more-btn{
+        padding: 6px 24px;
+    }
+
+    .latest-products-section .view-more-btn p{
+        font-size: 0.9rem;
+    }
+
+    .latest-products-section .view-more-btn p i{
+        margin-top: 1px;
+    }
   }
 
   
@@ -690,8 +702,12 @@ p{
     text-decoration: none;
     color: var(--primary-color);
     font-family: 'proxima-regular';
+}
+
+.view-more-btn p{
     font-size: 1.1rem;
     display: flex;
+    justify-content: center;
 }
 
 .view-more-btn:hover .bi-arrow-right-short{
@@ -753,7 +769,7 @@ p{
     }
 
     .poly-cotton-section{
-        padding: 0 16px;
+        padding: 24px 16px;
     }
 
     .polyswiper{
@@ -777,6 +793,14 @@ p{
     }
     .polyswiper .swiper-slide .product-card .product-price{
         font-size: 0.8rem;
+    }
+
+    .view-more-btn p{
+        font-size: 0.7rem;
+    }
+
+    .view-more-btn p i{
+        display: none;
     }
 }
 
@@ -824,7 +848,7 @@ p{
 .letter-section{
     background-color: rgb(236, 236, 236);
     margin-top: var(--top-spacing);
-    padding: 36px 0;
+    padding: 24px 48px;
 }
 
 .letter-section h4{
@@ -833,10 +857,11 @@ p{
     font-family: 'cormorant-bold';
 }
 
-.letter-section div{
+.letter-section .letter-form-div{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .letter-section input{
@@ -853,5 +878,40 @@ p{
     color: var(--background-color);
     padding: 0 12px;
 }
+
+@media (max-width: 576px){
+    .letter-section{
+        padding: 24px 16px;
+    }
+
+    .letter-section input{
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .letter-section button{
+        font-size: 0.9rem;
+    }
+}
+
+
 /* newsletter section */
 
+/* Footer section */
+
+footer{
+    background-color: rgb(236, 236, 236);
+    font-family: 'proxima-regular';
+
+}
+
+footer .navbar-brand .logo{
+    height: 100px;
+}
+
+footer .social-icon{
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+/* Footer section */

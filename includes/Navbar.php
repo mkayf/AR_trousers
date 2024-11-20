@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg px-4 py-2">
+  <nav class="navbar navbar-expand-lg px-4 py-2">
   <div class="container-fluid">
     <a class="navbar-brand pt-0" href="<?php base_url('index.php'); ?>">
       <img class="logo" src="<?php base_url('assets/images/logo-2.png') ?>" alt="">

@@ -484,7 +484,7 @@
 
     <div class="d-flex justify-content-center align-items-center">
     <a href="<?php base_url('products.php'); ?>" class="view-more-btn">
-    <p>View more</p> <i class="bi bi-arrow-right-short"></i></a>
+    <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
     </div>
     
    </section>
@@ -932,7 +932,7 @@
 
       <div class="swiper-slide view-more-slide">
         <a href="<?php base_url('products.php'); ?>" class="view-more-btn">
-          <p>View more</p> <i class="bi bi-arrow-right-short"></i></a>
+          <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
       </div>
 
     </div>
@@ -979,20 +979,18 @@
     <section class="letter-section container-fluid">
       <h4>Newsletter</h4>
       <p class="tag-line">Subscribe to our news letter for updates about the trousers.</p>
-      <div class="my-5">
+      <div class="letter-form-div">
         <form class="d-flex">
           <input type="email" placeholder="Enter your email address" name="news-email" required>
           <button type="submit" name="subscribe">Subscribe</button>
         </form>
       </div>
    </section>
-
-
   <!-- News letter section -->
-
-
     </main>
 
+    <!-- Footer -->
+     <?php include './includes/Footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
