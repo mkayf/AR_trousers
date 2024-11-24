@@ -53,7 +53,7 @@
 }
 
 :root{
-    --top-spacing: 100px;
+    --top-spacing: 80px;
     --primary-color: #854b34;
     --background-color: #f3f3f3;
     --text-color: #3e3534;
@@ -93,7 +93,8 @@ body{
 
 /* Navbar styling*/
 .navbar{
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+    background-color: #fff;
 }
 
 .navbar-brand .logo{
@@ -113,12 +114,12 @@ body{
     box-shadow: none;
 }
 
+
+
 .nav-item .nav-link{
     font-family: 'proxima-semibold';
-    /* font-size: 1.05rem; */
+    font-size: 1.05rem;
     color: var(--text-color);
-    letter-spacing: var(--spacing-1);
-    /* text-transform: uppercase; */
     margin: 0 16px;
     padding: 0 !important;
     position: relative;
@@ -146,11 +147,17 @@ body{
 .nav-icons span{
     color: var(--primary-color);
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
 }   
 
-.nav-icons span:hover{
-    transform: scale(1.1);
+.nav-icons span .auth-dropdown{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--primary-color);
+}
+
+.dropdown-toggle::after{
+    content: none;
 }
 
 .heading{
@@ -167,6 +174,12 @@ p{
     font-family: 'proxima-regular';
     font-size: 1.1rem;
     /* letter-spacing: var(--spacing-1); */
+}
+
+@media(max-width: 768px){
+    .nav-item{
+        margin: 6px 0;
+    }
 }
 
 /* Navbar styling*/
@@ -344,7 +357,7 @@ p{
 
 .section-heading{
     text-align: center;
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-family: 'cormorant-bold';
     text-transform: capitalize;
     color: var(--text-color)
@@ -368,13 +381,11 @@ p{
 .product-card .product-img-div img{
     height: 100%;
     width: 100%;
-    /* margin-right: 0 !important; */
 }
 
 .product-card .product-details-div{
     margin-top: 16px;
     text-align: center;
-    /* border: 2px solid red; */
 }
 
 .product-card .product-details-div .product-title{
@@ -549,6 +560,9 @@ p{
   }
 
   @media(max-width: 576px){
+    .heading-div .separator{
+        display: none;
+    }
     .section-heading{
         font-size: 2rem;
         margin: 0 4px;
@@ -748,10 +762,13 @@ p{
     .polyswiper .swiper-slide{
         height: 300px;
         width: 250px;
+        margin-right: 12px;
+
     }
 
     .polyswiper .swiper-slide .product-card{
         height: 250px;
+        width: 200px;
     }
 
     .polyswiper .swiper-slide .product-card .product-title{
@@ -769,7 +786,7 @@ p{
     }
 
     .poly-cotton-section{
-        padding: 24px 16px;
+        padding: 24px 8px 0px 8px;
     }
 
     .polyswiper{
@@ -777,14 +794,13 @@ p{
     }
     
     .polyswiper .swiper-slide{
-        height: 180px;
+        height: 220px;
         width: 150px;      
-        /* border: 2px solid red; */
         margin-right: 8px !important;
     }
 
     .polyswiper .swiper-slide .product-card{
-        height: 150px;
+        height: 100%;
         width: 100%;
     }
 
@@ -914,4 +930,187 @@ footer .social-icon{
     color: var(--primary-color);
 }
 
+footer .footer-link:hover{
+    color: var(--primary-color);
+}
+
 /* Footer section */
+
+
+/* contact page */
+
+.contact-container{
+    background-color: rgb(236, 236, 236);
+    margin: 80px auto;
+    padding: 48px;
+    box-shadow:
+  0px 0.7px 4.8px -44px rgba(0, 0, 0, 0.153),
+  0px 2.5px 16.1px -44px rgba(0, 0, 0, 0.227),
+  0px 11px 72px -44px rgba(0, 0, 0, 0.38)
+;
+}
+
+.contact-info-div h4{
+    font-size: 2rem;
+    font-family: 'cormorant-bold';
+    text-transform: capitalize;
+}
+
+.contact-info-div .contact-logo{
+    height: 150px;
+    /* border: 2px solid red; */
+    margin-bottom: 16px;
+}
+
+.contact-info-div p{
+    font-family: 'proxima-regular';
+    color: var(--primary-color);
+    margin: 12px auto;
+    font-size: 1.2rem;
+}
+
+.contact-form-div{
+    /* border: 2px solid var(--primary-color); */
+}
+
+.contact-form-div form div{
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form-div form div label{
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    font-family: 'proxima-regular';
+}
+
+.contact-form-div form div input, textarea{
+    outline: none;
+    border: 1px solid var(--primary-color);
+    padding: 6px 8px;
+    font-family: 'proxima-regular';
+    background-color: transparent;
+}
+
+.contact-form-div form div button{
+    background-color: var(--primary-color);
+    border: none;
+    padding: 12px;
+    color: var(--background-color);
+    font-size: 1.1rem;
+    font-family: 'proxima-regular';
+    transition: all 0.2s ease-in-out;
+}
+
+.contact-form-div form div button:hover{
+    background-color: #5d3324;
+}
+
+.contact-form-div form div button:active{
+    transform: scale(0.97);
+}
+
+@media (max-width: 768px){
+    .contact-info-div{
+        margin-bottom: 24px;
+    }
+}
+
+@media(max-width: 576px){
+    .contact-container{
+        padding: 24px 16px;
+    }
+}
+/* contact page */
+
+
+/* about page */
+
+.about-container{
+    margin: var(--top-spacing) auto;
+    padding: 0 48px;
+}
+
+.about-container .row{
+    margin: 36px auto;
+}
+
+.about-container h2{
+    font-family: 'cormorant-bold';
+    font-size: 2.5rem;
+}
+
+.about-container p{
+    font-family: 'proxima-regular';
+    color: var(--text-color);
+}
+
+.about-container .about-product-img{
+    height: 500px;
+    width: 400px;
+}
+
+.about-container .about-product-img img{
+    height: 100%;
+    width: 100%;
+}
+
+@media(max-width: 992px){
+    .about-container .row{
+        margin: 60px auto;
+    }
+
+    .about-container .row div{
+        margin-bottom: 32px;
+    }
+}
+
+@media(max-width: 576px){
+    .about-container{
+        padding: 0 16px;
+    }
+    .about-container .about-product-img{
+        height: 400px;
+        width: 300px;
+    }
+}
+
+/* about page */
+
+/* products page */
+.products-main, .contact-main, .about-main{
+    margin-top: var(--top-spacing);
+}
+
+.all-products-section .row{
+    margin: 60px auto;
+}
+
+.filter-btn{
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    font-family: 'proxima-regular';
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-size: 1.1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.filter-btn:hover{
+    background-color: #5d3324;
+}
+
+#sort{
+    padding: 8px;
+    border: 1px solid var(--primary-color);
+    background-color: transparent;
+    outline: none;
+    font-family: 'proxima-regular';
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+
+/* products page */
+

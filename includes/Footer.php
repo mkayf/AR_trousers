@@ -2,7 +2,7 @@
     
   <section class="d-flex justify-content-center justify-content-md-between py-4 px-5 border-bottom">
     <div class="me-5 d-none d-md-block">
-      <span>Get connected with us on social networks:</span>
+      <span class="">Get connected with us on social networks:</span>
     </div>
 
     <div>
@@ -34,13 +34,13 @@
           <h6 class="text-uppercase fw-bold mb-4">
             Quick links
           </h6>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('index.php') ?>" class="text-reset text-decoration-none">Home</a>
           </p>
-          <p class="mb-2">
-            <a href="<?php base_url('products.php') ?>" class="text-reset text-decoration-none">Products</a>
+          <p class="mb-2 footer-link">
+            <a href="<?php base_url('trousers.php') ?>" class="text-reset text-decoration-none">Trousers</a>
           </p>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('about.php') ?>" class="text-reset text-decoration-none">About</a>
           </p>
         </div>
@@ -49,26 +49,26 @@
           <h6 class="text-uppercase fw-bold mb-4">
             Account
           </h6>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('login.php') ?>" class="text-reset text-decoration-none">Login</a>
           </p>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('signup.php') ?>" class="text-reset text-decoration-none">Signup</a>
           </p>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('user_account.php') ?>" class="text-reset text-decoration-none">Your account</a>
           </p>
         </div>
 
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
           <h6 class="text-uppercase fw-bold mb-4">Customer service</h6>
-          <p class="mb-2">
-            <a href="<?php base_url('return_policy.php') ?>" class="text-reset text-decoration-none">Return Policy</a>
+          <p class="mb-2 footer-link">
+            <a href="<?php base_url('exchange_policy.php') ?>" class="text-reset text-decoration-none">Exchange Policy</a>
           </p>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="<?php base_url('contact.php') ?>" class="text-reset text-decoration-none">Contact us</a>
           </p>
-          <p class="mb-2">
+          <p class="mb-2 footer-link">
             <a href="#!" class="text-reset text-decoration-none">Size chart</a>
           </p>
         </div>
