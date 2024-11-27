@@ -49,15 +49,35 @@
           <h6 class="text-uppercase fw-bold mb-4">
             Account
           </h6>
-          <p class="mb-2 footer-link">
-            <a href="<?php base_url('login.php') ?>" class="text-reset text-decoration-none">Login</a>
-          </p>
-          <p class="mb-2 footer-link">
-            <a href="<?php base_url('signup.php') ?>" class="text-reset text-decoration-none">Signup</a>
-          </p>
-          <p class="mb-2 footer-link">
-            <a href="<?php base_url('user_account.php') ?>" class="text-reset text-decoration-none">Your account</a>
-          </p>
+          <?php if(isset($_SESSION['authenticated'])) : ?>
+            
+            <?php if($_SESSION['user_data']['user_role'] == 'admin') : ?>
+              <p class="mb-2 footer-link">
+              <a href="<?php base_url('adminpanel.php') ?>" class="text-reset text-decoration-none">Admin panel</a>
+              </p>  
+            <?php endif; ?>  
+
+            <p class="mb-2 footer-link">
+            <a href="<?php base_url('myaccount.php') ?>" class="text-reset text-decoration-none">My account</a>
+            </p>
+            <form method="POST">
+            <p class="mb-2 footer-link">
+              <button type="submit" name="logout-btn" class="text-reset text-decoration-none bg-transparent" style="border: none;">Logout</button>
+            </p>
+            </form>
+
+            <?php else : ?>
+              <p class="mb-2 footer-link">
+                <a href="<?php base_url('login.php') ?>" class="text-reset text-decoration-none">Login</a>
+              </p>
+              <p class="mb-2 footer-link">
+                <a href="<?php base_url('signup.php') ?>" class="text-reset text-decoration-none">Signup</a>
+              </p>
+              <p class="mb-2 footer-link">
+                <a href="<?php base_url('user_account.php') ?>" class="text-reset text-decoration-none">My account</a>
+              </p>
+
+            <?php endif; ?>
         </div>
 
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">

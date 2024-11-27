@@ -1,5 +1,9 @@
 <?php
   include_once './config/App.php';
+  include_once 'auth/auth.php';
+
+  $login->isUserLoggedIn();
+
 ?>
 
 
@@ -13,15 +17,7 @@
 
      <!-- CUSTOM CSS STYLESHEET -->
    <link rel="stylesheet" href="./css/style.css">
-
-   <style>
-    .dropdown-toggle::after{
-        content: none;
-    }
-   </style>
   </head>
- 
-   
   <body>
     
     <!-- NAVBAR -->
@@ -29,19 +25,35 @@
          <?php include './includes/Navbar.php'; ?>
      </header>
 
-     <main class="contact-main">
+     <main class="auth-main">
 
-     <div class="dropdown">
-  <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    
-  </button>
-  <ul class="dropdown-menu dropdown-menu-end">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div>
-
+     <div class="container d-flex justify-content-center align-items-center">
+        <div class="auth-form-div">
+            <img src="./assets/images/logo-2.png" alt="AR Trouser logo">
+            <h3>Login to your account</h3>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="user_email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="user_password">
+                </div>
+                <div class="message-div mb-3">
+                <?php include 'includes/message.php'; ?>
+                </div>
+                <div class="mb-3 mt-2">
+                    <input type="submit" id="login-btn" name="login-btn" value="Login">
+                </div> 
+            </form>
+                <div class="mb-3">
+                    <span>Don't have an account?
+                    <a href="<?php base_url('signup.php') ?>" class="signup-link">Sign up</a>
+                    </span>
+                </div>
+        </div>
+     </div>
 
      </main>
 

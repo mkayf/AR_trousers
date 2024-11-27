@@ -1111,6 +1111,71 @@ footer .footer-link:hover{
     color: var(--text-color);
 }
 
-
 /* products page */
 
+
+/* Auth forms */
+
+.auth-main{
+    margin: var(--top-spacing) auto;
+}
+
+.auth-form-div{
+    width: 350px;
+    background-color: #fff;
+    padding: 24px;
+    box-shadow: 0px 4px 22px 2px rgba(0, 0, 0, 0.182);
+}
+
+.auth-form-div img{
+    height: 80px;
+    margin: 8px auto;
+    display: block;
+}
+
+.auth-form-div h3{
+    font-family: 'proxima-bold';
+    text-align: center;
+}
+
+.auth-form-div form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.auth-form-div form div label{
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'proxima-semibold';
+}
+
+.auth-form-div form input{
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    padding: 6px;
+    outline: none;
+    font-family: 'proxima-regular';
+}
+
+.auth-form-div form #signup-btn, #login-btn{
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-family: 'proxima-regular';
+    font-size: 1.1rem;
+}
+
+.auth-form-div .login-link, .signup-link{
+    color: var(--primary-color);
+    text-decoration: none;
+    font-family: 'proxima-semibold';
+}
+
+.auth-form-div form .message-div p{
+    font-size: 0.9rem;
+    font-family: 'proxima-regular';
+}
+
+/* Auth forms */

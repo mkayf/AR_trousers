@@ -1,5 +1,6 @@
 <?php
   include_once './config/App.php';
+  include_once 'auth/auth.php';
 ?>
 
 
