@@ -31,7 +31,7 @@
         public function validPassword($password){
             $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';
             if(preg_match($pattern, $password)){
-                return true;
+                   return true;
             }
             return false;
         }

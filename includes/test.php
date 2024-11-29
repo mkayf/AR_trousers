@@ -8,8 +8,24 @@
     user_account_created date default CURRENT_DATE 
 )    -->
 
+<div>
+    <form method="POST">
+    <input type="checkbox" name="re-btn" id="re">
+    <label for="re">Remember me</label>
+    <input type="submit" value="login" name="login-btn">
+    </form>
+</div>
+
 <?php
 
+    if(isset($_POST['login-btn'])){
+        if(isset($_POST['re-btn'])){
+            echo 'checked';
+        }
+        else{
+            echo 'unchecked';
+        }
+    }
 
 
 ?>

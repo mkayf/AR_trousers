@@ -74,7 +74,7 @@
                 <a href="<?php base_url('signup.php') ?>" class="text-reset text-decoration-none">Signup</a>
               </p>
               <p class="mb-2 footer-link">
-                <a href="<?php base_url('user_account.php') ?>" class="text-reset text-decoration-none">My account</a>
+                <a href="<?php base_url('myaccount.php') ?>" class="text-reset text-decoration-none">My account</a>
               </p>
 
             <?php endif; ?>

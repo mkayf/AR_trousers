@@ -53,12 +53,15 @@ if(isset($_POST['login-btn'])){
 
     if(!empty($user_email) && !empty($user_password)){
         if($login->loginUser($user_email, $user_password)){
-            redirect("", "", "index.php");
+                if(isset($_POST['remember-me'])){
+                    $login->rememberUserCredentials($user_email);
+                }   
+                redirect("", "", "index.php");
         } else{
-            exit(0);
+                exit(0);
         }
     } else{
-        redirect("Please enter login details.", "red", "login.php");
+        redirect("Please enter all login details.", "red", "login.php");
     }
     
 }

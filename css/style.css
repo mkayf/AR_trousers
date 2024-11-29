@@ -1178,4 +1178,15 @@ footer .footer-link:hover{
     font-family: 'proxima-regular';
 }
 
+
+.remember-div label{
+    display: inline !important;
+    font-family: 'proxima-regular' !important;
+}
+
+.remember-div input{
+    width: 5% !important;
+}
+
 /* Auth forms */
+

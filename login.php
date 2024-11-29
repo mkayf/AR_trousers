@@ -6,7 +6,6 @@
 
 ?>
 
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -39,6 +38,10 @@
                 <div class="mb-3">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="user_password">
+                </div>
+                <div class="remember-div">
+                  <input type="checkbox" name="remember-me" id="checkbox">
+                  <label for="checkbox" class="">Remember me</label>
                 </div>
                 <div class="message-div mb-3">
                 <?php include 'includes/message.php'; ?>
