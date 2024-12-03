@@ -1,7 +1,7 @@
 <?php
-include_once 'config/App.php';
-include_once 'controllers/signupController.php';
-include_once 'controllers/LoginController.php';
+include_once __DIR__ . '/../config/App.php';
+include_once __DIR__ . '/../controllers/signupController.php';
+include_once __DIR__ . '/../controllers/loginController.php';
 
 // Signup user:
 
@@ -12,6 +12,8 @@ if(isset($_POST['signup-btn'])){
     $user_c_password = mysqli_real_escape_string($DB->conn, $_POST['user_c_password']);
 
     $signup = new SignupController($DB->conn);
+
+    // Validations for user account creation:
 
     if(!empty($user_name) && !empty($user_email) && !empty($user_password) && !empty($user_c_password)){
         if(!$signup->doesUserExist($user_email)){
@@ -44,19 +46,18 @@ if(isset($_POST['signup-btn'])){
 
 $login = new LoginController($DB->conn);
 
-
-
 if(isset($_POST['login-btn'])){
     $user_email = mysqli_real_escape_string($DB->conn, $_POST['user_email']);
     $user_password = mysqli_real_escape_string($DB->conn, $_POST['user_password']);
 
+    // Validation for logging user in:
 
     if(!empty($user_email) && !empty($user_password)){
         if($login->loginUser($user_email, $user_password)){
                 if(isset($_POST['remember-me'])){
                     $login->rememberUserCredentials($user_email);
                 }   
-                redirect("", "", "index.php");
+                redirect("You are logged in.", "", "index.php");
         } else{
                 exit(0);
         }
@@ -66,6 +67,8 @@ if(isset($_POST['login-btn'])){
     
 }
 
+
+// Logging user out:
 
 if(isset($_POST['logout-btn'])){
     if($login->logout()){

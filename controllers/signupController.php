@@ -6,6 +6,8 @@
             $this->conn = $db_connection;
         }
 
+        // Signup user function:
+
         public function signupUser($name, $email, $password){
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $signupQuery = "INSERT INTO users(user_name, user_email, user_password) VALUES('$name', '$email', '$hashedPassword')";
@@ -17,6 +19,8 @@
                 return false;   
             }
         }
+
+        // Check if any user has already created an account with the same email given:
 
         public function doesUserExist($email){
             $checkUserQuery = "SELECT user_email FROM users WHERE user_email = '$email'";

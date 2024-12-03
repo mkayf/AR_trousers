@@ -1,8 +1,14 @@
 <?php
-  include_once './config/App.php';
-  include_once 'auth/auth.php';
+  
+  include_once __DIR__ . '/config/App.php';
+  include_once __DIR__ . '/auth/auth.php';
 
-  $login->isUserLoggedIn();
+  if($login->validateUserCredentials()){
+    redirect('You are logged in.', '', 'index.php');
+  } else{
+    $login->isUserLoggedIn();
+  }
+  
 
 ?>
 

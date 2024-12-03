@@ -1,0 +1,67 @@
+Users table query:
+
+create table users(
+	user_ID int primary key AUTO_INCREMENT,
+    user_name varchar(100) not null,
+    user_email varchar(100) not null unique,
+    user_password varchar(300) not null,
+    user_role varchar(20) default 'user',
+    user_auth_token varchar(300),
+    user_account_created date default CURRENT_DATE 
+)
+
+Product categories table query:
+
+create table product_categories(
+	cat_ID int primary key AUTO_INCREMENT,
+    cat_name varchar(50) not null,
+    cat_desc text default null,
+    created_at date default CURRENT_DATE,
+    status enum('active', 'inactive') default 'active',
+    slug varchar(120) default null
+)
+
+Products table query:
+
+create table products(
+    product_ID int primary key AUTO_INCREMENT,
+    product_cat_ID int not null,
+    product_name varchar(100) not null,
+    product_desc text default null,
+    product_actual_price int not null,
+    product_discounted_price int default null,
+    product_img_1 varchar(255) not null,
+    product_img_2 varchar(255) default null,
+    product_img_3 varchar(255) default null,
+    status enum('active', 'inactive') default 'active',
+    slug varchar(255) default null
+    foreign key (product_cat_ID) references product_categories(cat_ID)
+)
+
+Product sizes table query:
+
+create table product_sizes(
+    size_ID int primary key AUTO_INCREMENT,
+    size enum('S', 'M', 'L', 'XL', 'XXL') default 'M',
+)
+
+Product colors table query:
+
+create table product_colors(
+    color_ID int primary key AUTO_INCREMENT,
+    color enum('black', 'white') not null
+)
+
+Product stock table query:
+
+    create table product_stock(
+        stock_ID int primary key AUTO_INCREMENT,
+        product_ID int not null,
+        size_ID int not null,
+        color_ID int not null,
+        stock_quantiy int not null,
+        foreign key (product_ID) references products(product_ID),
+        foreign key (size_ID) references product_sizes(size_ID),
+        foreign key (color_ID) references product_colors(color_ID)
+    )
+

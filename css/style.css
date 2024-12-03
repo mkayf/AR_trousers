@@ -92,6 +92,19 @@ body{
 
 
 /* Navbar styling*/
+
+.header-msg{
+    padding: 12px 16px;
+    font-family: 'proxima-regular';
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.header-msg .msg-close-btn{
+    cursor: pointer;
+
+}
+
 .navbar{
     /* background-color: var(--background-color); */
     background-color: #fff;

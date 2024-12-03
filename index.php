@@ -1,6 +1,10 @@
 <?php
-  include_once './config/App.php';
-  include_once 'auth/auth.php';
+
+
+include_once __DIR__ . '/config/App.php';
+include_once __DIR__ . '/auth/auth.php';
+
+
 ?>
 
 
@@ -23,8 +27,16 @@
   <body>
     
     <!-- NAVBAR -->
+
      <header>
        <?php include './includes/Navbar.php'; ?>
+
+        <?php if(isset($_SESSION['authenticated']) && isset($_SESSION['message'])) : ?>
+       <div class="header-msg d-flex align-items-center justify-content-between">
+        <?php include './includes/message.php' ?>
+        <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+       </div>
+       <?php endif; ?>
      </header>
 
     <main>
