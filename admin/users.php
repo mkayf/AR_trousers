@@ -62,53 +62,7 @@
 
     <div id="layoutSidenav_content">
         <main>
-            <div class="container-fluid px-4">
-                <div class="dashboard-content-div">
-                    <h1 class="mt-4">Dashboard</h1>
-                    <div class="container my-4">
-                        <div class="row">
-                            <div class="col-md-4 col-xl-3">
-                                <div class="card bg-c-blue order-card">
-                                    <div class="card-block">
-                                        <h6 class="m-b-20">Total Sales</h6>
-                                        <h2 class="text-right"><i class="bi bi-cash"></i><span class="f-right">Rs 486</span>
-                                        </h2>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4 col-xl-3">
-                                <div class="card bg-c-green order-card">
-                                    <div class="card-block">
-                                        <h6 class="m-b-20">Total Orders</h6>
-                                        <h2 class="text-right"><i class="bi bi-bag-check-fill"></i><span class="f-right">124</span></h2>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-xl-3">
-                                <div class="card bg-c-yellow order-card">
-                                    <div class="card-block">
-                                        <h6 class="m-b-20">Pending Orders</h6>
-                                        <h2 class="text-right"><i class="bi bi-clock-history"></i><span class="f-right">12</span></h2>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-xl-3">
-                                <div class="card bg-c-pink order-card">
-                                    <div class="card-block">
-                                        <h6 class="m-b-20">Total Stock</h6>
-                                        <h2 class="text-right"><i class="bi bi-boxes"></i><span class="f-right">48</span>
-                                        </h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </main>
 
         <footer class="py-4 bg-light mt-auto">
@@ -119,7 +73,7 @@
                 </div>
             </div>
         </footer>
-        <!-- </div> -->
+        </div>
 
         <!-- BOOTSTRAP SCRIPT CDN -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

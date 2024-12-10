@@ -1,14 +1,31 @@
+<?php 
+    include_once __DIR__ . '/../config/App.php';
 
-<?php
+    // $arr = ['image1', 'image2'];
 
-$auth_token = bin2hex(random_bytes(16));
-$hashed_token = hash('SHA256', $auth_token);
-$verify_token = hash('SHA256', $auth_token);
+    // $img1 = $arr[0] ?? 'no image';
+    // $img2 = $arr[1] ?? 'no image';
+    // $img3 = $arr[2] ?? 'no image';
 
-if(hash_equals($hashed_token, $verify_token)){
-    echo 'token verified';
-} else{
-    echo 'token not verified';
-}
+    $arr = ['name' => 'kaif', 'age' => '21'];
+
+    echo "$arr[name], $arr[age]";
 
 ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test file</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="images[]" multiple>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
