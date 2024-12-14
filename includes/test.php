@@ -1,15 +1,32 @@
 <?php 
     include_once __DIR__ . '/../config/App.php';
+   
+    $product_stock = [
+        'colors' => [
+            'black' => [
+                'sizes' => [
+                    's' => 3,
+                    'm' => 14,
+                    'l' => 53,
+                    'xl' => 23,
+                    'xxl' => 43,
+                ]
+            ]
+        ]
+     ];
 
-    // $arr = ['image1', 'image2'];
+    // $size_arr = ['s', 'm', 'l', 'xl', 'xxl'];
 
-    // $img1 = $arr[0] ?? 'no image';
-    // $img2 = $arr[1] ?? 'no image';
-    // $img3 = $arr[2] ?? 'no image';
+    $size_keys = array_keys($product_stock['colors']['black']['sizes']);
 
-    $arr = ['name' => 'kaif', 'age' => '21'];
+    $query = "";
 
-    echo "$arr[name], $arr[age]";
+    for($i = 0; $i < 5; $i++){
+        $query .= "stock in black color for size " . $product_stock['colors']['black']['sizes'][$size_keys[$i]] . "<br>";
+    }
+
+    echo $query;
+
 
 ?>
 
