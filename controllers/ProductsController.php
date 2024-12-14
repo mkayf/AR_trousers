@@ -13,7 +13,13 @@ class ProductsController{
         $getProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' LIMIT 24";
 
         $result = $this->conn->query($getProductsQuery);
-        $data = $result->fetch_assoc();
+        $data = [];
+
+        while($row = $result->fetch_assoc()){
+            $data[] = $row;
+        }
+
+        return $data;
 
     }
 

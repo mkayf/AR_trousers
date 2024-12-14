@@ -27,7 +27,17 @@ window.addEventListener('DOMContentLoaded', event => {
         })
     }
 
+    // Product discount calculation:
 
+    const productPrice = document.getElementById('product-price');
+    const productDiscountPercent = document.getElementById('product-discount-percent');
+    const productDiscountedPrice = document.getElementById('product-discounted-price');
+
+    if(productPrice && productDiscountPercent && productDiscountedPrice){
+        productDiscountPercent.addEventListener('input', (event) => {
+            productDiscountedPrice.value = productPrice.value - (productPrice.value * event.target.value / 100);   
+        })
+    }
 
 
 });
