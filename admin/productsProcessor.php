@@ -3,6 +3,8 @@
     include_once __DIR__ . '/controllers/ProductsController.php';
 
     // Message variables related to product adding:
+    $product_added = false;
+    $product_adding_errors = false;
 
     $productsController = new ProductsController($DB->conn);
 
@@ -44,7 +46,12 @@
         ];
 
 
-        $productsController->addProduct($product_data);
+        if($productsController->addProduct($product_data) === true){
+            $product_added = true;
+        } else{
+            $product_adding_errors = [...$productsController->addProduct($product_data)];
+            
+        }
 
         
         

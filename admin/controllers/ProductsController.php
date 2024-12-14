@@ -48,6 +48,7 @@ class ProductsController
                         if (move_uploaded_file($product_data['images']['tmp_name'][$i], $upload_dir . $target_file_path)) {
 
                             $img_paths[] = mysqli_real_escape_string($this->conn, $target_file_path);
+
                         } else {
                             $product_adding_errors['image_error'] = 'Failed to upload image: ' . $image_name;
                         }
@@ -58,6 +59,7 @@ class ProductsController
             } else {
                 $product_adding_errors['image_limit_error']  =  'Only three or less than three images are allowed.';
             }
+        
         } else {
             $product_adding_errors['empty_fields'] = 'Please fill all the required product details';
         }
@@ -72,11 +74,15 @@ class ProductsController
 
         $insertProductDetails = "INSERT INTO products(product_cat_ID, product_name, product_desc, product_actual_price, product_discounted_price, product_img_1, product_img_2, product_img_3, status, slug) VALUES($category_ID, '$product_data[name]', '$product_data[desc]', $product_data[price], $product_data[discounted_price], '$product_img_1', '$product_img_2', '$product_img_3', '$product_data[status]', '$product_data[slug]')";
 
-        $product_data_result = $this->conn->query($insertProductDetails);
+        if(empty($product_adding_errors)){
+            $product_data_result = $this->conn->query($insertProductDetails);
 
-        if (!$product_data_result) {
-            $product_adding_errors['product_details_insertion'] = 'Failed to insert product details into database. Please try again';
+            if (!$product_data_result) {
+                $product_adding_errors['product_details_insertion'] = 'Failed to insert product details into database. Please try again';
+            }
+    
         }
+
 
 
         // Get the last inserted product ID to insert into product stock table:
@@ -101,20 +107,21 @@ class ProductsController
             }
         }
 
+        if(empty($product_adding_errors)){
+            $product_stock_result = $this->conn->multi_query($insert_product_stock);
 
-        $product_stock_result = $this->conn->multi_query($insert_product_stock);
-
-        if (!$product_stock_result) {
-            $product_adding_errors['stock_error'] = 'Failed to insert stock against this product. Please try again';
+            if (!$product_stock_result) {
+                $product_adding_errors['stock_error'] = 'Failed to insert stock against this product. Please try again';
+            }
         }
-
-
 
 
         // Return true if no errors occur or return errors array:
         return empty($product_adding_errors) ? true : $product_adding_errors;
+
+        
     }
 
 
-    
+
 }

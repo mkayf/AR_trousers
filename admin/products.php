@@ -93,8 +93,56 @@
 
       <!-- Alert messages -->
 
+      <?php if($product_added) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Product added successfully.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['empty_fields'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['empty_fields'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['image_error'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['image_error'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['extension_error'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['extension_error'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['image_limit_error'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['image_limit_error'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['product_details_insertion'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['product_details_insertion'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($product_adding_errors['stock_error'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= $product_adding_errors['stock_error'] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
     
-      
         <!-- Product add and update modal -->
         <div
           class="modal fade"

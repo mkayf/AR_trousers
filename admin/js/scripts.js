@@ -15,4 +15,19 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    // Insert product slug:
+
+    const productName = document.getElementById('product-name');
+    const productSlug = document.getElementById('product-slug');
+
+    if(productName && productSlug){
+        productName.addEventListener('input', (event) => {
+            if(productName == '') return false;
+            productSlug.value = event.target.value.split(" ").join('-');
+        })
+    }
+
+
+
+
 });
