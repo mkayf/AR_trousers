@@ -10,7 +10,7 @@ class ProductsController{
 
     public function getProductsOnFirstLoad(){
 
-        $getProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' LIMIT 24";
+        $getProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT 24";
 
         $result = $this->conn->query($getProductsQuery);
         $data = [];

@@ -43,27 +43,33 @@ $products = $productController->getProductsOnFirstLoad();
     Filter <i class="bi bi-funnel"></i>
   </button>
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Pure cotton</a></li>
-    <li><a class="dropdown-item" href="#">Polyster cotton</a></li>
-    <li><a class="dropdown-item" href="#">Below Rs 1000</a></li>
-    <li><a class="dropdown-item" href="#">Rs 1000 - Rs 2000</a></li>
-    <li><a class="dropdown-item" href="#">Rs 2000 - Rs 3000</a></li>
+    <li><a class="dropdown-item" role="button" onclick="filterProducts('Pure_cotton')">Pure cotton</a></li>
+    <li><a class="dropdown-item" role="button" onclick="filterProducts('Polyester_cotton')">Polyster cotton</a></li>
+    <li><a class="dropdown-item" role="button" onclick="filterProducts('below-1000')">Below Rs 1000</a></li>
+    <li><a class="dropdown-item" role="button" onclick="filterProducts('1000-2000')">Rs 1000 - Rs 2000</a></li>
+    <li><a class="dropdown-item" role="button" onclick="filterProducts('2000-3000')">Rs 2000 - Rs 3000</a></li>
   </ul>
 </div>
 
-    <select name="sort" id="sort" tabindex="-1">
-      <option value="sort">sort</option>
-      <option value="low-to-high">price, low to high</option> 
-      <option value="high-to-low">price, high to low</option> 
-      <option value="new-to-old">date, new to old</option> 
-      <option value="old-to-new">date, old to new</option> 
-    </select>
+
+<div class="dropdown">
+  <button class="sort-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
+    Sort <i class="bi bi-sort-alpha-up"></i>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" role="button" onclick="sortProducts('low-to-high')">price, low to high</a></li>
+    <li><a class="dropdown-item" role="button" onclick="sortProducts('high-to-low')">price, high to low</a></li>
+    <li><a class="dropdown-item" role="button" onclick="sortProducts('new-to-old')">date, new to old</a></li>
+    <li><a class="dropdown-item" role="button" onclick="sortProducts('old-to-new')">date, old to new</a></li>
+  </ul>
+</div>
 
     </div>
 
     <div class="all-products-section container-fluid">
-        <div class="row d-flex justify-content-center align-items-center">
+        <div class="row d-flex justify-content-center align-items-center" id="all-products">
 
+          
       
         <?php foreach($products as $product) : ?>
 
@@ -105,7 +111,12 @@ $products = $productController->getProductsOnFirstLoad();
         </div>
         <div class="product-details-div">
           <p class="product-title"><?php echo $product['product_name'] ?></p>
-          <p class="product-price">Rs <?php echo $product['product_actual_price'] ?></p>
+          <?php if($product['product_discounted_price'] != 0) : ?>
+          <p class="product-price discount-strike">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+            <p class="product-discounted-price">Rs <?php echo number_format($product['product_discounted_price']); ?></p>
+            <?php else : ?>
+              <p class="product-price">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+          <?php endif; ?>
         </div>
       </div>
 
@@ -113,6 +124,16 @@ $products = $productController->getProductsOnFirstLoad();
 
       
         </div>
+          <div class="load-btn-div d-flex justify-content-center align-items-center">
+            <button class="load-more" tabindex="-1" onclick="fetchProducts()">
+              <span class="load-more-text">Load more</span>
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            </button>
+            <p id="more-products"></p>
+            <input type="hidden" name="offset" id="offset" value="0">
+          </div>
     </div>
 
      </main>
@@ -126,6 +147,8 @@ $products = $productController->getProductsOnFirstLoad();
 <!-- VANILLA JS -->
 <script src="./scripts/script.js"></script>
 
+<!-- AJAX handler -->
+ <script src="./scripts//ajaxHandler.js"></script>
 
 </body>
 </html>   

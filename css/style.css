@@ -398,7 +398,7 @@ p{
 
 .product-card .product-details-div{
     margin-top: 16px;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .product-card .product-details-div .product-title{
@@ -408,7 +408,55 @@ p{
 .product-card .product-details-div .product-price{
     font-family: 'proxima-regular';
     font-size: 1.2rem;
-    color: var(--primary-color);
+    /* color: var(--primary-color); */
+    color: var(--text-color);
+    display: inline;
+}
+
+.product-card .product-details-div .product-discounted-price{
+    color: rgba(255, 0, 0, 0.693);
+    display: inline;
+    font-size: 1.2rem;
+    margin-left: 6px;
+}
+
+.product-card .product-details-div .discount-strike{
+    text-decoration: line-through;
+    font-size: 1rem;
+}
+
+.load-btn-div{
+    position: relative;
+    bottom: 40px;
+    margin-bottom: 18px;
+}
+
+.load-btn-div .load-more{
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-family: 'proxima-regular';
+    font-size: 1.1rem;
+    width: 150px;
+    height: 45px;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.load-btn-div .load-more:hover{
+    background-color: #5d3324;
+}
+
+.load-more .spinner-border{
+    display: none;
+    margin: 0 auto;
+}
+
+#more-products{
+    display: none;
+    font-size: 1.1rem;
+    font-family: 'proxima-regular';
+    color: var(--text-color);
 }
 
 .product-card .product-img-div .product-cart-icon{
@@ -1099,8 +1147,14 @@ footer .footer-link:hover{
     margin: 60px auto;
 }
 
+#all-products .spinner-border{
+    height: 80px;
+    width: 80px;
+    color: var(--primary-color);
+}
+
 .filter-btn{
-    padding: 8px 16px;
+    padding: 8px 24px;
     border: none;
     outline: none;
     font-family: 'proxima-regular';
@@ -1114,14 +1168,15 @@ footer .footer-link:hover{
     background-color: #5d3324;
 }
 
-#sort{
-    padding: 8px;
-    border: 1px solid var(--primary-color);
-    background-color: transparent;
+.sort-btn{
+    padding: 8px 24px;
+    border: none;
     outline: none;
     font-family: 'proxima-regular';
+    background-color: var(--primary-color);
+    color: var(--background-color);
     font-size: 1.1rem;
-    color: var(--text-color);
+    transition: all 0.2s ease-in-out;
 }
 
 /* products page */

@@ -6,7 +6,7 @@
 
 
     if($_SESSION['user_data']['user_role'] !== 'admin'){
-        redirect('', '', 'admin/404.html');
+        redirect('', '', 'admin/404.php');
         exit(0);
     }
 

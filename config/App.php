@@ -25,5 +25,8 @@
         $_SESSION['message'] = ["msg" => $msg, "msgColor" => $msgColor];
         header("Location: $redirectTo");
         exit(0);
-    }    
+    }
+    
+    
+
 ?>
