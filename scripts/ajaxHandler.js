@@ -8,16 +8,23 @@ const moreProducts = document.getElementById('more-products');
 // Filter and sort products:
 
 let filterType;
+let sortType;
 
-const filterProducts = async (filter = '') => {
-    filterType = filter;
+const filterAndSortProducts = async (filter,sort) => {
+    if(filter){
+        filterType = filter;
+    }
+    if(sort){
+        sortType = sort;
+    }
     productsContainer.innerHTML = '<div class="spinner-border d-block spinner-border products-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
     loadMoreBtn.style.display = 'none';
+    moreProducts.style.display = 'none';
     
     try{
         const response = await fetch('./AJAX/filterAndSort.php', {
             method : 'POST',
-            body : JSON.stringify({filterType}),
+            body : JSON.stringify({filterType, sortType}),
             headers : {
                 'Content-Type' : 'application/json'
             }            
@@ -50,52 +57,13 @@ const filterProducts = async (filter = '') => {
 
 }
 
-// Sort products:
-
-let sortType = 'all';
-
-const sortProducts = async (sort = 'all') => {
-    sortType = sort;
-    productsContainer.innerHTML = '';    
-
-    try{
-        const response = await fetch('./AJAX/filterAndSort.php', {
-            method : 'POST',
-            body : JSON.stringify({sortType}),
-            headers : {
-                'Content-Type' : 'application/json'
-            }            
-        });
-
-        if(!response.ok){
-            console.log('Response not okay.');
-            return;
-        } else{
-            const data = await response.json();
-            
-            if(data.status !== 'failed'){
-                productsContainer.insertAdjacentHTML('beforeend', data.products);
-            } else{
-                console.log(data.msg);
-            }
-
-        }
-
-    }
-    catch(error){
-        console.log(error)
-    }
-    finally{
-        loadMoreBtn.style.display = 'block';
-    }
-
-}
 
 
 // Load more products from the server on click of load more button in the trousers.php page:
 
-const fetchProducts = async () => {
+const loadMoreProducts = async () => {
 
+    loadMoreBtn.setAttribute('disabled', true);
     loadMoreText.style.display = 'none';
     spinner.style.display = 'block';
 
@@ -140,9 +108,11 @@ const fetchProducts = async () => {
         console.log(error);
     }
     finally{
+        loadMoreBtn.removeAttribute('disabled');        
         loadMoreText.style.display = 'block';
         spinner.style.display = 'none';
     }
+    
     
 }
 

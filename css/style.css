@@ -1179,6 +1179,11 @@ footer .footer-link:hover{
     transition: all 0.2s ease-in-out;
 }
 
+#reset-filters, #reset-sort{
+    display: none;
+    
+}
+
 /* products page */
 
 

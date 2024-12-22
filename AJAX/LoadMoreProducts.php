@@ -2,7 +2,7 @@
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../config/RateLimiter.php';
 
-$rateLimiter = new RateLimiter(60, 10);
+$rateLimiter = new RateLimiter(60, 30);
 
 header('Content-Type: Application/json');
 
@@ -12,12 +12,50 @@ if ($rateLimiter->checkRateLimit()) {
         $limit = 24;
         $request_body = json_decode(file_get_contents('php://input'), true);
         $offset = mysqli_real_escape_string($DB->conn, $request_body['offset'] ?? 24);
-        $filterType = mysqli_real_escape_string($DB->conn, $request_body['filterType'] ?? null);
-        $sortType = mysqli_real_escape_string($DB->conn, $request_body['sortType'] ?? null);
-        
-    
+        $filterType = mysqli_real_escape_string($DB->conn, $request_body['filterType'] ?? 'reset-filters');
+        $sortType = mysqli_real_escape_string($DB->conn, $request_body['sortType'] ?? 'reset-sort');
 
-        $fetchProducts = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT $limit OFFSET $offset";
+
+        // Conditions for checking filter and sort type to query products according to them:
+
+        $where_clause = "p.status = 'active'";
+        $order_by = "p.product_ID DESC";
+
+        if ($filterType && $filterType !== 'reset-filters') {
+            if ($filterType === 'Pure_cotton') {
+                $where_clause .= "AND p.product_cat_ID = 1";
+            } else if ($filterType === 'Polyester_cotton') {
+                $where_clause .= "AND p.product_cat_ID = 2";
+            } else if ($filterType === 'below-1000') {
+                $where_clause .= "AND p.product_actual_price < 1000";
+            } else if ($filterType === "1000-2000") {
+                $where_clause .= "AND p.product_actual_price BETWEEN 1000 AND 2000";
+            } else if ($filterType === "2000-3000") {
+                $where_clause .= "AND p.product_actual_price BETWEEN 2000 AND 3000";
+            } else {
+                echo json_encode(['status' => 'failed', 'msg' => 'Something went wrong with your request. Please refresh the page and try again.']);
+                exit(0);
+            }
+        }
+
+        if ($sortType && $sortType !== 'reset-sort') {
+            if ($sortType === 'low-to-high') {
+                $order_by = "p.product_actual_price ASC";
+            } else if ($sortType === 'high-to-low') {
+                $order_by = "p.product_actual_price DESC";
+            } else if ($sortType === 'new-to-old') {
+                $order_by = "p.product_ID DESC";
+            } else if ($sortType === 'old-to-new') {
+                $order_by = "p.product_ID ASC";
+            } else {
+                echo json_encode(['status' => 'failed', 'msg' => 'Something went wrong with your request. Please refresh the page and try again.']);
+                exit(0);
+            }
+        }
+
+
+        $fetchProducts = "SELECT p.product_ID, p.product_cat_ID, p.product_name, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.product_img_2, p.slug FROM products AS p 
+        WHERE $where_clause ORDER BY $order_by LIMIT $limit OFFSET $offset";
 
         $result = $DB->conn->query($fetchProducts);
 

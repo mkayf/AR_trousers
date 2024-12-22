@@ -6,7 +6,7 @@ include_once __DIR__ . '/controllers/ProductsController.php';
 
 $productController = new ProductsController($DB->conn);
 
-$products = $productController->getProductsOnFirstLoad();
+$products = $productController->getProductsOnFirstLoad() ?? 'Something went wrong. Please refresh the page.';
 
 ?>
 
@@ -38,29 +38,78 @@ $products = $productController->getProductsOnFirstLoad();
 
     <div class="sort-filter-div d-flex justify-content-between align-items-center mx-5 my-4 gap-3">
 
+<!-- Filter products dropdown -->
+
   <div class="dropdown">
   <button class="filter-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
     Filter <i class="bi bi-funnel"></i>
   </button>
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" role="button" onclick="filterProducts('Pure_cotton')">Pure cotton</a></li>
-    <li><a class="dropdown-item" role="button" onclick="filterProducts('Polyester_cotton')">Polyster cotton</a></li>
-    <li><a class="dropdown-item" role="button" onclick="filterProducts('below-1000')">Below Rs 1000</a></li>
-    <li><a class="dropdown-item" role="button" onclick="filterProducts('1000-2000')">Rs 1000 - Rs 2000</a></li>
-    <li><a class="dropdown-item" role="button" onclick="filterProducts('2000-3000')">Rs 2000 - Rs 3000</a></li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="Pure_cotton" role="button" onclick="filterAndSortProducts('Pure_cotton')">Pure cotton
+      <input type="radio" id="Pure_cotton" name="filterRadio">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="Polyester_cotton" role="button" onclick="filterAndSortProducts('Polyester_cotton')">Polyster cotton
+      <input type="radio" id="Polyester_cotton" name="filterRadio">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="below-1000" role="button" onclick="filterAndSortProducts('below-1000')">Below Rs 1000
+      <input type="radio" id="below-1000" name="filterRadio">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="1000-2000" role="button" onclick="filterAndSortProducts('1000-2000')">Rs 1000 - Rs 2000
+      <input type="radio" id="1000-2000" name="filterRadio">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="2000-3000" role="button" onclick="filterAndSortProducts('2000-3000')">Rs 2000 - Rs 3000
+      <input type="radio" id="2000-3000" name="filterRadio">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="reset-filters" role="button" onclick="filterAndSortProducts('reset-filters')"> Reset filters
+      <input type="radio" id="reset-filters" name="filterRadio">
+      </label>
+    </li>
   </ul>
 </div>
 
+<!-- Sort products dropdown -->
 
 <div class="dropdown">
   <button class="sort-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
     Sort <i class="bi bi-sort-alpha-up"></i>
   </button>
   <ul class="dropdown-menu">
-    <li><a class="dropdown-item" role="button" onclick="sortProducts('low-to-high')">price, low to high</a></li>
-    <li><a class="dropdown-item" role="button" onclick="sortProducts('high-to-low')">price, high to low</a></li>
-    <li><a class="dropdown-item" role="button" onclick="sortProducts('new-to-old')">date, new to old</a></li>
-    <li><a class="dropdown-item" role="button" onclick="sortProducts('old-to-new')">date, old to new</a></li>
+    <li>
+      <label class="dropdown-item dropdown-item d-flex justify-content-between align-items-center gap-2" for="low-to-high" role="button" onclick="filterAndSortProducts(undefined,'low-to-high')">price, low to high
+        <input type="radio" name="sortRadio" id="low-to-high">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item dropdown-item d-flex justify-content-between align-items-center gap-2" for="high-to-low" role="button" onclick="filterAndSortProducts(undefined,'high-to-low')">price, high to low
+        <input type="radio" name="sortRadio" id="high-to-low">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item dropdown-item d-flex justify-content-between align-items-center gap-2" for="new-to-old" role="button" onclick="filterAndSortProducts(undefined,'new-to-old')">date, new to old
+        <input type="radio" name="sortRadio" id="new-to-old">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item dropdown-item d-flex justify-content-between align-items-center gap-2" for="old-to-new" role="button" onclick="filterAndSortProducts(undefined,'old-to-new')">date, old to new
+        <input type="radio" name="sortRadio" id="old-to-new">
+      </label>
+    </li>
+    <li>
+      <label class="dropdown-item d-flex justify-content-between align-items-center gap-2" for="reset-sort" role="button" onclick="filterAndSortProducts(undefined,'reset-sort')"> Reset sort
+      <input type="radio" name="sortRadio" id="reset-sort">
+      </label>
+    </li>
   </ul>
 </div>
 
@@ -68,8 +117,6 @@ $products = $productController->getProductsOnFirstLoad();
 
     <div class="all-products-section container-fluid">
         <div class="row d-flex justify-content-center align-items-center" id="all-products">
-
-          
       
         <?php foreach($products as $product) : ?>
 
@@ -125,7 +172,7 @@ $products = $productController->getProductsOnFirstLoad();
       
         </div>
           <div class="load-btn-div d-flex justify-content-center align-items-center">
-            <button class="load-more" tabindex="-1" onclick="fetchProducts()">
+            <button class="load-more" tabindex="-1" onclick="loadMoreProducts()">
               <span class="load-more-text">Load more</span>
             <div class="spinner-border spinner-border-sm" role="status">
               <span class="visually-hidden">Loading...</span>
