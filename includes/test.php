@@ -1,8 +1,16 @@
 <?php
 
-$str = "hello ";
-$str .= "kaif";
-echo $str;
+include __DIR__ . '/../config/App.php';
+
+function checkingReturn(){
+    return [1,2,3,4,5];
+    for($i = 0; $i < 10; $i++){
+        echo 'Hello world';
+    }
+
+}
+
+print_r(checkingReturn());
 
 ?>
 

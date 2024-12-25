@@ -6,7 +6,7 @@ include_once __DIR__ . '/controllers/ProductsController.php';
 
 $productController = new ProductsController($DB->conn);
 
-$products = $productController->getProductsOnFirstLoad() ?? 'Something went wrong. Please refresh the page.';
+$products = $productController->getProductsOnFirstLoad() ?? [];
 
 ?>
 
@@ -39,6 +39,7 @@ $products = $productController->getProductsOnFirstLoad() ?? 'Something went wron
     <div class="sort-filter-div d-flex justify-content-between align-items-center mx-5 my-4 gap-3">
 
 <!-- Filter products dropdown -->
+  <?php if(!empty($products)) : ?>
 
   <div class="dropdown">
   <button class="filter-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
@@ -112,12 +113,15 @@ $products = $productController->getProductsOnFirstLoad() ?? 'Something went wron
     </li>
   </ul>
 </div>
+<?php endif; ?>
 
     </div>
 
     <div class="all-products-section container-fluid">
         <div class="row d-flex justify-content-center align-items-center" id="all-products">
-      
+
+        <?php if(!empty($products)) : ?>
+
         <?php foreach($products as $product) : ?>
 
         <div class="product-card col-sm-6 col-md-3 col-lg-3">
@@ -166,12 +170,11 @@ $products = $productController->getProductsOnFirstLoad() ?? 'Something went wron
           <?php endif; ?>
         </div>
       </div>
-
-      <?php endforeach; ?>
-
       
-        </div>
-          <div class="load-btn-div d-flex justify-content-center align-items-center">
+      <?php endforeach; ?>
+    </div>
+
+    <div class="load-btn-div d-flex justify-content-center align-items-center">
             <button class="load-more" tabindex="-1" onclick="loadMoreProducts()">
               <span class="load-more-text">Load more</span>
             <div class="spinner-border spinner-border-sm" role="status">
@@ -181,8 +184,14 @@ $products = $productController->getProductsOnFirstLoad() ?? 'Something went wron
             <p id="more-products"></p>
             <input type="hidden" name="offset" id="offset" value="0">
           </div>
-    </div>
+      
+      <?php else : ?>
 
+        <p class="text-center">We are unable to load products at the moment. Please try again later.</p>
+        
+      <?php endif; ?>
+      
+    </div>
      </main>
 
   <!-- Footer -->

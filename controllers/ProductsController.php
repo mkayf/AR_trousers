@@ -1,6 +1,7 @@
 <?php
 
-class ProductsController{
+class ProductsController
+{
     public $conn;
 
     public function __construct($db_connection)
@@ -8,26 +9,72 @@ class ProductsController{
         $this->conn = $db_connection;
     }
 
-    public function getProductsOnFirstLoad(){
+    public function getProductsOnFirstLoad()
+    {
+        if(isset($_GET['product-category']) && $_GET['product-category'] == 'Polyester_cotton'){
+            return $this->polyCottonTrousers(24);
+        }
 
         $getProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT 24";
 
-        
-        $result = $this->conn->query($getProductsQuery);
+        $data = [];
 
-        if($result){
-            $data = [];
-            while($row = $result->fetch_assoc()){
-                $data[] = $row;
+        try {
+            $result = $this->conn->query($getProductsQuery);
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                return $data;
             }
-            return $data;
+        } catch (Exception | Error $e) {
+            echo "<script>console.log('Error in getProductsOnFirstLoad: " . $e->getMessage() . "')</script>";
+            return null;
         }
-
-        return false;
-
     }
 
 
-}    
+    public function newArrivalProducts()
+    {
+        $newArrivalProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT 8";
 
-?>
+        $data = [];
+
+        try {
+            $result = $this->conn->query($newArrivalProductsQuery);
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                return $data;
+            }
+        } catch (Exception | Error $e) {
+            echo "<script>console.log('Error in getEightProducts: " . $e->getMessage() . "')</script>";
+            return null;
+        }
+    }
+
+    public function polyCottonTrousers($limit = 24){
+        $polyCottonQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' AND product_cat_ID = 2 ORDER BY product_ID DESC LIMIT $limit";
+
+        $data = [];
+
+        try {
+            $result = $this->conn->query($polyCottonQuery);
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                return $data;
+            }
+        } catch (Exception | Error $e) {
+            echo "<script>console.log('Error in getEightProducts: " . $e->getMessage() . "')</script>";
+            return null;
+        }
+    }    
+
+
+}

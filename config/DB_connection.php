@@ -3,14 +3,18 @@
         public $conn;
 
         public function __construct()
-        {
-            $conn = new mysqli(SERVER_NAME, USERNAME, PASSWORD, DATABASE);
-            if($conn->connect_error){
-                die("Database connection failed!");
+        {   
+            try{
+                $conn = new mysqli(SERVER_NAME, USERNAME, PASSWORD, DATABASE);
+                
+                return $this->conn = $conn;
             }
-            
-            return $this->conn = $conn;
+            catch(Exception $e){
+                echo '<script>console.log("Error: Database connection failed! '. $e->getMessage() .'")</script>';
+            }
+
         }
+
     }
 
 ?>

@@ -1,6 +1,12 @@
 <?php
 include_once __DIR__ . '/config/App.php';
 include_once __DIR__ . '/auth/auth.php';
+include_once __DIR__ . '/controllers/ProductsController.php';
+
+$productController = new ProductsController($DB->conn);
+
+$newArrivalProducts = $productController->newArrivalProducts() ?? [];
+$polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
 
 ?>
 
@@ -39,8 +45,6 @@ include_once __DIR__ . '/auth/auth.php';
 
     <main>
       <div class="slider">
-        <!-- Slider -->
-        <!-- Swiper -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
@@ -59,9 +63,6 @@ include_once __DIR__ . '/auth/auth.php';
         </div>
       </div>
     </div>
-    <!-- <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div> -->
-    <!-- <div class="swiper-pagination"></div> -->
     <div class="autoplay-progress">
       <svg viewBox="0 0 48 48">
         <circle cx="24" cy="24" r="20"></circle>
@@ -153,352 +154,74 @@ include_once __DIR__ . '/auth/auth.php';
     <span class="separator"></span><h2 class="section-heading">new arrivals</h2><span class="separator"></span>
     </div>
     <p class="tag-line">Step Into Style and Comfort: Explore Our Latest Arrivals Today!</p>
-    <div class="row d-flex justify-content-center align-items-center my-5">
+    <div class="row d-flex justify-content-center align-items-center my-5 new-arrivals">
+
+    <?php if(!empty($newArrivalProducts)) : ?>
+      <?php foreach($newArrivalProducts as $product) : ?>
 
       <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-1.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
+      <div class="product-img-div">
+        <img src=".<?php echo $product['product_img_1'] ?>" alt="">
+        <span class="product-cart-icon">
+        <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
+        </span>
+        <span class="mini-size-box">
+          <div class="radio-inputs">
+            <label class="radio">
+              <input checked="" name="radio" type="radio">
+              <span class="name">S</span>
+            </label>
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">M</span>
+            </label>
+                
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">L</span>
+            </label>
+            
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">XL</span>
+            </label>
 
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">XXL</span>
+            </label>
 
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
+          </div>
+          <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
+        </span>
       </div>
-
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-2.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-3.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-4.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-5.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-6.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-7.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-8.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
+      <div class="product-details-div">
+        <p class="product-title"><?php echo $product['product_name'] ?></p>
+        <?php if($product['product_discounted_price'] != 0) : ?>
+        <p class="product-price discount-strike">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+          <p class="product-discounted-price">Rs <?php echo number_format($product['product_discounted_price']); ?></p>
+          <?php else : ?>
+            <p class="product-price">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+        <?php endif; ?>
     </div>
-
+    </div>
+  
+<?php endforeach; ?>
+</div>
     <div class="d-flex justify-content-center align-items-center">
-    <a href="<?php base_url('products.php'); ?>" class="view-more-btn">
-    <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
+      <a href="<?php base_url('trousers.php'); ?>" class="view-more-btn">
+      <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
     </div>
+
+    <?php else: ?>
+
+    <div class="text-center">
+      <p>We are unable to load products at the moment. Please try again later.</p>
+    </div>
+<?php endif; ?>  
+
     
+
    </section>
   <!-- Our latest products -->
 
@@ -581,378 +304,73 @@ include_once __DIR__ . '/auth/auth.php';
 
     <div class="swiper polyswiper my-5">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        
-        <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-1.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
 
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-      <div class="swiper-slide">
-
+    <?php if(!empty($polyCottonTrousers)) : ?>
+      <?php foreach($polyCottonTrousers as $product) : ?>
+        <div class="swiper-slide">
       <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-2.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
+      <div class="product-img-div">
+        <img src=".<?php echo $product['product_img_1'] ?>" alt="">
+        <span class="product-cart-icon">
+        <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
+        </span>
+        <span class="mini-size-box">
+          <div class="radio-inputs">
+            <label class="radio">
+              <input checked="" name="radio" type="radio">
+              <span class="name">S</span>
+            </label>
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">M</span>
+            </label>
+                
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">L</span>
+            </label>
+            
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">XL</span>
+            </label>
 
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
+            <label class="radio">
+              <input name="radio" type="radio">
+              <span class="name">XXL</span>
+            </label>
 
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
+          </div>
+          <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
+        </span>
       </div>
-
+      <div class="product-details-div">
+        <p class="product-title"><?php echo $product['product_name'] ?></p>
+        <?php if($product['product_discounted_price'] != 0) : ?>
+        <p class="product-price discount-strike">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+          <p class="product-discounted-price">Rs <?php echo number_format($product['product_discounted_price']); ?></p>
+          <?php else : ?>
+            <p class="product-price">Rs <?php echo number_format($product['product_actual_price']) ?></p>
+        <?php endif; ?>
       </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-3.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
       </div>
-
-      </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-4.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-5.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-6.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-7.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-      <div class="swiper-slide">
-
-      <div class="product-card col-sm-6 col-md-3 col-lg-3">
-        <div class="product-img-div">
-          <img src="<?php base_url('assets/product_images/trouser-8.jfif') ?>" alt="">
-          <span class="product-cart-icon">
-          <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-          </span>
-          <span class="mini-size-box">
-            <div class="radio-inputs">
-              <label class="radio">
-                <input checked="" name="radio" type="radio">
-                <span class="name">S</span>
-              </label>
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">M</span>
-              </label>
-                  
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">L</span>
-              </label>
-              
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XL</span>
-              </label>
-
-              <label class="radio">
-                <input name="radio" type="radio">
-                <span class="name">XXL</span>
-              </label>
-
-            </div>
-            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-          </span>
-        </div>
-        <div class="product-details-div">
-          <p class="product-title">Women's Trouser</p>
-          <p class="product-price">Rs 999</p>
-        </div>
-      </div>
-
-      </div>
-
+</div>
+  <?php endforeach; ?>
       <div class="swiper-slide view-more-slide">
-        <a href="<?php base_url('products.php'); ?>" class="view-more-btn">
+        <a href="<?php base_url('trousers.php?product-category=Polyester_cotton'); ?>" class="view-more-btn">
           <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
       </div>
 
-    </div>
-    <div class="swiper-pagination"></div>
+      </div>
+      <?php else: ?>
+      <div class="mx-auto">
+      <p>We are unable to load products at the moment. Please try again later.</p>
+      </div>
+      <?php endif; ?>
+      <div class="swiper-pagination"></div>
+    </div>    
   </div>
-
-
-    </section>
+</section>
 
   <!-- Poly cotton trousers section -->
 
