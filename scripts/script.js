@@ -75,3 +75,101 @@ if(msgCloseBtn){
   })
 }
 
+// Setting a flag to preserve filtering and sorting conditions:
+
+if(window.location.pathname.includes('product.php')){
+  sessionStorage.setItem('cameFromProductDetails', true);
+}
+
+// Set selected size letter in the product details page:
+
+let sizeBtns = document.getElementsByClassName('name');
+let selectedSize = document.getElementsByClassName('selected-size')[0];
+
+// Default value:
+if(selectedSize){
+  selectedSize.innerHTML = `Size: <span class="fw-normal">${sizeBtns[0].textContent}</span>`;
+  
+  Array.from(sizeBtns).forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      selectedSize.innerHTML = `Size: <span class="fw-normal">${event.target.textContent}</span>`;
+    })
+  });
+}
+
+// Set selected color in the product details page:
+
+let colorBtns = document.getElementsByClassName('radio-color');
+let selectedColor = document.getElementsByClassName('selected-color')[0];
+
+// Default value:
+if(selectedColor){
+  selectedColor.innerHTML = `Color: <span class="fw-normal">${colorBtns[0].value}</span>`;
+  
+  Array.from(colorBtns).forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      selectedColor.innerHTML = `Color: <span class="fw-normal">${event.target.value}</span>`;
+    })
+  })
+}
+
+// Change images of product displaying in product details page and apply border on clicking:
+
+let productImgs = document.getElementsByClassName('product-img');
+let mainImg = document.getElementById('main-img');
+
+
+if(productImgs){
+  Array.from(productImgs).forEach(img => {
+    img.addEventListener('click', (event) => {
+      mainImg.src = event.currentTarget.querySelector('img').src;
+
+      let currentlyActiveImg = document.querySelector('.product-img.active');
+
+      if(currentlyActiveImg){
+        currentlyActiveImg.classList.remove('active');
+      }
+
+      event.currentTarget.classList.add('active');
+    })
+  })
+}
+
+// Change quantity:
+
+var input = document.querySelector('#qty');
+var btnminus = document.querySelector('.qtyminus');
+var btnplus = document.querySelector('.qtyplus');
+
+if (input !== undefined && btnminus !== undefined && btnplus !== undefined && input !== null && btnminus !== null && btnplus !== null) {
+	
+
+  
+	var min = Number(input.getAttribute('min'));
+	var max = Number(input.getAttribute('max'));
+	var step = Number(input.getAttribute('step'));
+
+	function qtyminus(e) {
+		var current = Number(input.value);
+		var newval = (current - step);
+		if(newval < min) {
+			newval = min;
+		} else if(newval > max) {
+			newval = max;
+		} 
+		input.value = Number(newval);
+		e.preventDefault();
+	}
+
+	function qtyplus(e) {
+		var current = Number(input.value);
+		var newval = (current + step);
+		if(newval > max) newval = max;
+		input.value = Number(newval);
+		e.preventDefault();
+	}
+		
+	btnminus.addEventListener('click', qtyminus);
+	btnplus.addEventListener('click', qtyplus);
+  
+}

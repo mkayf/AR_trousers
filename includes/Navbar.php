@@ -12,7 +12,7 @@
           <a class="nav-link" aria-current="page" href="<?php base_url('index.php'); ?>">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="<?php base_url('trousers.php'); ?>">Trousers</a>
+          <a class="nav-link" aria-current="page" href="<?php base_url('products/trousers.php'); ?>">Trousers</a>
         </li>
         <li class="nav-item">
           <a class="nav-link " aria-current="page" href="<?php base_url('about.php'); ?>">About</a>

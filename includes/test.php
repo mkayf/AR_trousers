@@ -2,15 +2,10 @@
 
 include __DIR__ . '/../config/App.php';
 
-function checkingReturn(){
-    return [1,2,3,4,5];
-    for($i = 0; $i < 10; $i++){
-        echo 'Hello world';
-    }
-
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $radio = $_POST['radio'];
+    echo $radio;
 }
-
-print_r(checkingReturn());
 
 ?>
 
@@ -23,6 +18,19 @@ print_r(checkingReturn());
     <title>Test file</title>
 </head>
 <body>
+
+<form method="POST">
+    <label  style="padding: 4px; border: 2px solid red;">
+        <input type="radio" name="radio" id="radio1" value="radio-1">
+        <span>'Hello</span>
+    </label>
+    <label  style="padding: 4px; border: 2px solid red;">
+        <input type="radio" name="radio" id="radio2" value="radio-2">
+        <span>'Hello</span>
+    </label>
+    <input type="submit" value="check">
+</form>
+
 
 </body>
 </html>

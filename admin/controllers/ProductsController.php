@@ -40,7 +40,7 @@ class ProductsController
 
                     // Check if the uploaded files are actual images:
                     $file_type = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-                    $accepted_extensions = ['avif', 'webp', 'jpg', '.jpeg', 'png'];
+                    $accepted_extensions = ['avif', 'webp', 'jpg', '.jpeg', 'png', 'jfif'];
 
                     if (in_array($file_type, $accepted_extensions)) {
 

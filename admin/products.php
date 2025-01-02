@@ -191,7 +191,7 @@
                     <label for="product-images" class="form-label"
                       >Upload images *</label
                     >
-                    <input type="file" name="product-images[]" id="product-images" multiple class="form-control" accept=".avif, .webp, .png, .jpeg, .jpg">
+                    <input type="file" name="product-images[]" id="product-images" multiple class="form-control" accept=".avif, .webp, .png, .jpeg, .jpg, .jfif">
                   </div>
                   <div class="mb-3 col-12">
                     <label for="product-description" class="form-label"

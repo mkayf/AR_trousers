@@ -67,7 +67,9 @@ if ($rateLimiter->checkRateLimit()) {
                 $products .= '
                 <div class="product-card col-sm-6 col-md-3 col-lg-3">
                     <div class="product-img-div">
-                        <img src=".' . htmlspecialchars($row['product_img_1']) . '" alt="">
+                        <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="product.php?id='. $row['product_ID'] .'&slug='. $row['slug'] .'">
+                        <img src="../' . htmlspecialchars($row['product_img_1']) . '" alt="">
+                        </a>
                         <span class="product-cart-icon">
                             <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
                         </span>
@@ -98,6 +100,7 @@ if ($rateLimiter->checkRateLimit()) {
                         </span>
                     </div>
                     <div class="product-details-div">
+                        <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="product.php?id='. $row['product_ID'] .'&slug='. $row['slug'] .'">
                         <p class="product-title">' . htmlspecialchars($row['product_name']) . '</p>';
 
                 if ($row['product_discounted_price'] != 0) {
@@ -110,6 +113,7 @@ if ($rateLimiter->checkRateLimit()) {
                 }
 
                 $products .= '
+                        </a>
                     </div>
                 </div>';
             }

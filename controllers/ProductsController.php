@@ -51,7 +51,7 @@ class ProductsController
                 return $data;
             }
         } catch (Exception | Error $e) {
-            echo "<script>console.log('Error in getEightProducts: " . $e->getMessage() . "')</script>";
+            echo "<script>console.log('Error in newArrivalProducts: " . $e->getMessage() . "')</script>";
             return null;
         }
     }
@@ -71,10 +71,43 @@ class ProductsController
                 return $data;
             }
         } catch (Exception | Error $e) {
-            echo "<script>console.log('Error in getEightProducts: " . $e->getMessage() . "')</script>";
+            echo "<script>console.log('Error in polyCottonTrousers: " . $e->getMessage() . "')</script>";
             return null;
         }
     }    
 
+    public function getSingleProduct(){
+        $product_ID = isset($_GET['id']) ? $_GET['id'] : 1;
+
+        if(is_numeric($product_ID)){
+            $fetchSingleProduct = "SELECT * FROM products WHERE product_ID = $product_ID";
+
+            try{
+                $result = $this->conn->query($fetchSingleProduct);
+                if($result->num_rows == 0){
+                    // Select default product when no product found for the given ID:
+                    $fetchDefaultProduct = "SELECT * FROM products WHERE product_ID = $product_ID";
+                    $defaultResult = $this->conn->query($fetchDefaultProduct);
+                    $defaultProduct = $defaultResult->fetch_assoc();
+                    return $defaultProduct;      
+                }
+
+                $data = $result->fetch_assoc();
+                return $data;
+
+            } catch(Exception | Error $e){
+                echo "<script>console.log('Error in getSingleProduct: " . $e->getMessage() . "')</script>";
+                return null;
+            }
+          
+        } else{
+            // Select default product when there is no ID parameter or ID is non numeric:
+                $fetchDefaultProduct = "SELECT * FROM products WHERE product_ID = 1";
+                $defaultResult = $this->conn->query($fetchDefaultProduct);
+                $defaultProduct = $defaultResult->fetch_assoc();
+                return $defaultProduct;
+        }
+
+    }
 
 }
