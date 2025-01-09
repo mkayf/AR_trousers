@@ -5,7 +5,8 @@ include_once __DIR__ . '/../auth/auth.php';
 include_once __DIR__ . '/../controllers/ProductsController.php';
 
 $productDetails = new ProductsController($DB->conn);
-$productDetails = $productDetails->getSingleProduct();
+$productDetails = $productDetails->getSingleProduct() ?? [];
+
 
 ?>
 
@@ -28,7 +29,81 @@ $productDetails = $productDetails->getSingleProduct();
      </header>
 
      <main class="product-main">
+        <!-- size guide modal -->
+      <div class="modal fade" id="size-guide-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Size Guide</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="overflow-x: auto;">    
+            <table class="table text-center size-table table-bordered border-dark">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-start">Size</th>
+                  <th scope="col">Small</th>
+                  <th scope="col">Medium</th>
+                  <th scope="col">Large</th>
+                  <th scope="col">X large</th>
+                  <th scope="col">XX large</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-start">Waist</td>
+                  <td>24</td>
+                  <td>28</td>
+                  <td>30</td>
+                  <td>32.5</td>
+                  <td>34</td>
+                </tr> 
+                <tr>
+                  <td class="fw-bold text-start">Hip</td>
+                  <td>38</td>
+                  <td>40</td>
+                  <td>44</td>
+                  <td>48</td>
+                  <td>56</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Thigh</td>
+                  <td>23</td>
+                  <td>24</td>
+                  <td>26</td>
+                  <td>28</td>
+                  <td>32</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Length</td>
+                  <td>36</td>
+                  <td>37</td>
+                  <td>38</td>
+                  <td>39</td>
+                  <td>39</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Bottom</td>
+                  <td>6</td>
+                  <td>6.5</td>
+                  <td>7</td>
+                  <td>7.5</td>
+                  <td>7.5</td>
+                </tr>
+              </tbody>
+           </table>
+          </div>
+           <p class="size-note"><span class="fw-bold">Note:</span> All measurements are in inches.</p>
+            </div>
+          </div>
+        </div>
+  </div>
+<!-- Size guide modal -->
+
+
         <div class="container">
+          <?php if(!empty($productDetails)) : ?>
           <div class="row d-flex justify-content-center">
             <div class="product-imgs-div d-flex flex-column-reverse flex-md-row justify-content-center gap-4 col-12 col-sm-12 col-md-12 col-lg-6 mb-5">
                 <div class="other-imgs-div d-flex flex-row flex-md-column justify-content-center gap-4">
@@ -55,7 +130,13 @@ $productDetails = $productDetails->getSingleProduct();
                 </div>
             </div>
             <div class="product-info-div col-12 col-sm-12 col-md-12 col-lg-6">
-              <p class="fabric-type mb-3">Fabric type</p>
+              <p class="fabric-type mb-3">
+                <?php if($productDetails['cat_name'] == 'Pure_cotton') :  ?>
+                  Pure cotton
+                <?php elseif($productDetails['cat_name'] == 'Polyester_cotton') : ?>
+                  Polyester cotton
+                <?php endif; ?>
+              </p>
               <h2 class="product-name"><?= $productDetails['product_name']?></h2>
               <?php if($productDetails['product_discounted_price'] != 0) : ?>
                 <p class="product-actual-price discount-strike">Rs <?= number_format($productDetails['product_actual_price']) ?></p>
@@ -68,46 +149,53 @@ $productDetails = $productDetails->getSingleProduct();
               <div class="sizes-div d-flex flex-wrap justify-content-between align-items-center">
                 <div class="size-btns">
                   <div class="radio-inputs">
+              
+              
+              <?php if(!empty($productDetails['stock'])) : ?>
+                
+                <?php for($i = 0; $i < count($productDetails['stock']); $i++) : ?>
+               
                   <label class="radio">
-                    <input type="radio" name="size" checked="" value="small">
-                    <span class="name">S</span>
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="size" value="medium">
-                    <span class="name">M</span>
-                  </label>
-                      
-                  <label class="radio">
-                    <input type="radio" name="size" value="large">
-                    <span class="name">L</span>
-                  </label>
+                    <input type="radio" name="size"
+                    value="<?= $productDetails['stock'][$i]['size'] ?>">
+                    <span class="name"><?= $productDetails['stock'][$i]['size'] ?></span>
+                  </label>                    
 
-                  <label class="radio">
-                    <input type="radio" name="size" value="x-large">
-                    <span class="name">XL</span>
-                  </label>
+                <?php endfor; ?>
 
-                  <label class="radio">
-                    <input type="radio" name="size" value="xx-large">
-                    <span class="name">XXL</span>
-                  </label>
+                <?php else : ?>
+
+                  <span>Out of stock.</span>
+              <?php endif; ?>
                   </div>
                 </div>
-                <button class="size-guide-btn">Size guide</button>
+                <button class="size-guide-btn" data-bs-toggle="modal" data-bs-target="#size-guide-modal">Size guide</button>
               </div>
               <p class="mt-4 mb-2 selected-color fw-bold"></p>
               <div class="colors-div d-flex justify-content-start align-items-center gap-2">
                 <label for="color-black">
-                  <input type="radio" class="radio-color" name="color" id="color-black" value="Black" checked>
+                  <input type="radio" class="radio-color" name="color" id="color-black" value="Black"
+                  <?php
+                  if(isset($productDetails['stock'][0]['color'])){
+                    echo $productDetails['stock'][0]['color'] == 'black' ? 'checked' : '';
+                  }
+                  ?>
+                  >
                   <span class="color-black color"></span>
                 </label>
                 <label for="color-white">
-                  <input type="radio" class="radio-color" name="color" id="color-white" value="White">
+                  <input type="radio" class="radio-color" name="color" id="color-white" value="White"
+                  <?php
+                  if(isset($productDetails['stock'][0]['color'])){
+                    echo $productDetails['stock'][0]['color'] == 'white' ? 'checked' : '';
+                  }
+                  ?>
+                  >
                   <span class="color-white color"></span>
                 </label>
               </div>
               <div class="product-desc-div mt-3">
-                <p class="mt-4 mb-2 fw-bold">Product description:</p>
+                <p class="mt-4 mb-2 fw-bold">Description:</p>
                 <p><?= $productDetails['product_desc'] ?></p>
               </div>
               <hr> 
@@ -116,18 +204,27 @@ $productDetails = $productDetails->getSingleProduct();
                   <label>Quantity:</label>
                   <div class="qty">
                     <button class="qtyminus">&minus;</button>
-                    <input type="number" name="qty" id="qty" min="1" max="10" step="1" value="1" readonly>
+                    <input type="number" name="qty" id="qty" min="1" max="
+                      <?php if(!empty($productDetails['stock'])){
+                        echo $productDetails['stock'][0]['stock_quantity'];
+                      }  ?>
+                    " step="1" value="1" readonly>
                     <button class="qtyplus">&plus;</button>
                   </div>
                 </div>
                 <button class="add-to-cart-btn">Add to cart <i class="bi bi-bag-plus"></i></button>
               </div>
             </div>
-          </div>                  
+          </div>
+          <?php else : ?>
+            <p class="text-center">We are unable to load product details at the moment. Please try again later.</p>           
+          <?php endif; ?>
           <div class="row d-flex justify-content-center align-items-center mt-5">
                 <h3 class="text-center">You may also like</h3>
-          </div>    
+          </div>
+
         </div>
+
      </main>
 
   <!-- Footer -->

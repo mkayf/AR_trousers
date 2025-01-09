@@ -1,175 +1,182 @@
 // Swiper js scripting
 
-const filename = window.location.pathname.split('/').pop();
+const filename = window.location.pathname.split("/").pop();
 
-if(filename == 'index.php' || filename == ''){
-
+if (filename == "index.php" || filename == "") {
   const progressCircle = document.querySelector(".autoplay-progress svg");
-      const progressContent = document.querySelector(".autoplay-progress span");
-      var swiper = new Swiper(".mySwiper", {
-          effect : 'fade',
-          fadeEffect: {
-              crossFade: true
-            },
-        centeredSlides: true,
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true
-        },
-        on: {
-          autoplayTimeLeft(s, time, progress) {
-            progressCircle.style.setProperty("--progress", 1 - progress);
-            progressContent.textContent = `${Math.ceil(time / 1000)}s`;
-          }
-        }
-      });
+  const progressContent = document.querySelector(".autoplay-progress span");
+  var swiper = new Swiper(".mySwiper", {
+    effect: "fade",
+    fadeEffect: {
+      crossFade: true,
+    },
+    centeredSlides: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    on: {
+      autoplayTimeLeft(s, time, progress) {
+        progressCircle.style.setProperty("--progress", 1 - progress);
+        progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+      },
+    },
+  });
 
+  // Poly cotton product swiper:
 
-      // Poly cotton product swiper:
-      
-      var polySwiper = new Swiper(".polyswiper", {
+  var polySwiper = new Swiper(".polyswiper", {
+    slidesPerView: 4,
+    spaceBetween: 24,
+    breakpoints: {
+      992: {
         slidesPerView: 4,
-        spaceBetween: 24, 
-        breakpoints : {
-          992 : {
-            slidesPerView : 4,
-            spaceBetween : 24
-          },
-          768 : {
-            slidesPerView : 3
-          },
-          420 : {
-            slidesPerView : 3,
-            spaceBetween : 16
-          },
-          380 : {
-            slidesPerView : 2,
-          },
-          0 : {
-            slidesPerView : 2
-          }
-        },
-        freeMode: true,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-      });
-
+        spaceBetween: 24,
+      },
+      768: {
+        slidesPerView: 3,
+      },
+      420: {
+        slidesPerView: 3,
+        spaceBetween: 16,
+      },
+      380: {
+        slidesPerView: 2,
+      },
+      0: {
+        slidesPerView: 2,
+      },
+    },
+    freeMode: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
 }
-
 
 // Close header message button:
 
 const msgCloseBtn = document.querySelector(".msg-close-btn");
 const headerMsg = document.querySelector(".header-msg");
 
-if(msgCloseBtn){
-  msgCloseBtn.addEventListener('click', () => {
-    headerMsg.setAttribute('style', 'display: none !important');
-    console.log('close');
-  })
+if (msgCloseBtn) {
+  msgCloseBtn.addEventListener("click", () => {
+    headerMsg.setAttribute("style", "display: none !important");
+    console.log("close");
+  });
 }
 
 // Setting a flag to preserve filtering and sorting conditions:
 
-if(window.location.pathname.includes('product.php')){
-  sessionStorage.setItem('cameFromProductDetails', true);
+if (window.location.pathname.includes("product.php")) {
+  sessionStorage.setItem("cameFromProductDetails", true);
 }
 
 // Set selected size letter in the product details page:
 
-let sizeBtns = document.getElementsByClassName('name');
-let selectedSize = document.getElementsByClassName('selected-size')[0];
+let sizeBtns = document.getElementsByName("size");
+let selectedSize = document.getElementsByClassName("selected-size")[0];
 
 // Default value:
-if(selectedSize){
-  selectedSize.innerHTML = `Size: <span class="fw-normal">${sizeBtns[0].textContent}</span>`;
-  
-  Array.from(sizeBtns).forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      selectedSize.innerHTML = `Size: <span class="fw-normal">${event.target.textContent}</span>`;
-    })
+if (selectedSize && sizeBtns[0]) {
+
+  sizeBtns[0].setAttribute("checked", true);
+
+  selectedSize.innerHTML = `Size: <span class="fw-normal">${
+    document.querySelector('input[name="size"]:checked').value
+  }</span>`;
+
+  Array.from(sizeBtns).forEach((btn) => {
+    btn.addEventListener("change", () => {
+      selectedSize.innerHTML = `Size: <span class="fw-normal">${
+        document.querySelector('input[name="size"]:checked').value
+      }</span>`;
+    });
   });
+
 }
 
 // Set selected color in the product details page:
 
-let colorBtns = document.getElementsByClassName('radio-color');
-let selectedColor = document.getElementsByClassName('selected-color')[0];
+let colorBtns = document.getElementsByName("color");
+let selectedColor = document.getElementsByClassName("selected-color")[0];
 
 // Default value:
-if(selectedColor){
-  selectedColor.innerHTML = `Color: <span class="fw-normal">${colorBtns[0].value}</span>`;
-  
-  Array.from(colorBtns).forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      selectedColor.innerHTML = `Color: <span class="fw-normal">${event.target.value}</span>`;
-    })
-  })
+if (selectedColor) {
+
+  selectedColor.innerHTML = `Color: <span class="fw-normal">${document.querySelector('input[name="color"]:checked').value}</span>`;
+
+  Array.from(colorBtns).forEach((btn) => {
+    btn.addEventListener("change", () => {
+      selectedColor.innerHTML = `Color: <span class="fw-normal">${  document.querySelector('input[name="color"]:checked').value}</span>`;
+    });
+  });
 }
 
 // Change images of product displaying in product details page and apply border on clicking:
 
-let productImgs = document.getElementsByClassName('product-img');
-let mainImg = document.getElementById('main-img');
+let productImgs = document.getElementsByClassName("product-img");
+let mainImg = document.getElementById("main-img");
 
+if (productImgs) {
+  Array.from(productImgs).forEach((img) => {
+    img.addEventListener("click", (event) => {
+      mainImg.src = event.currentTarget.querySelector("img").src;
 
-if(productImgs){
-  Array.from(productImgs).forEach(img => {
-    img.addEventListener('click', (event) => {
-      mainImg.src = event.currentTarget.querySelector('img').src;
+      let currentlyActiveImg = document.querySelector(".product-img.active");
 
-      let currentlyActiveImg = document.querySelector('.product-img.active');
-
-      if(currentlyActiveImg){
-        currentlyActiveImg.classList.remove('active');
+      if (currentlyActiveImg) {
+        currentlyActiveImg.classList.remove("active");
       }
 
-      event.currentTarget.classList.add('active');
-    })
-  })
+      event.currentTarget.classList.add("active");
+    });
+  });
 }
 
 // Change quantity:
 
-var input = document.querySelector('#qty');
-var btnminus = document.querySelector('.qtyminus');
-var btnplus = document.querySelector('.qtyplus');
+var input = document.querySelector("#qty");
+var btnminus = document.querySelector(".qtyminus");
+var btnplus = document.querySelector(".qtyplus");
 
-if (input !== undefined && btnminus !== undefined && btnplus !== undefined && input !== null && btnminus !== null && btnplus !== null) {
-	
+if (
+  input !== undefined &&
+  btnminus !== undefined &&
+  btnplus !== undefined &&
+  input !== null &&
+  btnminus !== null &&
+  btnplus !== null
+) {
+  var min = Number(input.getAttribute("min"));
+  var max = Number(input.getAttribute("max"));
+  var step = Number(input.getAttribute("step"));
 
-  
-	var min = Number(input.getAttribute('min'));
-	var max = Number(input.getAttribute('max'));
-	var step = Number(input.getAttribute('step'));
+  function qtyminus(e) {
+    var current = Number(input.value);
+    var newval = current - step;
+    if (newval < min) {
+      newval = min;
+    } else if (newval > max) {
+      newval = max;
+    }
+    input.value = Number(newval);
+    e.preventDefault();
+  }
 
-	function qtyminus(e) {
-		var current = Number(input.value);
-		var newval = (current - step);
-		if(newval < min) {
-			newval = min;
-		} else if(newval > max) {
-			newval = max;
-		} 
-		input.value = Number(newval);
-		e.preventDefault();
-	}
+  function qtyplus(e) {
+    var current = Number(input.value);
+    var newval = current + step;
+    if (newval > max) newval = max;
+    input.value = Number(newval);
+    e.preventDefault();
+  }
 
-	function qtyplus(e) {
-		var current = Number(input.value);
-		var newval = (current + step);
-		if(newval > max) newval = max;
-		input.value = Number(newval);
-		e.preventDefault();
-	}
-		
-	btnminus.addEventListener('click', qtyminus);
-	btnplus.addEventListener('click', qtyplus);
-  
+  btnminus.addEventListener("click", qtyminus);
+  btnplus.addEventListener("click", qtyplus);
 }

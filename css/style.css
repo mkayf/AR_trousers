@@ -62,7 +62,7 @@
     --spacing-3: 3px;
     --spacing-4: 4px;
     --spacing-5: 5px;
-    --swiper-pagination-color: var(--primary-color)
+    --swiper-pagination-color: var(--primary-color);
 }
 
 .shop-now-btn{
@@ -1321,6 +1321,7 @@ footer .footer-link:hover{
 
 
 .product-info-div .radio-inputs {
+    margin-bottom: 4px;
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -1328,7 +1329,7 @@ footer .footer-link:hover{
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding: 0.25rem;
-    width: 210px;
+    width: auto;
     font-size: 14px;
     border-radius: 0px !important;
 }
@@ -1336,6 +1337,7 @@ footer .footer-link:hover{
 .product-info-div .radio-inputs .radio {
     flex: 1 1 auto;
     text-align: center;
+    width: 40px;
     border-radius: 0px !important;
 }
 
@@ -1377,6 +1379,15 @@ footer .footer-link:hover{
 
   .product-info-div .size-guide-btn:hover{
     background-color: rgb(187, 187, 187);
+  }
+
+  .size-table{
+    font-family: 'proxima-regular';
+  }
+
+  
+  .size-note{
+    font-size: 1rem;
   }
 
   .product-info-div .colors-div{
@@ -1482,10 +1493,5 @@ footer .footer-link:hover{
     }
 }
 
-@media(max-width: 333px){
-    .product-info-div .size-guide-btn{
-        margin-top: 12px;
-    }
-}
 
 /* product details page styling */
