@@ -91,14 +91,6 @@ if (selectedSize && sizeBtns[0]) {
     document.querySelector('input[name="size"]:checked').value
   }</span>`;
 
-  Array.from(sizeBtns).forEach((btn) => {
-    btn.addEventListener("change", () => {
-      selectedSize.innerHTML = `Size: <span class="fw-normal">${
-        document.querySelector('input[name="size"]:checked').value
-      }</span>`;
-    });
-  });
-
 }
 
 // Set selected color in the product details page:
@@ -111,11 +103,6 @@ if (selectedColor) {
 
   selectedColor.innerHTML = `Color: <span class="fw-normal">${document.querySelector('input[name="color"]:checked').value}</span>`;
 
-  Array.from(colorBtns).forEach((btn) => {
-    btn.addEventListener("change", () => {
-      selectedColor.innerHTML = `Color: <span class="fw-normal">${  document.querySelector('input[name="color"]:checked').value}</span>`;
-    });
-  });
 }
 
 // Change images of product displaying in product details page and apply border on clicking:

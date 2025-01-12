@@ -1390,6 +1390,10 @@ footer .footer-link:hover{
     font-size: 1rem;
   }
 
+.product-info-div .selected-color{
+    text-transform: capitalize;
+}
+
   .product-info-div .colors-div{
     background-color: rgb(190, 189, 189);
     width: max-content;

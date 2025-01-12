@@ -161,7 +161,9 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
 
       <div class="product-card col-sm-6 col-md-3 col-lg-3">
       <div class="product-img-div">
+        <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="./products/product.php?<?php echo 'id=' . $product['product_ID'] . '&' . 'slug=' . $product['slug'] ?>">
         <img src=".<?php echo $product['product_img_1'] ?>" alt="">
+        </a>
         <span class="product-cart-icon">
         <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
         </span>
@@ -196,6 +198,7 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
         </span>
       </div>
       <div class="product-details-div">
+      <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="./products/product.php?<?php echo 'id=' . $product['product_ID'] . '&' . 'slug=' . $product['slug'] ?>">
         <p class="product-title"><?php echo $product['product_name'] ?></p>
         <?php if($product['product_discounted_price'] != 0) : ?>
         <p class="product-price discount-strike">Rs <?php echo number_format($product['product_actual_price']) ?></p>
@@ -203,13 +206,14 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
           <?php else : ?>
             <p class="product-price">Rs <?php echo number_format($product['product_actual_price']) ?></p>
         <?php endif; ?>
+        </a>
     </div>
     </div>
   
 <?php endforeach; ?>
 </div>
     <div class="d-flex justify-content-center align-items-center">
-      <a href="<?php base_url('trousers.php'); ?>" class="view-more-btn">
+      <a href="<?php base_url('products/trousers.php'); ?>" class="view-more-btn">
       <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
     </div>
 
@@ -286,7 +290,7 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
         </div>
 
         <div class="mt-5">
-        <a href="<?php base_url('products.php') ?>" class="shop-now-btn">Shop now</a>
+        <a href="<?php base_url('products/trousers.php') ?>" class="shop-now-btn">Shop now</a>
         </div>
 
       </div>
@@ -310,7 +314,9 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
         <div class="swiper-slide">
       <div class="product-card col-sm-6 col-md-3 col-lg-3">
       <div class="product-img-div">
+      <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="./products/product.php?<?php echo 'id=' . $product['product_ID'] . '&' . 'slug=' . $product['slug'] ?>">
         <img src=".<?php echo $product['product_img_1'] ?>" alt="">
+      </a>
         <span class="product-cart-icon">
         <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
         </span>
@@ -345,6 +351,7 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
         </span>
       </div>
       <div class="product-details-div">
+      <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="./products/product.php echo 'id=' . $product['product_ID'] . '&' . 'slug=' . $product['slug'] ?>">
         <p class="product-title"><?php echo $product['product_name'] ?></p>
         <?php if($product['product_discounted_price'] != 0) : ?>
         <p class="product-price discount-strike">Rs <?php echo number_format($product['product_actual_price']) ?></p>
@@ -352,12 +359,13 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
           <?php else : ?>
             <p class="product-price">Rs <?php echo number_format($product['product_actual_price']) ?></p>
         <?php endif; ?>
+        </a>
       </div>
       </div>
 </div>
   <?php endforeach; ?>
       <div class="swiper-slide view-more-slide">
-        <a href="<?php base_url('trousers.php?product-category=Polyester_cotton'); ?>" class="view-more-btn">
+        <a href="<?php base_url('products/trousers.php?product-category=Polyester_cotton'); ?>" class="view-more-btn">
           <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
       </div>
 

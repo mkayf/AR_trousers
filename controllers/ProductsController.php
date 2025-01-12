@@ -12,7 +12,7 @@ class ProductsController
     public function getProductsOnFirstLoad()
     {
         if (isset($_GET['product-category']) && $_GET['product-category'] == 'Polyester_cotton') {
-            return $this->polyCottonTrousers(24);
+            return $this->polyCottonTrousers();
         }
 
         $getProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT 24";
@@ -89,7 +89,7 @@ class ProductsController
         $fetchSingleProduct = "SELECT p.product_ID, p.product_name, p.product_desc, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.product_img_2, p.product_img_3, p.slug, cat.cat_name FROM products AS p
         INNER JOIN product_categories as cat
         ON p.product_cat_ID = cat.cat_ID           
-        WHERE p.product_ID = $product_ID;";
+        WHERE p.product_ID = $product_ID AND p.status = 'active';";
 
         $fetchSingleProduct .= "select c.color, si.size, s.stock_quantity
             from product_stock as s
@@ -109,7 +109,7 @@ class ProductsController
 
         if ($product_result->num_rows == 0) {
 
-            // Clear any remaining results from initial query:
+            // Clear any remaining results from initial query if no product returned for the given ID:
 
             while ($this->conn->more_results() && $this->conn->next_result()) {
                 $unused_result = $this->conn->store_result();
@@ -123,7 +123,7 @@ class ProductsController
             $fetchSingleProduct = "SELECT p.product_ID, p.product_name, p.product_desc, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.product_img_2, p.product_img_3, p.slug, cat.cat_name FROM products AS p
             INNER JOIN product_categories as cat
             ON p.product_cat_ID = cat.cat_ID           
-            WHERE p.product_ID = 1;";
+            WHERE p.product_ID = 1; AND p.status = 'active'";
 
             $fetchSingleProduct .= "select c.color, si.size, s.stock_quantity
             from product_stock as s

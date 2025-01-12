@@ -104,7 +104,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
 
         <div class="container">
           <?php if(!empty($productDetails)) : ?>
-          <div class="row d-flex justify-content-center">
+          <div class="row d-flex justify-content-center <?php if(empty($productDetails['stock'])) echo 'align-items-center'; ?>">
             <div class="product-imgs-div d-flex flex-column-reverse flex-md-row justify-content-center gap-4 col-12 col-sm-12 col-md-12 col-lg-6 mb-5">
                 <div class="other-imgs-div d-flex flex-row flex-md-column justify-content-center gap-4">
                   <?php if(isset($productDetails['product_img_2']) && !empty($productDetails['product_img_2'])) : ?>
@@ -148,8 +148,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
               <p class="mt-4 mb-2 selected-size fw-bold"></p>
               <div class="sizes-div d-flex flex-wrap justify-content-between align-items-center">
                 <div class="size-btns">
-                  <div class="radio-inputs">
-              
+                  <div class="radio-inputs size-btns-container">
               
               <?php if(!empty($productDetails['stock'])) : ?>
                 
@@ -198,22 +197,20 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                 <p class="mt-4 mb-2 fw-bold">Description:</p>
                 <p><?= $productDetails['product_desc'] ?></p>
               </div>
-              <hr> 
+              <hr>
+              <?php if(!empty($productDetails['stock'])) : ?> 
               <div class="mt-4 d-flex flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center gap-3">
                 <div class="d-flex justify-content-center align-items-center gap-2">
                   <label>Quantity:</label>
                   <div class="qty">
                     <button class="qtyminus">&minus;</button>
-                    <input type="number" name="qty" id="qty" min="1" max="
-                      <?php if(!empty($productDetails['stock'])){
-                        echo $productDetails['stock'][0]['stock_quantity'];
-                      }  ?>
-                    " step="1" value="1" readonly>
+                    <input type="number" name="qty" id="qty" min="1" max="<?= $productDetails['stock'][0]['stock_quantity']; ?>" step="1" value="1" readonly>
                     <button class="qtyplus">&plus;</button>
                   </div>
                 </div>
                 <button class="add-to-cart-btn">Add to cart <i class="bi bi-bag-plus"></i></button>
               </div>
+              <?php endif; ?>
             </div>
           </div>
           <?php else : ?>
@@ -236,6 +233,8 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
 <!-- VANILLA JS -->
 <script src="../scripts/script.js"></script>
 
+<!-- AJAX HANDLER -->
+<script src="../scripts/ajaxHandler.js"></script>
 
 </body>
 </html>   
