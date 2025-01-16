@@ -1441,10 +1441,19 @@ footer .footer-link:hover{
 	input {
 		width: 3rem; height: 2.5rem;	
 		font-size: 1rem;
-		text-align: center;
+		/* text-align: center; */
 		border: 2px solid var(--primary-color);
         outline: none;
+        text-align: center;
+        padding-right: 4px;
+
 	}
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+     margin: 0;
+    }
+
 	button {
 		width: 1.3rem; height: 1.3rem;
 		color: #fff;

@@ -136,26 +136,67 @@ const loadMoreProducts = async () => {
   }
 };
 
+
+// Set selected size letter in the product details page:
+
+let sizeBtns = document.getElementsByName("size");
+let selectedSize = document.getElementsByClassName("selected-size")[0];
+
+// Default value:
+if (selectedSize && sizeBtns[0]) {
+
+  sizeBtns[0].setAttribute("checked", true);
+
+  selectedSize.innerHTML = `Size: <span class="fw-normal">${
+    document.querySelector('input[name="size"]:checked').value
+  }</span>`;
+
+}
+
+// Set selected color in the product details page:
+
+let colorBtns = document.getElementsByName("color");
+let selectedColor = document.getElementsByClassName("selected-color")[0];
+
+// Default value:
+if (selectedColor) {
+
+  selectedColor.innerHTML = `Color: <span class="fw-normal">${document.querySelector('input[name="color"]:checked').value}</span>`;
+
+}
+
+
 // Fetch sizes, color and stock quantity for each size and color:
 
 let sizeBtnsContainer = document.querySelector('.size-btns-container');
+let colorsDiv = document.querySelector('.colors-div');
 let qtyInput = document.querySelector('#qty');
 
+// retryCounter and maxEntries to put a cap on recursion to avoid performance issues and infinite looping:
 
-const fetchStockDetails = async (event) => {
+let retryCounter = 0;
+let maxEntries = 3;
+
+const fetchStockDetails = async () => {
  
-  let size = document.querySelector("input[name=size]:checked").value;
-  let color = document
-    .querySelector('input[name="color"]:checked')
-    .value.toLowerCase();
+  let sizeInput = document.querySelector("input[name=size]:checked");
+  let size = sizeInput ? sizeInput.value : 'S';
+  let colorInput = document.querySelector('input[name="color"]:checked');
+  let color = colorInput ? colorInput.value.toLowerCase() : 'black';
   let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
 
+  if(!size || !color){
+    console.log('Please select both size and color');
+    return;
+  }
+
   // set value of size in the selected size element:
+
   selectedSize.innerHTML = `Size: <span class="fw-normal">${size}</span>`;
 
- // set value of color in the selected color element:
-
-  selectedColor.innerHTML = `Color: <span class="fw-normal">${color}</span>`;
+  // set value of color in the selected color element:
+ 
+   selectedColor.innerHTML = `Color: <span class="fw-normal">${color}</span>`;
 
   try {
     const response = await fetch("../AJAX/fetchStockDetails.php", {
@@ -165,11 +206,13 @@ const fetchStockDetails = async (event) => {
         "Content-Type": "application/json",
       },
     });
+
     if (!response.ok) {
       console.log("Response not okay");
       return;
     }
     const data = await response.json();
+    console.log(data);
 
     if(data.status !== 'failed'){
     
@@ -177,37 +220,58 @@ const fetchStockDetails = async (event) => {
 
             sizeBtnsContainer.innerHTML = '';
 
-            data.sizes.forEach(size => {
+            data.sizes.forEach((size, index) => {
               sizeBtnsContainer.insertAdjacentHTML('beforeend', `
                 <label class="radio">
                     <input type="radio" name="size"
-                    ${size == data.for ? 'checked' : ''}
-                    value="${size}">
+                    value="${size}" ${size == data.stock.for || index == 0 ? 'checked' : ''}>
                     <span class="name">${size}</span>
                 </label>
                 `);  
             })
 
+            // When no stock found for the given color and selected size, applying checked to the very first size then calling this function again to fetch stock for the first size.
+
+            if(data.stock.qty == '0' && retryCounter < maxEntries){
+              console.log('Retrying for stock: ' + retryCounter);
+              retryCounter++;
+              fetchStockDetails();
+              return;
+            }
+            else if(data.stock.qty == '0' && retryCounter >= maxEntries){
+              sizeBtnsContainer.innerHTML = "<span>Selected size is out of stock. Please choose another option.</span>";
+            }
+
+            // Reset the retryCounter when stock is available.
+            retryCounter = 0;
+
             qtyInput.setAttribute('max', data.stock.qty);
 
         } else{
             sizeBtnsContainer.innerHTML = "<span>Out of stock.</span>";
+            selectedSize.innerHTML = '';
         }
 
-    } else{
+    } else{ 
         console.log(data.msg);
     }
 
+    
   } catch (error) {
     console.log(error);
+  }
+  finally{
+    console.log('function run');
+    console.log(size);
+  
   }
 
 };
 
-sizeBtns.forEach((btn) => {
-  btn.addEventListener("click", fetchStockDetails);
-});
+// Call this function to fetch stock details when these buttons change.
 
-colorBtns.forEach((btn) => {
-  btn.addEventListener("click", fetchStockDetails);
-});
+if(sizeBtnsContainer && colorsDiv){
+  sizeBtnsContainer.addEventListener('change', fetchStockDetails);
+  colorsDiv.addEventListener('change', fetchStockDetails);
+}
+

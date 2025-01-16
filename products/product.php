@@ -170,6 +170,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                 </div>
                 <button class="size-guide-btn" data-bs-toggle="modal" data-bs-target="#size-guide-modal">Size guide</button>
               </div>
+              <?php if(!empty($productDetails['stock'])) : ?>
               <p class="mt-4 mb-2 selected-color fw-bold"></p>
               <div class="colors-div d-flex justify-content-start align-items-center gap-2">
                 <label for="color-black">
@@ -193,6 +194,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                   <span class="color-white color"></span>
                 </label>
               </div>
+              <?php endif; ?>
               <div class="product-desc-div mt-3">
                 <p class="mt-4 mb-2 fw-bold">Description:</p>
                 <p><?= $productDetails['product_desc'] ?></p>
@@ -204,7 +206,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                   <label>Quantity:</label>
                   <div class="qty">
                     <button class="qtyminus">&minus;</button>
-                    <input type="number" name="qty" id="qty" min="1" max="<?= $productDetails['stock'][0]['stock_quantity']; ?>" step="1" value="1" readonly>
+                    <input type="number" name="qty" id="qty" min="1" max="<?= $productDetails['stock'][0]['stock_quantity']; ?>" step="1" value="1">
                     <button class="qtyplus">&plus;</button>
                   </div>
                 </div>

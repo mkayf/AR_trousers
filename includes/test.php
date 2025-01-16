@@ -1,19 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 
-<!-- Fetch sizes -->
+<div class="container">
 
-select si.size, s.stock_quantity, c.color
-from product_stock as s
-inner join product_sizes as si
-on s.size_ID = si.size_ID
-inner join product_colors as c
-on s.color_ID = c.color_ID
-where s.product_ID = 31 and c.color = 'white' and si.size = 'S' and s.stock_quantity > 0
+</div>
 
 
-<!-- Fetch stock quantity -->
+<script>
 
-SELECT stock_quantity
-FROM product_stock
-WHERE product_ID = 31
-AND size_ID = (SELECT size_ID FROM product_sizes WHERE size = 'M')
-AND color_ID = (SELECT color_ID FROM product_colors WHERE color = 'black');
+let arr = ['Kaif', 'Samad', 'Atiq'];
+
+arr.forEach((name, index) => {
+    console.log(name === 'Kaif' ? 'yeah' : false);
+})
+
+
+</script>
+</body>
+</html>

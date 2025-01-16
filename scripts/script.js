@@ -77,33 +77,7 @@ if (window.location.pathname.includes("product.php")) {
   sessionStorage.setItem("cameFromProductDetails", true);
 }
 
-// Set selected size letter in the product details page:
 
-let sizeBtns = document.getElementsByName("size");
-let selectedSize = document.getElementsByClassName("selected-size")[0];
-
-// Default value:
-if (selectedSize && sizeBtns[0]) {
-
-  sizeBtns[0].setAttribute("checked", true);
-
-  selectedSize.innerHTML = `Size: <span class="fw-normal">${
-    document.querySelector('input[name="size"]:checked').value
-  }</span>`;
-
-}
-
-// Set selected color in the product details page:
-
-let colorBtns = document.getElementsByName("color");
-let selectedColor = document.getElementsByClassName("selected-color")[0];
-
-// Default value:
-if (selectedColor) {
-
-  selectedColor.innerHTML = `Color: <span class="fw-normal">${document.querySelector('input[name="color"]:checked').value}</span>`;
-
-}
 
 // Change images of product displaying in product details page and apply border on clicking:
 
