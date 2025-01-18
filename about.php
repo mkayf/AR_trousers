@@ -1,7 +1,19 @@
 <?php
 
-  include_once __DIR__ . '/config/App.php';
-  include_once __DIR__ . '/auth/auth.php';
+include_once __DIR__ . '/config/App.php';
+include_once __DIR__ . '/auth/auth.php';
+
+// fetch images to display in this section:
+
+$aboutImgs = "SELECT product_img_1 FROM products ORDER BY product_ID DESC LIMIT 5";
+$result = $DB->conn->query($aboutImgs);
+
+$product_imgs = [];
+
+while($row = $result->fetch_column()){
+    $product_imgs[] = $row;
+}
+
 
 ?>
 
@@ -32,13 +44,13 @@
                     <p>Welcome to AR Trouser, where we bring style, comfort, and quality to every woman. We specialize in beautifully crafted trousers designed to fit your lifestyle, and we're just getting started!</p>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center ju align-items-center about-product-img">
-                    <img src="./assets/product_images/trouser-4.jfif" alt="">
+                    <img src=".<?= $product_imgs[0] ?>" alt="">
                 </div>
             </div>
 
             <div class="row about-row-2 d-flex justify-content-center align-items-center flex-md-row">
                 <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center ju align-items-center about-product-img order-last order-lg-first">
-                    <img src="./assets/product_images/trouser-3.jfif" alt="">
+                    <img src=".<?= $product_imgs[1] ?>" alt="">
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 order-first order-lg-last">
                     <h2>Our mission</h2>
@@ -52,13 +64,13 @@
                     <p>It all began with a dream to provide high-quality trousers that women can rely on. As a small-scale business in Pakistan, we take pride in our local roots and personal approach to fashion.</p>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center ju align-items-center about-product-img">
-                    <img src="./assets/product_images/trouser-1.jfif" alt="">
+                    <img src=".<?= $product_imgs[2] ?>" alt="">
                 </div>
             </div>
 
             <div class="row about-row-4 d-flex justify-content-center align-items-center">
                 <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center ju align-items-center about-product-img order-last order-lg-first">
-                    <img src="./assets/product_images/trouser-5.jfif" alt="">
+                    <img src=".<?= $product_imgs[3] ?>" alt="">
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 order-first order-lg-last">
                     <h2>Current offerings</h2>
@@ -72,7 +84,7 @@
                     <p>We envision AR Trouser becoming a one-stop destination for women's fashion, offering a wide variety of products that reflect your unique style.</p>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center ju align-items-center about-product-img">
-                    <img src="./assets/product_images/trouser-2.jfif" alt="">
+                    <img src=".<?= $product_imgs[4] ?>" alt="">
                 </div>
             </div>
         </div>

@@ -18,21 +18,23 @@ if (window.location.search.includes("product-category=Polyester_cotton")) {
 // Checking if user is coming back from product details page, if true then changing filter and sort variables accordingly:
 
 window.onload = () => {
-  if (sessionStorage.getItem("cameFromProductDetails")) {
-    let storedFilter = sessionStorage.getItem("filter");
-    let storedSort = sessionStorage.getItem("sort");
-
-    if (storedFilter || storedSort) {
-      if (storedFilter !== "reset-filters" && storedSort !== "reset-sort") {
-        filterAndSortProducts(storedFilter, storedSort);
-      } else {
-        sessionStorage.removeItem("filter");
-        sessionStorage.removeItem("sort");
+  if(window.location.pathname.includes('trousers.php')){
+    if (sessionStorage.getItem("cameFromProductDetails")) {
+      let storedFilter = sessionStorage.getItem("filter");
+      let storedSort = sessionStorage.getItem("sort");
+  
+      if (storedFilter || storedSort) {
+        if (storedFilter !== "reset-filters" && storedSort !== "reset-sort") {
+          filterAndSortProducts(storedFilter, storedSort);
+        } else {
+          sessionStorage.removeItem("filter");
+          sessionStorage.removeItem("sort");
+        }
       }
     }
+    // clear the flag to prevent from applying conditions while navigating to other pages:
+    sessionStorage.removeItem("cameFromProductDetails");
   }
-  // clear the flag to prevent from applying conditions while navigating to other pages:
-  sessionStorage.removeItem("cameFromProductDetails");
 };
 
 const filterAndSortProducts = async (filter, sort) => {
@@ -49,12 +51,15 @@ const filterAndSortProducts = async (filter, sort) => {
   }
 
   // Resetting the value of offset after filter and sort to start fetching products from new base value:
-  document.getElementById("offset").value = 0;
+  let offset = document.getElementById("offset")
+  if(offset) offset.value = 0;
 
-  productsContainer.innerHTML =
-    '<div class="spinner-border d-block spinner-border products-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
-  loadMoreBtn.style.display = "none";
-  moreProducts.style.display = "none";
+  if(productsContainer){
+    productsContainer.innerHTML =
+      '<div class="spinner-border d-block spinner-border products-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
+    loadMoreBtn.style.display = "none";
+    moreProducts.style.display = "none";
+  }
 
   try {
     const response = await fetch("../AJAX/filterAndSort.php", {
@@ -171,6 +176,7 @@ if (selectedColor) {
 let sizeBtnsContainer = document.querySelector('.size-btns-container');
 let colorsDiv = document.querySelector('.colors-div');
 let qtyInput = document.querySelector('#qty');
+let addToCartBtn = document.querySelector('.add-to-cart-btn');
 
 // retryCounter and maxEntries to put a cap on recursion to avoid performance issues and infinite looping:
 
@@ -186,7 +192,6 @@ const fetchStockDetails = async () => {
   let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
 
   if(!size || !color){
-    console.log('Please select both size and color');
     return;
   }
 
@@ -212,7 +217,6 @@ const fetchStockDetails = async () => {
       return;
     }
     const data = await response.json();
-    console.log(data);
 
     if(data.status !== 'failed'){
     
@@ -233,7 +237,6 @@ const fetchStockDetails = async () => {
             // When no stock found for the given color and selected size, applying checked to the very first size then calling this function again to fetch stock for the first size.
 
             if(data.stock.qty == '0' && retryCounter < maxEntries){
-              console.log('Retrying for stock: ' + retryCounter);
               retryCounter++;
               fetchStockDetails();
               return;
@@ -245,11 +248,26 @@ const fetchStockDetails = async () => {
             // Reset the retryCounter when stock is available.
             retryCounter = 0;
 
+            qtyInput.value = 1;
             qtyInput.setAttribute('max', data.stock.qty);
+
+            if(addToCartBtn.disabled){
+              isQtyDisabled = false;
+              qtyInput.removeAttribute('disabled');
+              addToCartBtn.removeAttribute('disabled');
+              addToCartBtn.style.cursor = 'pointer';
+              addToCartBtn.style.backgroundColor = 'var(--primary-color)';
+            }
 
         } else{
             sizeBtnsContainer.innerHTML = "<span>Out of stock.</span>";
             selectedSize.innerHTML = '';
+            isQtyDisabled = true;
+            qtyInput.setAttribute('disabled', true);
+            qtyInput.value = 0;
+            addToCartBtn.setAttribute('disabled', true);
+            addToCartBtn.style.cursor = 'no-drop';
+            addToCartBtn.style.backgroundColor = '#5d3324';
         }
 
     } else{ 
@@ -259,11 +277,6 @@ const fetchStockDetails = async () => {
     
   } catch (error) {
     console.log(error);
-  }
-  finally{
-    console.log('function run');
-    console.log(size);
-  
   }
 
 };

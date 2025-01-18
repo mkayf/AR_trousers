@@ -35,9 +35,9 @@ class ProductsController
     }
 
 
-    public function newArrivalProducts()
+    public function newArrivalProducts($limit = 8)
     {
-        $newArrivalProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT 8";
+        $newArrivalProductsQuery = "SELECT product_ID, product_cat_ID, product_name, product_actual_price, product_discounted_price, product_img_1, product_img_2, slug FROM products WHERE status = 'active' ORDER BY product_ID DESC LIMIT $limit";
 
         $data = [];
 
