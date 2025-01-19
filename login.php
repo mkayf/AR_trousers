@@ -33,7 +33,7 @@
      <main class="auth-main">
 
      <div class="container d-flex justify-content-center align-items-center">
-        <div class="auth-form-div">
+        <div class="auth-form-div" id="login">
             <img src="./assets/images/logo-2.png" alt="AR Trouser logo">
             <h3>Login to your account</h3>
             <form method="POST">

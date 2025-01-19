@@ -1,3 +1,9 @@
+<?php
+  include_once '../controllers/CartController.php';
+
+  $cartController = new CartController($DB->conn);
+?>
+
 <nav class="navbar navbar-expand-md px-4 py-2">
   <div class="container-fluid">
     <a class="navbar-brand pt-0" href="<?php base_url('index.php');?>" tabindex="-1">
@@ -46,15 +52,19 @@
 
             <?php else : ?>
 
-              <li><a class="dropdown-item" href="<?php base_url('login.php') ?>">Login</a></li>
-              <li><a class="dropdown-item" href="<?php base_url('signup.php') ?>">Sign up</a></li>
+              <li><a class="dropdown-item" href="<?php base_url('login.php#login') ?>">Login</a></li>
+              <li><a class="dropdown-item" href="<?php base_url('signup.php#signup') ?>">Sign up</a></li>
 
             <?php endif; ?>
           </ul>
         </div>
         </span>
+        
+        <div class="cart-icon">
+          <span class="count-badge"></span>
+          <span class="mx-2"><i class="bi bi-bag" style="font-size: 1.2rem;"></i></span>
+        </div>
 
-        <span class="mx-2"><i class="bi bi-bag" style="font-size: 1.2rem;"></i></span>
       </div>
     </div>
   </div>

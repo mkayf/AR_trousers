@@ -131,6 +131,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
             </div>
             <div class="product-info-div col-12 col-sm-12 col-md-12 col-lg-6">
               <p class="fabric-type mb-3">
+                <span class="fw-bold">Fabric:</span>
                 <?php if($productDetails['cat_name'] == 'Pure_cotton') :  ?>
                   Pure cotton
                 <?php elseif($productDetails['cat_name'] == 'Polyester_cotton') : ?>
@@ -210,7 +211,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                     <button class="qtyplus">&plus;</button>
                   </div>
                 </div>
-                <button class="add-to-cart-btn">Add to cart <i class="bi bi-bag-plus"></i></button>
+                <button class="add-to-cart-btn">Add to cart</button>
               </div>
               <?php endif; ?>
             </div>

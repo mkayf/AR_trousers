@@ -173,6 +173,7 @@ if (selectedColor) {
 
 // Fetch sizes, color and stock quantity for each size and color:
 
+let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
 let sizeBtnsContainer = document.querySelector('.size-btns-container');
 let colorsDiv = document.querySelector('.colors-div');
 let qtyInput = document.querySelector('#qty');
@@ -189,7 +190,6 @@ const fetchStockDetails = async () => {
   let size = sizeInput ? sizeInput.value : 'S';
   let colorInput = document.querySelector('input[name="color"]:checked');
   let color = colorInput ? colorInput.value.toLowerCase() : 'black';
-  let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
 
   if(!size || !color){
     return;
@@ -197,7 +197,7 @@ const fetchStockDetails = async () => {
 
   // set value of size in the selected size element:
 
-  selectedSize.innerHTML = `Size: <span class="fw-normal">${size}</span>`;
+  selectedSize.innerHTML = `Size: <span class="fw-normal ">${size}</span>`;
 
   // set value of color in the selected color element:
  
@@ -288,3 +288,51 @@ if(sizeBtnsContainer && colorsDiv){
   colorsDiv.addEventListener('change', fetchStockDetails);
 }
 
+
+// Add to cart functionality:
+
+const addProductToCart = async () => {
+  addToCartBtn.innerHTML = `
+    <div class="spinner-border spinner-border-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  `;
+  addToCartBtn.setAttribute('disabled', true);
+  addToCartBtn.style.backgroundColor = '#5d3324';
+
+  let size = selectedSize.querySelector('span').textContent;
+  let color = selectedColor.querySelector('span').textContent;
+  let qty = qtyInput.value;
+
+  try{
+      let response = await fetch('../AJAX/addToCart.php', {
+        method : 'POST',
+        body : JSON.stringify({productID, size, color, qty}),
+        headers : {
+          'Content-type' : 'application/json'
+        },
+      });
+    
+      let data = await response.json();
+    
+      if(data.status !== 'failed'){
+        console.log(data.msg);
+      }
+      else{
+        console.log(data.msg);
+      }
+  }
+  catch(error){
+    console.log(error);
+  }
+  finally{
+    addToCartBtn.innerHTML = 'Add To Cart';
+    addToCartBtn.removeAttribute('disabled');
+    addToCartBtn.style.backgroundColor = 'var(--primary-color)';
+  }
+
+}
+
+if(addToCartBtn){
+  addToCartBtn.addEventListener('click', addProductToCart);
+}

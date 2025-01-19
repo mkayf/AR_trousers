@@ -162,6 +162,28 @@ body{
     cursor: pointer;
 }   
 
+.nav-icons .cart-icon{
+    position: relative;
+}
+
+.nav-icons .cart-icon .count-badge{
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-size: 0.9rem;
+    font-family: 'proxima-regular';
+    width: 22px;
+    height: 22px;
+    padding: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -6px;
+    top: -3px;
+}
+
 .nav-icons span .auth-dropdown{
     background-color: transparent;
     border: none;
@@ -462,111 +484,6 @@ p{
     font-family: 'proxima-regular';
     color: var(--text-color);
 }
-
-.product-card .product-img-div .product-cart-icon{
-    background-color: #f3f3f3aa;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    /* cursor: pointer; */
-    position: absolute;
-    left: 15px;
-    bottom: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease-in-out;
-}
-
-.product-card .product-img-div .product-cart-icon:hover{
-    bottom: 20px;
-    background-color: var(--background-color);
-}
-
-.product-cart-icon:hover + .mini-size-box{
-    right: 15px;
-    bottom: 15px;
-}
-
-.mini-size-box{
-    width: 200px;
-    position: absolute;
-    right: -100%;
-    bottom: 15px;
-    background-color: var(--background-color);
-    border-radius: 12px;
-    padding: 8px;
-    transition: all 0.5s ease-in-out;
-}
-
-.mini-size-box:hover{
-    right: 15px;
-}
-
-.radio-inputs {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    border-radius: 0.5rem;
-    background-color: rgb(214, 214, 214);
-    box-sizing: border-box;
-    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-    padding: 0.25rem;
-    font-size: 14px;
-  }
-  
-  .radio-inputs .radio {
-    flex: 1 1 auto;
-    text-align: center;
-  }
-  
-  .radio-inputs .radio input {
-    display: none;
-  }
-  
-  .radio-inputs .radio .name {
-    display: flex;    
-    font-weight: 600;
-    font-family: 'proxima-regular';
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.5rem;
-    border: none;
-    padding: .5rem 0;
-    color: var(--primary-color);
-    transition: all .15s ease-in-out;
-  }
-  
-  .radio-inputs .radio input:checked + .name {
-    background-color: var(--primary-color);
-    color: #fff;
-    font-weight: 600;
-  }
-
-  .mini-size-box .mini-add-to-cart{
-    outline: none;
-    margin-top: 8px;
-    border: none;
-    background-color: var(--primary-color);
-    color: var(--background-color);
-    width: 100%;
-    padding: 6px 0;
-    border-radius: 0.5rem;
-    font-family: 'proxima-regular';
-    letter-spacing: var(--spacing-1);
-    text-transform: capitalize;
-    transition: all 0.2s ease-in-out;
-  }
-
-  .mini-size-box .mini-add-to-cart:hover{
-    background-color: #5d3324;
-  }
-
-  .mini-size-box .mini-add-to-cart:active{
-    transform: scale(0.95);
-  }
-
 
   .latest-products-section .view-more-btn{
     transform: translateY(-36px);
@@ -1303,6 +1220,7 @@ footer .footer-link:hover{
     font-family: 'proxima-regular';
 }
 
+
 .product-info-div h2{
     font-family: 'proxima-semibold';
 }
@@ -1346,6 +1264,7 @@ footer .footer-link:hover{
 }
 
 .product-info-div .radio-inputs .radio .name {
+    height: 35px;
     display: flex;
     border-radius: 0px !important;
     font-weight: 600;
@@ -1369,7 +1288,7 @@ footer .footer-link:hover{
   
   .product-info-div .size-guide-btn{
     background-color: rgb(214, 214, 214);
-    padding: 8px 12px;
+    padding: 10px 12px;
     color: var(--text-color);
     border: none;
     outline: none;
@@ -1470,14 +1389,13 @@ footer .footer-link:hover{
 	}
 }
 
-
   .product-info-div .add-to-cart-btn{
     outline: none;
     padding: 14px 12px;
     border: none;
     color: var(--background-color);
     background-color: var(--primary-color);
-    width: 350px;
+    width: 300px;
     font-family: 'proxima-semibold';
     text-transform: capitalize;
     font-size: 1.1rem;

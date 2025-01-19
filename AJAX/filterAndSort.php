@@ -71,34 +71,6 @@ if ($rateLimiter->checkRateLimit()) {
                         <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="product.php?id='. $row['product_ID'] .'&slug='. $row['slug'] .'">
                         <img src="../' . htmlspecialchars($row['product_img_1']) . '" alt="">
                         </a>
-                        <span class="product-cart-icon">
-                            <i class="bi bi-bag" style="font-size: 1.2rem;"></i>
-                        </span>
-                        <span class="mini-size-box">
-                            <div class="radio-inputs">
-                                <label class="radio">
-                                    <input checked="" name="radio" type="radio">
-                                    <span class="name">S</span>
-                                </label>
-                                <label class="radio">
-                                    <input name="radio" type="radio">
-                                    <span class="name">M</span>
-                                </label>
-                                <label class="radio">
-                                    <input name="radio" type="radio">
-                                    <span class="name">L</span>
-                                </label>
-                                <label class="radio">
-                                    <input name="radio" type="radio">
-                                    <span class="name">XL</span>
-                                </label>
-                                <label class="radio">
-                                    <input name="radio" type="radio">
-                                    <span class="name">XXL</span>
-                                </label>
-                            </div>
-                            <button class="mini-add-to-cart" tabindex="-1">Add to cart</button>
-                        </span>
                     </div>
                     <div class="product-details-div">
                         <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="product.php?id='. $row['product_ID'] .'&slug='. $row['slug'] .'">

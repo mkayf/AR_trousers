@@ -71,6 +71,18 @@ if (msgCloseBtn) {
   });
 }
 
+
+// focus on the first input of the form:
+let email = document.getElementById('email');
+let name = document.getElementById('name');
+
+setTimeout(() => {
+  if(email) email.focus();
+  if(name) name.focus();
+}, 200)
+
+
+
 // Setting a flag to preserve filtering and sorting conditions:
 
 if (window.location.pathname.includes("product.php")) {
