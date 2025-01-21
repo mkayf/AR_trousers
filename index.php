@@ -2,6 +2,7 @@
 include_once __DIR__ . '/config/App.php';
 include_once __DIR__ . '/auth/auth.php';
 include_once __DIR__ . '/controllers/ProductsController.php';
+include_once __DIR__ . '/controllers/CartController.php';
 
 $productController = new ProductsController($DB->conn);
 
@@ -375,6 +376,9 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
   
     <!-- VANILLA JS -->
     <script src="./scripts/script.js"></script>
+
+    <!-- AJAX Handler -->
+    <script src="./scripts/ajaxHandler.js"></script>
 
 
   </body>

@@ -1,3 +1,9 @@
+<?php
+    echo random_int(1, 1000);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +20,11 @@
 
 <script>
 
-let arr = ['Kaif', 'Samad', 'Atiq'];
+// let arr = ['Kaif', 'Samad', 'Atiq'];
 
-arr.forEach((name, index) => {
-    console.log(name === 'Kaif' ? 'yeah' : false);
-})
+// arr.forEach((name, index) => {
+//     console.log(name === 'Kaif' ? 'yeah' : false);
+// })
 
 
 </script>

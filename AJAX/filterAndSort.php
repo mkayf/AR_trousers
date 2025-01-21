@@ -7,7 +7,6 @@ $rateLimiter = new RateLimiter(60, 30);
 
 header('Content-Type: Application/json');
 
-
 if ($rateLimiter->checkRateLimit()) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

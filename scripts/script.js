@@ -59,17 +59,6 @@ if (filename == "index.php" || filename == "") {
   });
 }
 
-// Close header message button:
-
-const msgCloseBtn = document.querySelector(".msg-close-btn");
-const headerMsg = document.querySelector(".header-msg");
-
-if (msgCloseBtn) {
-  msgCloseBtn.addEventListener("click", () => {
-    headerMsg.setAttribute("style", "display: none !important");
-    console.log("close");
-  });
-}
 
 
 // focus on the first input of the form:

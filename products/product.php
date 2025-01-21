@@ -3,6 +3,8 @@
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../auth/auth.php';
 include_once __DIR__ . '/../controllers/ProductsController.php';
+include_once __DIR__ . '/../controllers/CartController.php';
+
 
 $productDetails = new ProductsController($DB->conn);
 $productDetails = $productDetails->getSingleProduct() ?? [];
@@ -24,7 +26,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
   <body>
     
     <!-- NAVBAR -->
-     <header>
+     <header class="product-header">
          <?php include '../includes/Navbar.php'; ?>
      </header>
 

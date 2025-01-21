@@ -171,8 +171,12 @@ if (selectedColor) {
 }
 
 
-// Fetch sizes, color and stock quantity for each size and color:
+const header = document.querySelector('header');
+const msgCloseBtn = document.querySelector(".msg-close-btn");
+const headerMsg = document.querySelector(".header-msg");
 
+
+// Fetch sizes, color and stock quantity for each size and color:
 let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
 let sizeBtnsContainer = document.querySelector('.size-btns-container');
 let colorsDiv = document.querySelector('.colors-div');
@@ -299,9 +303,9 @@ const addProductToCart = async () => {
   `;
   addToCartBtn.setAttribute('disabled', true);
   addToCartBtn.style.backgroundColor = '#5d3324';
-
+  let productName = document.querySelector('.product-name').innerHTML;
   let size = selectedSize.querySelector('span').textContent;
-  let color = selectedColor.querySelector('span').textContent;
+  let color = selectedColor.querySelector('span').textContent.toLowerCase();
   let qty = qtyInput.value;
 
   try{
@@ -312,11 +316,30 @@ const addProductToCart = async () => {
           'Content-type' : 'application/json'
         },
       });
-    
+      
+      if (!response.ok) {
+        console.log("Response not okay");
+        return;
+      }
+
       let data = await response.json();
     
       if(data.status !== 'failed'){
-        console.log(data.msg);
+
+        getCartCount();
+
+        window.scrollTo({
+          top : 0,
+          behavior : 'smooth'
+        })
+        if(!header.querySelector('.header-msg')){
+          header.insertAdjacentHTML('beforeend', `
+            <div class="header-msg d-flex align-items-center justify-content-between">
+              <span>'${productName}' is in your cart now!</span>
+              <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+          </div>
+            `);
+        }
       }
       else{
         console.log(data.msg);
@@ -336,3 +359,37 @@ const addProductToCart = async () => {
 if(addToCartBtn){
   addToCartBtn.addEventListener('click', addProductToCart);
 }
+
+
+// Get cart count dynamically:
+
+async function getCartCount(){
+  try{
+    let response = await fetch('../ajax/cartCount.php?cart_count=true')
+    if (!response.ok) {
+      console.log("Response not okay");
+      return;
+    }
+    let data = await response.json();
+
+    if(data.status == 'success'){
+      document.querySelector('.count-badge').textContent = data.cart_count
+    }
+
+  }
+  catch(e){
+    console.log(e.message);
+  }
+  
+}
+
+// Close header message button:
+
+if (header) {
+  header.addEventListener("click", (event) => {
+    if (event.target.closest(".msg-close-btn")) {
+        event.target.closest('.header-msg').remove();
+    }
+  });
+}
+

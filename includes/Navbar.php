@@ -1,9 +1,3 @@
-<?php
-  include_once '../controllers/CartController.php';
-
-  $cartController = new CartController($DB->conn);
-?>
-
 <nav class="navbar navbar-expand-md px-4 py-2">
   <div class="container-fluid">
     <a class="navbar-brand pt-0" href="<?php base_url('index.php');?>" tabindex="-1">
@@ -61,7 +55,15 @@
         </span>
         
         <div class="cart-icon">
-          <span class="count-badge"></span>
+          <span class="count-badge">
+            <?php 
+              if(isset($cartCount) && $cartCount > 0){
+               echo $cartCount <= 99 ? $cartCount : '99+'; 
+              } else{
+                echo 0;
+              }
+            ?>
+          </span>
           <span class="mx-2"><i class="bi bi-bag" style="font-size: 1.2rem;"></i></span>
         </div>
 

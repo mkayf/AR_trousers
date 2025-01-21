@@ -3,7 +3,7 @@
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../config/RateLimiter.php';
 
-$rate_limiter = new RateLimiter(60, 4);
+$rate_limiter = new RateLimiter(60, 10);
 
 header('Content-Type: Application/json');
 
@@ -29,7 +29,7 @@ if($rate_limiter->checkRateLimit()){
         $color_arr = ['black', 'white'];
         
         if(!in_array($color, $color_arr)){
-            echo json_encode(['status' => 'failed', 'msg' => 'Invalid color given']);
+            echo json_encode(['status' => 'failed', 'msg' => 'Invalid color given, ' . $color]);
             exit(0);
         }
 
@@ -76,7 +76,22 @@ if($rate_limiter->checkRateLimit()){
             
         } 
         else{
-            echo json_encode(['status' => 'failed', 'msg' => 'User is not authenticated']);
+
+            // Generate a random guest ID for the guest user:
+            if(!isset($_SESSION['guest_ID'])){
+                $_SESSION['guest_ID'] = random_int(1, 1000);
+            }
+
+
+            $_SESSION['cart_items'][] = [
+                'guest_ID' => $_SESSION['guest_ID'],
+                'product_ID' => $product_ID,
+                'size' => $size,
+                'color' => $color,
+                'quantity' => $quantity
+            ];
+
+            echo json_encode(['status' => 'success', 'msg' => 'product successfully added to cart']);
         }
 
         http_response_code(200);
