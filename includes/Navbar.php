@@ -54,6 +54,7 @@
         </div>
         </span>
         
+        <a href="<?php base_url('cart.php') ?>">
         <div class="cart-icon">
           <span class="count-badge">
             <?php 
@@ -66,6 +67,7 @@
           </span>
           <span class="mx-2"><i class="bi bi-bag" style="font-size: 1.2rem;"></i></span>
         </div>
+        </a>
 
       </div>
     </div>

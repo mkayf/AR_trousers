@@ -132,14 +132,6 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                 </div>
             </div>
             <div class="product-info-div col-12 col-sm-12 col-md-12 col-lg-6">
-              <p class="fabric-type mb-3">
-                <span class="fw-bold">Fabric:</span>
-                <?php if($productDetails['cat_name'] == 'Pure_cotton') :  ?>
-                  Pure cotton
-                <?php elseif($productDetails['cat_name'] == 'Polyester_cotton') : ?>
-                  Polyester cotton
-                <?php endif; ?>
-              </p>
               <h2 class="product-name"><?= $productDetails['product_name']?></h2>
               <?php if($productDetails['product_discounted_price'] != 0) : ?>
                 <p class="product-actual-price discount-strike">Rs <?= number_format($productDetails['product_actual_price']) ?></p>
@@ -198,6 +190,14 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
                 </label>
               </div>
               <?php endif; ?>
+              <p class="fabric-type mt-4">
+                <span class="fw-bold">Fabric:</span>
+                <?php if($productDetails['cat_name'] == 'Pure_cotton') :  ?>
+                  Pure cotton
+                <?php elseif($productDetails['cat_name'] == 'Polyester_cotton') : ?>
+                  Polyester cotton
+                <?php endif; ?>
+              </p>
               <div class="product-desc-div mt-3">
                 <p class="mt-4 mb-2 fw-bold">Description:</p>
                 <p><?= $productDetails['product_desc'] ?></p>
@@ -207,7 +207,7 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
               <div class="mt-4 d-flex flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center gap-3">
                 <div class="d-flex justify-content-center align-items-center gap-2">
                   <label>Quantity:</label>
-                  <div class="qty">
+                  <div class="qty-div">
                     <button class="qtyminus">&minus;</button>
                     <input type="number" name="qty" id="qty" min="1" max="<?= $productDetails['stock'][0]['stock_quantity']; ?>" step="1" value="1">
                     <button class="qtyplus">&plus;</button>

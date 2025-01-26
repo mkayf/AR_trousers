@@ -20,7 +20,7 @@ if(isset($_POST['signup-btn'])){
             if($signup->validPassword($user_password)){
                 if($signup->confirmPassword($user_password, $user_c_password)){
                     if($signup->signupUser($user_name, $user_email, $user_password)){
-                        redirect('', '', 'index.php');
+                        redirect("Your account has been created successfully!", "", "index.php");
                     } else{
                         redirect('Internal server error, please signup again.' ,'red', 'signup.php');
                     }

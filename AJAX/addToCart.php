@@ -17,8 +17,6 @@ if($rate_limiter->checkRateLimit()){
 
         // Validate the payload:
         
-
-
         $size_arr = ['S', 'M', 'L', 'XL', 'XXL'];
         
         if(!in_array($size, $size_arr)){
@@ -39,7 +37,8 @@ if($rate_limiter->checkRateLimit()){
         s.color_ID = (select color_ID from product_colors where color = '$color') AND
          s.product_ID = $product_ID";
 
-        $stockResult = $DB->conn->query($checkStock);
+
+         $stockResult = $DB->conn->query($checkStock);
 
         if($stockResult){
             $stock = $stockResult->fetch_column();
@@ -60,20 +59,50 @@ if($rate_limiter->checkRateLimit()){
 
             $user_ID = $_SESSION['user_data']['user_ID'];
 
-            $storeProductInCart = "INSERT INTO cart(user_ID, product_ID, size, color, quantity) VALUES($user_ID, $product_ID, '$size', '$color', $quantity)";
+            // Check if the similar product with similar user_ID, size and color exists in the cart, if yes then just increment product quantity:
+            
+            $checkSimilarProduct = "SELECT cart_ID, quantity from cart WHERE user_ID = $user_ID AND product_ID = $product_ID AND `size` = '$size' AND color = '$color'";
 
-            $cartResult = $DB->conn->query($storeProductInCart);
+            $productCheck = $DB->conn->query($checkSimilarProduct);
+
+            if($productCheck){
+                if($productCheck->num_rows > 0){
+                    $fetchQty= $productCheck->fetch_assoc();
+                    
+                    $cart_ID = $fetchQty['cart_ID'];
+                    $newQty = $fetchQty['quantity'] + $quantity;
+
+                    // Update the quantity of the same product:
+                    $updateQtyQuery = "UPDATE cart set quantity = $newQty WHERE cart_ID = $cart_ID";
+
+                    $updateQty = $DB->conn->query($updateQtyQuery);
+
+                    echo json_encode(['status' => 'success', 'msg' => 'product successfully added to cart']);
+                }
+                 
+                else{
+
+                    $storeProductInCart = "INSERT INTO cart(user_ID, product_ID, size, color, quantity) VALUES($user_ID, $product_ID, '$size', '$color', $quantity)";
+
+                    $cartResult = $DB->conn->query($storeProductInCart);
                         
+                    if($cartResult){
+                        echo json_encode(['status' => 'success', 'msg' => 'product successfully added to cart']);
+                    }
+                    else{
+                        http_response_code(500);
+                        echo json_encode(['status' => 'failed', 'msg' => 'Internal server error']);
+                        exit(0);
+                    }
 
-            if($cartResult){
-                echo json_encode(['status' => 'success', 'msg' => 'product successfully added to cart']);
-            }
-            else{
+                }
+
+            } else{
                 http_response_code(500);
                 echo json_encode(['status' => 'failed', 'msg' => 'Internal server error']);
                 exit(0);
             }
-            
+                
         } 
         else{
 
@@ -81,7 +110,7 @@ if($rate_limiter->checkRateLimit()){
             if(!isset($_SESSION['guest_ID'])){
                 $_SESSION['guest_ID'] = random_int(1, 1000);
             }
-
+            
 
             $_SESSION['cart_items'][] = [
                 'guest_ID' => $_SESSION['guest_ID'],
@@ -101,6 +130,7 @@ if($rate_limiter->checkRateLimit()){
         echo json_encode(['status' => 'failed', 'msg' => 'Request method not allowed']);
     }
 }
+
 else{
     http_response_code(429);
     echo json_encode(['status' => 'failed', 'msg' => 'Too many requests']);

@@ -3,6 +3,8 @@
 class CartController{
     public $conn;
 
+    private $user_ID;
+
     public function __construct($db_connection)
     {
         $this->conn = $db_connection;
@@ -14,7 +16,7 @@ class CartController{
         if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']){
 
 
-            $user_ID = $_SESSION['user_data']['user_ID'];
+            $this->user_ID = $_SESSION['user_data']['user_ID'];
 
             // Sync the cart items if any, when the user is logged in after adding products to cart as a guest:
 
@@ -25,7 +27,7 @@ class CartController{
 
                 if(!empty($cart_items)){
                     foreach($cart_items as $item){
-                        $storeCartItems = "INSERT INTO cart(user_ID, product_ID, size, color, quantity) VALUES($user_ID, $item[product_ID], '$item[size]', '$item[color]', $item[quantity])";
+                        $storeCartItems = "INSERT INTO cart(user_ID, product_ID, size, color, quantity) VALUES($this->user_ID, $item[product_ID], '$item[size]', '$item[color]', $item[quantity])";
 
                         try{
                             $result = $this->conn->query($storeCartItems);
@@ -44,7 +46,7 @@ class CartController{
             }    
 
 
-            $fetchCartCount = "SELECT SUM(quantity) as cart_count FROM cart WHERE user_ID = $user_ID";
+            $fetchCartCount = "SELECT SUM(quantity) as cart_count FROM cart WHERE user_ID = $this->user_ID";
 
             try{
                 $result = $this->conn->query($fetchCartCount);
@@ -72,6 +74,54 @@ class CartController{
             }
         }
     }
+
+    public function getCartItems(){
+    
+        if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true){
+
+            $getItems = "select p.product_name, p.product_actual_price, p.  product_discounted_price, p.product_img_1, c.color, c.size, c.quantity
+            from products as p
+            inner join cart as c
+            on p.product_ID = c.product_ID
+            where user_ID = $this->user_ID order by cart_ID DESC";
+            
+            try{
+                $result = $this->conn->query($getItems);
+                $cart_items = [];
+                while($row = $result->fetch_assoc()){
+                    $cart_items[] = $row;
+                }
+
+                return $cart_items;
+                
+            }
+            catch(Exception|Error $e){
+                echo "<script>console.log('Error in getCartItems: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+                return null;
+            }
+            
+        }
+
+    }
+
+    public function getCartTotal(){
+        $totalQuery = "select if(p.product_discounted_price > 0, sum(p.product_discounted_price * c.quantity), sum(p.product_actual_price * c.quantity)) as cart_total from products as p
+        inner join cart as c
+        on p.product_ID = c.product_ID
+        WHERE user_ID = $this->user_ID";
+
+        try{
+            $totalResult = $this->conn->query($totalQuery);
+            $cart_total = $totalResult->fetch_column();
+
+            return $cart_total;
+        }
+        catch(Exception|Error $e){
+            echo "<script>console.log('Error in getCartTotal: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+            return null;
+        }
+
+    } 
 
 }
 

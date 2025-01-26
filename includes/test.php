@@ -1,8 +1,3 @@
-<?php
-    echo random_int(1, 1000);
-
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,18 +9,15 @@
 <body>
 
 <div class="container">
-
+    <button>Add</button>
 </div>
 
 
 <script>
 
-// let arr = ['Kaif', 'Samad', 'Atiq'];
+let add = document.querySelectorAll('button');
 
-// arr.forEach((name, index) => {
-//     console.log(name === 'Kaif' ? 'yeah' : false);
-// })
-
+console.log(Array.from(add));
 
 </script>
 </body>

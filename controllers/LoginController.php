@@ -57,19 +57,23 @@
                 $getUserDetails = "SELECT * FROM users WHERE user_ID = $user_ID";
                 $result = $this->conn->query($getUserDetails);
                 $data = $result->fetch_assoc();
-            
-                if(hash_equals($data['user_auth_token'], $hashed_cookie_token)){
-                    $_SESSION['authenticated'] = true;
-                    $_SESSION['user_data'] = [
-                    'user_ID' => $data['user_ID'],
-                    'user_name' => $data['user_name'],
-                    'user_email' => $data['user_email'],
-                    'user_role' => $data['user_role'],
-                    ];
-                    return true;
+                
+                if($data['user_auth_token']){
+                    
+                    if(hash_equals($data['user_auth_token'], $hashed_cookie_token)){
+                        $_SESSION['authenticated'] = true;
+                        $_SESSION['user_data'] = [
+                        'user_ID' => $data['user_ID'],
+                        'user_name' => $data['user_name'],
+                        'user_email' => $data['user_email'],
+                        'user_role' => $data['user_role'],
+                        ];
+                        return true;
+                    }
+    
+                    return false;
                 }
-
-                return false;
+                
             }
         }
 

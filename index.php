@@ -163,7 +163,7 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
       <div class="product-card col-sm-6 col-md-3 col-lg-3">
       <div class="product-img-div">
         <a class="product-link text-reset col-sm-6 col-md-3 col-lg-3" href="./products/product.php?<?php echo 'id=' . $product['product_ID'] . '&' . 'slug=' . $product['slug'] ?>">
-        <img src=".<?php echo $product['product_img_1'] ?>" alt="">
+        <img src=".<?php echo $product['product_img_1'] ?>" alt="<?php echo $product['product_name'] ?>">
         </a>
       </div>
       <div class="product-details-div">
