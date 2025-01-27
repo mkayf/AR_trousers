@@ -1579,8 +1579,13 @@ footer .footer-link:hover{
         font-size: 1.2rem;
     }   
 
+    .cart-total-section p{
+        font-size: 0.9rem;
+    }
+
     .cart-total-section .checkout-btn{
         padding: 8px 12px;       
         font-size: 1rem;
+        width: 100%;
     }
 }

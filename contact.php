@@ -37,7 +37,7 @@ include_once __DIR__ . '/controllers/CartController.php';
     <div class="container contact-container">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-sm-12 col-md-6 col-lg-4 contact-info-div d-flex justify-content-center align-items-start flex-column">
-                <img src="./assets/images/logo-2.png" alt="logo" class="contact-logo">
+                <img src="./assets/images/logo-1.png" alt="logo" class="contact-logo">
                 <h4>Contact info</h4>
                 <div>
                     <p>

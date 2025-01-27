@@ -95,7 +95,7 @@ $cart_items = $cartController->getCartItems() ?? [];
 
                  <?php else: ?>
                   <div class="text-center">
-                    <h2 class="empty-cart">No Items in Your cart</h2>
+                    <h3 class="empty-cart">No Products in Your cart.</h3>
                     <a href="<?php base_url('products/trousers.php') ?>">
                       <button class="con-shop-empty">Continue shopping</button>
                     </a>
@@ -107,12 +107,12 @@ $cart_items = $cartController->getCartItems() ?? [];
 
 
         <?php if(!empty($cart_items)) : ?>
-        <section class="cart-total-section container my-5 text-end">
+        <section class="cart-total-section container my-5 text-start text-md-end">
           <span class="ct">Cart Total: </span><span class="cart-total bold">Rs
             <?php echo number_format($cartController->getCartTotal()) ?? 0 ?>
           </span>
-          <p>Shipping charges are calculated at checkout</p>
-          <a href="<?php base_url('checkout.php') ?>"><button class="checkout-btn">Proceed to checkout</button></a>
+          <p>Shipping charges are calculated at checkout.</p>
+          <a href="<?php base_url('checkout.php') ?>"><button class="checkout-btn text-center">Proceed to checkout</button></a>
         </section>
         <?php endif; ?>
      </main>

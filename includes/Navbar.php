@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md px-4 py-2">
   <div class="container-fluid">
     <a class="navbar-brand pt-0" href="<?php base_url('index.php');?>" tabindex="-1">
-      <img class="logo" src="<?php base_url('assets/images/logo-2.png') ?>" alt="">
+      <img class="logo" src="<?php base_url('assets/images/logo-1.png') ?>" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
         <img src="<?php base_url('assets/images/menu_icon.png') ?>" alt="">

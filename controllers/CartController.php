@@ -100,24 +100,56 @@ class CartController{
                 return null;
             }
             
+        } else if(isset($_SESSION['cart_items']) && isset($_SESSION['guest_ID'])){
+
+            $cart_items = [];
+
+            foreach($_SESSION['cart_items'] as $item){
+                $cart_items[] = $item;
+            }
+
+            return $cart_items;
+
+        } else{
+            return null;
         }
 
     }
 
     public function getCartTotal(){
-        $totalQuery = "select if(p.product_discounted_price > 0, sum(p.product_discounted_price * c.quantity), sum(p.product_actual_price * c.quantity)) as cart_total from products as p
-        inner join cart as c
-        on p.product_ID = c.product_ID
-        WHERE user_ID = $this->user_ID";
+        if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true){
+            
+            $totalQuery = "select if(p.product_discounted_price > 0, sum(p.product_discounted_price * c.quantity), sum(p.product_actual_price * c.quantity)) as cart_total from products as p
+            inner join cart as c
+            on p.product_ID = c.product_ID
+            WHERE user_ID = $this->user_ID";
+    
+            try{
+                $totalResult = $this->conn->query($totalQuery);
+                $cart_total = $totalResult->fetch_column();
+    
+                return $cart_total;
+            }
+            catch(Exception|Error $e){
+                echo "<script>console.log('Error in getCartTotal: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+                return null;
+            }
 
-        try{
-            $totalResult = $this->conn->query($totalQuery);
-            $cart_total = $totalResult->fetch_column();
+        } else if(isset($_SESSION['cart_items'])){
+            
+            $cart_total = 0;
+
+            foreach($_SESSION['cart_items'] as $item){
+                if($item['product_discounted_price'] > 0){
+                    $cart_total = $cart_total + ($item['product_discounted_price'] * $item['quantity']);
+                } else{
+                    $cart_total = $cart_total + ($item['product_actual_price'] * $item['quantity']);
+                }
+            }
 
             return $cart_total;
-        }
-        catch(Exception|Error $e){
-            echo "<script>console.log('Error in getCartTotal: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+
+        } else{
             return null;
         }
 

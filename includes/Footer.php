@@ -23,7 +23,7 @@
       <div class="row mt-3 d-flex align-items-center">
         <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
           <a class="navbar-brand pt-0" href="<?php base_url('index.php'); ?>">
-            <img class="logo" src="<?php base_url('assets/images/logo-2.png') ?>" alt="">
+            <img class="logo" src="<?php base_url('assets/images/logo-1.png') ?>" alt="">
          </a>
           <p class="footer-about">
           At AR Trouser, we offer stylish, high-quality women's trousers that combine comfort and affordability. Shop with confidence!
