@@ -79,11 +79,11 @@ class CartController{
     
         if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true){
 
-            $getItems = "select p.product_name, p.product_actual_price, p.  product_discounted_price, p.product_img_1, c.color, c.size, c.quantity
+            $getItems = "select c.cart_ID, p.product_name, p.product_actual_price, p.  product_discounted_price, p.product_img_1, c.color, c.size, c.quantity
             from products as p
             inner join cart as c
             on p.product_ID = c.product_ID
-            where user_ID = $this->user_ID order by cart_ID DESC";
+            where user_ID = $this->user_ID order by c.cart_ID DESC";
             
             try{
                 $result = $this->conn->query($getItems);

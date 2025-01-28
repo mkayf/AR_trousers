@@ -44,17 +44,18 @@ $cart_items = $cartController->getCartItems() ?? [];
 
             <table class="cart-table">
               <thead>
-                <tr class="row">
+                <tr class="row m-0">
                   <th class="col-sm-12 col-md-4 col-lg-4">Product</th>
                   <th class="col-sm-12 col-md-2 col-lg-2">Price</th>
                   <th class="col-sm-12 col-md-4 col-lg-4">Quantity</th>
                   <th class="col-sm-12 col-md-2 col-lg-2">Subtotal</th>
                 </tr>
               </thead>
-              <tbody>
-            
+
+          
+              <tbody class="cart-table-body">
                 <?php foreach($cart_items as $item) : ?>
-                <tr class="row">
+                <tr class="row table-row m-0" data-row-cart-id="<?= $item['cart_ID'] ?>">
                   <td class="col-sm-12 col-md-4 col-lg-4">
                     <div class="row d-flex justify-content-center align-items-center">
                       <div class="cart-item-img col-sm-12 col-md-4 col-lg-4">
@@ -79,7 +80,7 @@ $cart_items = $cartController->getCartItems() ?? [];
                   <div class="qty-div">
                     <input type="number" name="qty" class="cart-qty" min="1" max="10" step="1" value="<?= $item['quantity'] ?>">
                   </div>
-                  <i class="bi bi-trash3 delete-cart-item"></i>
+                  <button type="button" class="delete-cart-item" data-cart-id="<?= $item['cart_ID'] ?>"><i class="bi bi-trash3"></i></button>
                   </td>
                   <td class="col-sm-12 col-md-2 col-lg-2 mt-2 mt-md-0"><span class="hidden">Subtotal: </span><span class="bold-h">Rs
                     <?php
@@ -126,6 +127,8 @@ $cart_items = $cartController->getCartItems() ?? [];
 <!-- VANILLA JS -->
 <script src="./scripts/script.js"></script>
 
+<!-- AJAX HANDLER -->
+<script src="./scripts//ajaxHandler.js"></script>
 
 </body>
 </html>   

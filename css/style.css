@@ -1463,7 +1463,9 @@ footer .footer-link:hover{
 
 .cart-table{
     width: 100%;
+    position: relative;
 }
+
 
 .cart-table thead tr{
     padding: 12px 0;
@@ -1474,6 +1476,7 @@ footer .footer-link:hover{
     border-bottom: none;
     background-color: var(--primary-color);
 }
+
 
 .cart-table tbody tr{
     border: 1px solid rgb(184, 182, 182);
@@ -1513,7 +1516,8 @@ footer .footer-link:hover{
 }
 
 .cart-table .delete-cart-item{
-    cursor: pointer;
+    border: none;
+    background-color: none;
 }
 
 .cart-total-section{

@@ -361,11 +361,12 @@ if(addToCartBtn){
 }
 
 
-// Get cart count dynamically:
+// Get cart count dynamically and giving URL parameter to use this function in other pages too:
 
-async function getCartCount(){
+async function getCartCount($url = '../ajax/cartCount.php?cart_count=true'){
+  let countBadge = document.querySelector('.count-badge');
   try{
-    let response = await fetch('../ajax/cartCount.php?cart_count=true')
+    let response = await fetch($url)
     if (!response.ok) {
       console.log("Response not okay");
       return;
@@ -373,7 +374,7 @@ async function getCartCount(){
     let data = await response.json();
 
     if(data.status == 'success'){
-      document.querySelector('.count-badge').textContent = data.cart_count
+      data.cart_count !== null ? countBadge.textContent = data.cart_count : countBadge.textContent = 0;
     }
 
   }
@@ -392,4 +393,69 @@ if (header) {
     }
   });
 }
+
+
+// Delete cart item:
+
+const deleteCartItemBtn = document.querySelectorAll('.delete-cart-item');
+
+deleteCartItemBtn.forEach(deleteBtn => {
+  deleteBtn.addEventListener('click', async (event) => {
+    let cartID = event.currentTarget.getAttribute('data-cart-id');
+    let tableRow = document.querySelectorAll('.table-row');
+    let tableBody = document.querySelector('.cart-table-body');
+    
+    tableBody.style.opacity = "0.5";
+
+
+      try{
+        let response = await fetch('./ajax/deleteCartItem.php', {
+          method : 'POST',
+          body : JSON.stringify({cartID}),
+          headers : {
+            'Content-type' : 'application/json'
+          }
+        });
+  
+        if(!response.ok){
+          console.log('Response not okay.'); 
+          return;
+        }
+  
+        let data = await response.json();
+  
+        if(data.status == 'success'){
+  
+          tableBody.style.opacity = "1";
+  
+          tableRow.forEach(row => {
+            if(row.getAttribute('data-row-cart-id') == cartID){
+              // Remove the cart item from the UI
+              row.remove();
+            }  
+          })
+
+          // Get the updated cart count:
+          getCartCount('./ajax/cartCount.php?cart_count=true');
+          
+
+  
+        } else{
+          console.log(data.msg);        
+        }
+  
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        tableBody.style.opacity = "1";
+      }
+
+    
+    
+  })
+})
+
+
 
