@@ -3,7 +3,7 @@
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../config/RateLimiter.php';
 
-$rate_limiter = new RateLimiter(60, 10);
+$rate_limiter = new RateLimiter(60, 25);
 
 header('Content-Type: Application/json');
 
@@ -104,6 +104,10 @@ if ($rate_limiter->checkRateLimit()) {
                 $_SESSION['guest_ID'] = random_int(1, 1000);
             }
 
+            // Generate cart ID and increment it:
+            if(!isset($_SESSION['cart_ID'])){
+                $_SESSION['cart_ID'] = 1;
+            }
 
             // Check for the similar product stored in the session cart, if yes then just increment the quantity:
 
@@ -136,6 +140,7 @@ if ($rate_limiter->checkRateLimit()) {
 
                      $_SESSION['cart_items'][] = [
                          'guest_ID' => $_SESSION['guest_ID'],
+                         'cart_ID' => $_SESSION['cart_ID'],
                          'product_ID' => $product_ID,
                          'size' => $size,
                          'color' => $color,
@@ -145,6 +150,8 @@ if ($rate_limiter->checkRateLimit()) {
                          'product_discounted_price' => $productDetails['product_discounted_price'],
                          'product_img_1' => $productDetails['product_img_1']
                      ];
+
+                     $_SESSION['cart_ID']++;
 
                  } else{
                    http_response_code(500);
@@ -169,6 +176,7 @@ if ($rate_limiter->checkRateLimit()) {
 
                     $_SESSION['cart_items'][] = [
                         'guest_ID' => $_SESSION['guest_ID'],
+                        'cart_ID' => $_SESSION['cart_ID'],
                         'product_ID' => $product_ID,
                         'size' => $size,
                         'color' => $color,
@@ -179,6 +187,8 @@ if ($rate_limiter->checkRateLimit()) {
                         'product_img_1' => $productDetails['product_img_1']
                     ];
 
+                    $_SESSION['cart_ID']++;
+
                 } else{
                   http_response_code(500);
                   echo json_encode(['status' => 'failed', 'msg' => 'Internal server error']);
@@ -186,8 +196,6 @@ if ($rate_limiter->checkRateLimit()) {
                 }
 
             }
-
-
 
             echo json_encode(['status' => 'success', 'msg' => 'Product added successfully']);
         }

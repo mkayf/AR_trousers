@@ -404,9 +404,12 @@ deleteCartItemBtn.forEach(deleteBtn => {
     let cartID = event.currentTarget.getAttribute('data-cart-id');
     let tableRow = document.querySelectorAll('.table-row');
     let tableBody = document.querySelector('.cart-table-body');
-    
+
     tableBody.style.opacity = "0.5";
 
+    // Disable delete button to ensure no click should be made on this while processing request:
+
+    event.currentTarget.setAttribute('disable', true);
 
       try{
         let response = await fetch('./ajax/deleteCartItem.php', {
@@ -426,33 +429,54 @@ deleteCartItemBtn.forEach(deleteBtn => {
   
         if(data.status == 'success'){
   
-          tableBody.style.opacity = "1";
+          // adding a timer to show a pause effect:
+
+          setTimeout(() => {
+            tableBody.style.opacity = "1";
+
+            tableRow.forEach(row => {
+              if(row.getAttribute('data-row-cart-id') == cartID){
+                // Remove the cart item from the UI
+                row.remove();
+              }  
+            })
+
+
   
-          tableRow.forEach(row => {
-            if(row.getAttribute('data-row-cart-id') == cartID){
-              // Remove the cart item from the UI
-              row.remove();
-            }  
-          })
+            // Get the updated cart count:
+            getCartCount('./ajax/cartCount.php?cart_count=true');
+            
+            // Get and set the updated cart total:
+  
+            document.querySelector('.cart-total').textContent = `Rs ${Number(data.cart_total).toLocaleString()}`;    
 
-          // Get the updated cart count:
-          getCartCount('./ajax/cartCount.php?cart_count=true');
-          
+            // Reloading the page when no item left in the cart to display the empty cart message:
 
+
+            if(data.cart_total == 0){
+              window.location.href = "";
+            }
+
+          }, 300)
+
+        
   
         } else{
           console.log(data.msg);        
         }
-  
+        
+
       }
       catch(e){
         console.log(e);
       }
       finally{
-        tableBody.style.opacity = "1";
+        // Adding timeout here also to reset the tableBody to normal opacity if the try block fails:
+        setTimeout(() => {
+          tableBody.style.opacity = "1";
+        },300);
       }
-    
-    
+      
   })
 })
 

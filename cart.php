@@ -56,7 +56,7 @@ $cart_items = $cartController->getCartItems() ?? [];
               <tbody class="cart-table-body">
                 <?php foreach($cart_items as $item) : ?>
                 <tr class="row table-row m-0" data-row-cart-id="<?= $item['cart_ID'] ?>">
-                  <td class="col-sm-12 col-md-4 col-lg-4">
+                   <td class="col-sm-12 col-md-4 col-lg-4">
                     <div class="row d-flex justify-content-center align-items-center">
                       <div class="cart-item-img col-sm-12 col-md-4 col-lg-4">
                         <img src=".<?= $item['product_img_1'] ?>" alt="<?= $item['product_name'] ?>">

@@ -39,10 +39,10 @@ class CartController{
                     }
                 }                
 
-                // Unset the cart items and guest ID after successfully transferring to database:
+                // Unset the cart items, guest ID and cart_ID after successfully transferring to database:
                 unset($_SESSION['guest_ID']);
                 unset($_SESSION['cart_items']);
-
+                unset($_SESSION['cart_ID']);
             }    
 
 
@@ -104,7 +104,7 @@ class CartController{
 
             $cart_items = [];
 
-            foreach($_SESSION['cart_items'] as $item){
+            foreach(array_reverse($_SESSION['cart_items']) as $item){
                 $cart_items[] = $item;
             }
 
@@ -128,11 +128,11 @@ class CartController{
                 $totalResult = $this->conn->query($totalQuery);
                 $cart_total = $totalResult->fetch_column();
     
-                return $cart_total;
+                return $cart_total ?? 0;
             }
             catch(Exception|Error $e){
                 echo "<script>console.log('Error in getCartTotal: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
-                return null;
+                return null ?? 0;
             }
 
         } else if(isset($_SESSION['cart_items'])){
@@ -150,7 +150,7 @@ class CartController{
             return $cart_total;
 
         } else{
-            return null;
+            return null ?? 0;
         }
 
     } 
