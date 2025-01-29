@@ -451,7 +451,6 @@ deleteCartItemBtn.forEach(deleteBtn => {
       finally{
         tableBody.style.opacity = "1";
       }
-
     
     
   })
