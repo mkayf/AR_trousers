@@ -18,11 +18,11 @@ if (window.location.search.includes("product-category=Polyester_cotton")) {
 // Checking if user is coming back from product details page, if true then changing filter and sort variables accordingly:
 
 window.onload = () => {
-  if(window.location.pathname.includes('trousers.php')){
+  if (window.location.pathname.includes("trousers.php")) {
     if (sessionStorage.getItem("cameFromProductDetails")) {
       let storedFilter = sessionStorage.getItem("filter");
       let storedSort = sessionStorage.getItem("sort");
-  
+
       if (storedFilter || storedSort) {
         if (storedFilter !== "reset-filters" && storedSort !== "reset-sort") {
           filterAndSortProducts(storedFilter, storedSort);
@@ -51,10 +51,10 @@ const filterAndSortProducts = async (filter, sort) => {
   }
 
   // Resetting the value of offset after filter and sort to start fetching products from new base value:
-  let offset = document.getElementById("offset")
-  if(offset) offset.value = 0;
+  let offset = document.getElementById("offset");
+  if (offset) offset.value = 0;
 
-  if(productsContainer){
+  if (productsContainer) {
     productsContainer.innerHTML =
       '<div class="spinner-border d-block spinner-border products-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
     loadMoreBtn.style.display = "none";
@@ -141,7 +141,6 @@ const loadMoreProducts = async () => {
   }
 };
 
-
 // Set selected size letter in the product details page:
 
 let sizeBtns = document.getElementsByName("size");
@@ -149,13 +148,11 @@ let selectedSize = document.getElementsByClassName("selected-size")[0];
 
 // Default value:
 if (selectedSize && sizeBtns[0]) {
-
   sizeBtns[0].setAttribute("checked", true);
 
   selectedSize.innerHTML = `Size: <span class="fw-normal">${
     document.querySelector('input[name="size"]:checked').value
   }</span>`;
-
 }
 
 // Set selected color in the product details page:
@@ -165,23 +162,21 @@ let selectedColor = document.getElementsByClassName("selected-color")[0];
 
 // Default value:
 if (selectedColor) {
-
-  selectedColor.innerHTML = `Color: <span class="fw-normal">${document.querySelector('input[name="color"]:checked').value}</span>`;
-
+  selectedColor.innerHTML = `Color: <span class="fw-normal">${
+    document.querySelector('input[name="color"]:checked').value
+  }</span>`;
 }
 
-
-const header = document.querySelector('header');
+const header = document.querySelector("header");
 const msgCloseBtn = document.querySelector(".msg-close-btn");
 const headerMsg = document.querySelector(".header-msg");
 
-
 // Fetch sizes, color and stock quantity for each size and color:
 let productID = new URLSearchParams(window.location.search).get("id") ?? 1;
-let sizeBtnsContainer = document.querySelector('.size-btns-container');
-let colorsDiv = document.querySelector('.colors-div');
-let qtyInput = document.querySelector('#qty');
-let addToCartBtn = document.querySelector('.add-to-cart-btn');
+let sizeBtnsContainer = document.querySelector(".size-btns-container");
+let colorsDiv = document.querySelector(".colors-div");
+let qtyInput = document.querySelector("#qty");
+let addToCartBtn = document.querySelector(".add-to-cart-btn");
 
 // retryCounter and maxEntries to put a cap on recursion to avoid performance issues and infinite looping:
 
@@ -189,13 +184,12 @@ let retryCounter = 0;
 let maxEntries = 3;
 
 const fetchStockDetails = async () => {
- 
   let sizeInput = document.querySelector("input[name=size]:checked");
-  let size = sizeInput ? sizeInput.value : 'S';
+  let size = sizeInput ? sizeInput.value : "S";
   let colorInput = document.querySelector('input[name="color"]:checked');
-  let color = colorInput ? colorInput.value.toLowerCase() : 'black';
+  let color = colorInput ? colorInput.value.toLowerCase() : "black";
 
-  if(!size || !color){
+  if (!size || !color) {
     return;
   }
 
@@ -204,8 +198,8 @@ const fetchStockDetails = async () => {
   selectedSize.innerHTML = `Size: <span class="fw-normal ">${size}</span>`;
 
   // set value of color in the selected color element:
- 
-   selectedColor.innerHTML = `Color: <span class="fw-normal">${color}</span>`;
+
+  selectedColor.innerHTML = `Color: <span class="fw-normal">${color}</span>`;
 
   try {
     const response = await fetch("../AJAX/fetchStockDetails.php", {
@@ -222,76 +216,73 @@ const fetchStockDetails = async () => {
     }
     const data = await response.json();
 
-    if(data.status !== 'failed'){
-    
-        if(data.sizes.length > 0){
+    if (data.status !== "failed") {
+      if (data.sizes.length > 0) {
+        sizeBtnsContainer.innerHTML = "";
 
-            sizeBtnsContainer.innerHTML = '';
-
-            data.sizes.forEach((size, index) => {
-              sizeBtnsContainer.insertAdjacentHTML('beforeend', `
+        data.sizes.forEach((size, index) => {
+          sizeBtnsContainer.insertAdjacentHTML(
+            "beforeend",
+            `
                 <label class="radio">
                     <input type="radio" name="size"
-                    value="${size}" ${size == data.stock.for || index == 0 ? 'checked' : ''}>
+                    value="${size}" ${
+              size == data.stock.for || index == 0 ? "checked" : ""
+            }>
                     <span class="name">${size}</span>
                 </label>
-                `);  
-            })
+                `
+          );
+        });
 
-            // When no stock found for the given color and selected size, applying checked to the very first size then calling this function again to fetch stock for the first size.
+        // When no stock found for the given color and selected size, applying checked to the very first size then calling this function again to fetch stock for the first size.
 
-            if(data.stock.qty == '0' && retryCounter < maxEntries){
-              retryCounter++;
-              fetchStockDetails();
-              return;
-            }
-            else if(data.stock.qty == '0' && retryCounter >= maxEntries){
-              sizeBtnsContainer.innerHTML = "<span>Selected size is out of stock. Please choose another option.</span>";
-            }
-
-            // Reset the retryCounter when stock is available.
-            retryCounter = 0;
-
-            qtyInput.value = 1;
-            qtyInput.setAttribute('max', data.stock.qty);
-
-            if(addToCartBtn.disabled){
-              isQtyDisabled = false;
-              qtyInput.removeAttribute('disabled');
-              addToCartBtn.removeAttribute('disabled');
-              addToCartBtn.style.cursor = 'pointer';
-              addToCartBtn.style.backgroundColor = 'var(--primary-color)';
-            }
-
-        } else{
-            sizeBtnsContainer.innerHTML = "<span>Out of stock.</span>";
-            selectedSize.innerHTML = '';
-            isQtyDisabled = true;
-            qtyInput.setAttribute('disabled', true);
-            qtyInput.value = 0;
-            addToCartBtn.setAttribute('disabled', true);
-            addToCartBtn.style.cursor = 'no-drop';
-            addToCartBtn.style.backgroundColor = '#5d3324';
+        if (data.stock.qty == "0" && retryCounter < maxEntries) {
+          retryCounter++;
+          fetchStockDetails();
+          return;
+        } else if (data.stock.qty == "0" && retryCounter >= maxEntries) {
+          sizeBtnsContainer.innerHTML =
+            "<span>Selected size is out of stock. Please choose another option.</span>";
         }
 
-    } else{ 
-        console.log(data.msg);
-    }
+        // Reset the retryCounter when stock is available.
+        retryCounter = 0;
 
-    
+        qtyInput.value = 1;
+        qtyInput.setAttribute("max", data.stock.qty);
+
+        if (addToCartBtn.disabled) {
+          isQtyDisabled = false;
+          qtyInput.removeAttribute("disabled");
+          addToCartBtn.removeAttribute("disabled");
+          addToCartBtn.style.cursor = "pointer";
+          addToCartBtn.style.backgroundColor = "var(--primary-color)";
+        }
+      } else {
+        sizeBtnsContainer.innerHTML = "<span>Out of stock.</span>";
+        selectedSize.innerHTML = "";
+        isQtyDisabled = true;
+        qtyInput.setAttribute("disabled", true);
+        qtyInput.value = 0;
+        addToCartBtn.setAttribute("disabled", true);
+        addToCartBtn.style.cursor = "no-drop";
+        addToCartBtn.style.backgroundColor = "#5d3324";
+      }
+    } else {
+      console.log(data.msg);
+    }
   } catch (error) {
     console.log(error);
   }
-
 };
 
 // Call this function to fetch stock details when these buttons change.
 
-if(sizeBtnsContainer && colorsDiv){
-  sizeBtnsContainer.addEventListener('change', fetchStockDetails);
-  colorsDiv.addEventListener('change', fetchStockDetails);
+if (sizeBtnsContainer && colorsDiv) {
+  sizeBtnsContainer.addEventListener("change", fetchStockDetails);
+  colorsDiv.addEventListener("change", fetchStockDetails);
 }
-
 
 // Add to cart functionality:
 
@@ -301,87 +292,83 @@ const addProductToCart = async () => {
       <span class="visually-hidden">Loading...</span>
     </div>
   `;
-  addToCartBtn.setAttribute('disabled', true);
-  addToCartBtn.style.backgroundColor = '#5d3324';
-  let productName = document.querySelector('.product-name').innerHTML;
-  let size = selectedSize.querySelector('span').textContent;
-  let color = selectedColor.querySelector('span').textContent.toLowerCase();
+  addToCartBtn.setAttribute("disabled", true);
+  addToCartBtn.style.backgroundColor = "#5d3324";
+  let productName = document.querySelector(".product-name").innerHTML;
+  let size = selectedSize.querySelector("span").textContent;
+  let color = selectedColor.querySelector("span").textContent.toLowerCase();
   let qty = qtyInput.value;
 
-  try{
-      let response = await fetch('../AJAX/addToCart.php', {
-        method : 'POST',
-        body : JSON.stringify({productID, size, color, qty}),
-        headers : {
-          'Content-type' : 'application/json'
-        },
+  try {
+    let response = await fetch("../AJAX/addToCart.php", {
+      method: "POST",
+      body: JSON.stringify({ productID, size, color, qty }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Response not okay");
+      return;
+    }
+
+    let data = await response.json();
+
+    if (data.status !== "failed") {
+      getCartCount();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
       });
-      
-      if (!response.ok) {
-        console.log("Response not okay");
-        return;
-      }
-
-      let data = await response.json();
-    
-      if(data.status !== 'failed'){
-
-        getCartCount();
-
-        window.scrollTo({
-          top : 0,
-          behavior : 'smooth'
-        })
-        if(!header.querySelector('.header-msg')){
-          header.insertAdjacentHTML('beforeend', `
+      if (!header.querySelector(".header-msg")) {
+        header.insertAdjacentHTML(
+          "beforeend",
+          `
             <div class="header-msg d-flex align-items-center justify-content-between">
               <span>'${productName}' is in your cart now!</span>
               <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
           </div>
-            `);
-        }
+            `
+        );
       }
-      else{
-        console.log(data.msg);
-      }
-  }
-  catch(error){
+    } else {
+      console.log(data.msg);
+    }
+  } catch (error) {
     console.log(error);
+  } finally {
+    addToCartBtn.innerHTML = "Add To Cart";
+    addToCartBtn.removeAttribute("disabled");
+    addToCartBtn.style.backgroundColor = "var(--primary-color)";
   }
-  finally{
-    addToCartBtn.innerHTML = 'Add To Cart';
-    addToCartBtn.removeAttribute('disabled');
-    addToCartBtn.style.backgroundColor = 'var(--primary-color)';
-  }
+};
 
+if (addToCartBtn) {
+  addToCartBtn.addEventListener("click", addProductToCart);
 }
-
-if(addToCartBtn){
-  addToCartBtn.addEventListener('click', addProductToCart);
-}
-
 
 // Get cart count dynamically and giving URL parameter to use this function in other pages too:
 
-async function getCartCount($url = '../ajax/cartCount.php?cart_count=true'){
-  let countBadge = document.querySelector('.count-badge');
-  try{
-    let response = await fetch($url)
+async function getCartCount($url = "../ajax/cartCount.php?cart_count=true") {
+  let countBadge = document.querySelector(".count-badge");
+  try {
+    let response = await fetch($url);
     if (!response.ok) {
       console.log("Response not okay");
       return;
     }
     let data = await response.json();
 
-    if(data.status == 'success'){
-      data.cart_count !== null ? countBadge.textContent = data.cart_count : countBadge.textContent = 0;
+    if (data.status == "success") {
+      data.cart_count !== null
+        ? (countBadge.textContent = data.cart_count)
+        : (countBadge.textContent = 0);
     }
-
-  }
-  catch(e){
+  } catch (e) {
     console.log(e.message);
   }
-  
 }
 
 // Close header message button:
@@ -389,96 +376,162 @@ async function getCartCount($url = '../ajax/cartCount.php?cart_count=true'){
 if (header) {
   header.addEventListener("click", (event) => {
     if (event.target.closest(".msg-close-btn")) {
-        event.target.closest('.header-msg').remove();
+      event.target.closest(".header-msg").remove();
     }
   });
 }
 
-
 // Delete cart item:
 
-const deleteCartItemBtn = document.querySelectorAll('.delete-cart-item');
+const deleteCartItemBtn = document.querySelectorAll(".delete-cart-item");
 
-deleteCartItemBtn.forEach(deleteBtn => {
-  deleteBtn.addEventListener('click', async (event) => {
-    let cartID = event.currentTarget.getAttribute('data-cart-id');
-    let tableRow = document.querySelectorAll('.table-row');
-    let tableBody = document.querySelector('.cart-table-body');
+// const deleteCartItem = async (event, cartid) => {
+
+// }
+
+deleteCartItemBtn.forEach((deleteBtn) => {
+  deleteBtn.addEventListener("click", async (event) => {
+    let cartID = event.currentTarget.getAttribute("data-cart-id");
+    let tableRow = document.querySelectorAll(".table-row");
+    let tableBody = document.querySelector(".cart-table-body");
 
     tableBody.style.opacity = "0.5";
 
     // Disable delete button to ensure no click should be made on this while processing request:
 
-    event.currentTarget.setAttribute('disable', true);
+    event.currentTarget.setAttribute("disable", true);
 
-      try{
-        let response = await fetch('./ajax/deleteCartItem.php', {
-          method : 'POST',
-          body : JSON.stringify({cartID}),
-          headers : {
-            'Content-type' : 'application/json'
-          }
-        });
-  
-        if(!response.ok){
-          console.log('Response not okay.'); 
-          return;
-        }
-  
-        let data = await response.json();
-  
-        if(data.status == 'success'){
-  
-          // adding a timer to show a pause effect:
+    try {
+      let response = await fetch("./ajax/deleteCartItem.php", {
+        method: "POST",
+        body: JSON.stringify({ cartID }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
 
-          setTimeout(() => {
-            tableBody.style.opacity = "1";
-
-            tableRow.forEach(row => {
-              if(row.getAttribute('data-row-cart-id') == cartID){
-                // Remove the cart item from the UI
-                row.remove();
-              }  
-            })
-
-
-  
-            // Get the updated cart count:
-            getCartCount('./ajax/cartCount.php?cart_count=true');
-            
-            // Get and set the updated cart total:
-  
-            document.querySelector('.cart-total').textContent = `Rs ${Number(data.cart_total).toLocaleString()}`;    
-
-            // Reloading the page when no item left in the cart to display the empty cart message:
-
-
-            if(data.cart_total == 0){
-              window.location.href = "";
-            }
-
-          }, 300)
-
-        
-  
-        } else{
-          console.log(data.msg);        
-        }
-        
-
+      if (!response.ok) {
+        console.log("Response not okay.");
+        return;
       }
-      catch(e){
-        console.log(e);
-      }
-      finally{
-        // Adding timeout here also to reset the tableBody to normal opacity if the try block fails:
+
+      let data = await response.json();
+
+      if (data.status == "success") {
+        // adding a timer to show a pause effect:
+
         setTimeout(() => {
           tableBody.style.opacity = "1";
-        },300);
+
+          tableRow.forEach((row) => {
+            if (row.getAttribute("data-row-cart-id") == cartID) {
+              // Remove the cart item from the UI
+              row.remove();
+            }
+          });
+
+          // Get the updated cart count:
+          getCartCount("./ajax/cartCount.php?cart_count=true");
+
+          // Get and set the updated cart total:
+          document.querySelector(".cart-total").textContent = `Rs ${Number(
+            data.cart_total
+          ).toLocaleString()}`;
+
+          // Reloading the page when no item left in the cart to display the empty cart message:
+          if (data.cart_total == 0) {
+            window.location.href = "";
+          }
+        }, 300);
+      } else {
+        console.log(data.msg);
       }
-      
-  })
-})
+    } catch (e) {
+      console.log(e);
+    } finally {
+      // Adding timeout here also to reset the tableBody to normal opacity if the try block fails:
+      setTimeout(() => {
+        tableBody.style.opacity = "1";
+      }, 300);
+    }
+  });
+});
+
+// Update cart Item:
+
+const cartQtyInput = document.querySelectorAll(".cart-qty");
+
+// Debouncer to prevent frequent request to backend:
+let debounceTimer;
+
+cartQtyInput.forEach((input) => {
+  input.addEventListener("input", (event) => {
+    
+    let cartID = event.currentTarget.getAttribute("data-cart-id");
+    let subtotalDivs = document.querySelectorAll('.subtotal');
+    
+    let qty = event.target;
+
+      if (qty.value < 1) {
+        qty.value = 1;
+      }
 
 
+    // Clearing previous timer if exists:
+    clearTimeout(debounceTimer);
 
+    debounceTimer = setTimeout(() => {
+
+      fetch('./ajax/updateCartItem.php', {
+        method : 'POST',
+        body : JSON.stringify({cartID, qty : qty.value}),
+        headers : {
+          'Content-type' : 'application/json'
+        }
+      })
+      .then(response => {
+        if(!response.ok){
+          console.log('Response not okay.');
+          return;
+        }
+
+        return response.json();
+      })
+      .then(data => {
+        
+        if(data.status == 'success'){
+          
+          qty.blur();
+
+          qty.value = data.updatedQty;
+
+          // update the subtotal of cart item:
+          subtotalDivs.forEach(subtotal => {
+            if(subtotal.getAttribute('data-cart-id-subtotal') == cartID){
+              let oldTotal = subtotal.textContent.replace(/[^0-9]/g, '');
+
+              subtotal.textContent = `Rs ${Number((oldTotal / qty) * data.updatedQty).toLocaleString()}`;
+            }
+          })
+
+          // Get the updated cart count:
+          getCartCount("./ajax/cartCount.php?cart_count=true");
+
+          // Get and set the updated cart total:
+          document.querySelector(".cart-total").textContent = `Rs ${Number(
+            data.cart_total
+          ).toLocaleString()}`;          
+
+
+        } else{
+          console.log(data.msg);
+        }
+        
+      })
+      .catch(e => console.log(e));
+
+    }, 1000);
+
+
+  });
+});

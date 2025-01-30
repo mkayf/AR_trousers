@@ -67,7 +67,7 @@ $cart_items = $cartController->getCartItems() ?? [];
                       </div>
                     </div>
                   </td>
-                  <td class="col-sm-12 col-md-2 col-lg-2 mt-2 mt-md-0"><span class="hidden">Price: </span><span class="bold-h">Rs 
+                  <td class="col-sm-12 col-md-2 col-lg-2 mt-2 mt-md-0"><span class="hidden">Price: </span><span class="bold-h price" data-cart-id-price="<?= $item['cart_ID'] ?>>Rs 
                   <?php 
                     if($item['product_discounted_price'] > 0){
                       echo number_format($item['product_discounted_price']);
@@ -78,11 +78,11 @@ $cart_items = $cartController->getCartItems() ?? [];
                   </span></td>
                   <td class="col-sm-12 col-md-4 col-lg-4 d-flex  align-items-center justify-content-between justify-content-md-start gap-4 mt-2 mt-md-0">
                   <div class="qty-div">
-                    <input type="number" name="qty" class="cart-qty" min="1" max="10" step="1" value="<?= $item['quantity'] ?>">
+                    <input type="number" name="qty" class="cart-qty" min="1" max="10" step="1" value="<?= $item['quantity'] ?>" data-cart-id="<?= $item['cart_ID'] ?>">
                   </div>
                   <button type="button" class="delete-cart-item" data-cart-id="<?= $item['cart_ID'] ?>"><i class="bi bi-trash3"></i></button>
                   </td>
-                  <td class="col-sm-12 col-md-2 col-lg-2 mt-2 mt-md-0"><span class="hidden">Subtotal: </span><span class="bold-h">Rs
+                  <td class="col-sm-12 col-md-2 col-lg-2 mt-2 mt-md-0"><span class="hidden">Subtotal: </span><span class="bold-h subtotal" data-cart-id-subtotal="<?= $item['cart_ID'] ?>">Rs
                     <?php
                       if($item['product_discounted_price'] > 0){
                         echo number_format($item['product_discounted_price'] * $item['quantity']);
