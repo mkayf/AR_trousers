@@ -153,7 +153,27 @@ class CartController{
             return null ?? 0;
         }
 
-    } 
+    }
+    
+    public function getCartItemSubtotal($product_ID, $qty){
+
+        // Calculate subtotal to use for updated cart item subtotal:
+        
+        $priceQuery = "SELECT IF(product_discounted_price IS NOT NULL AND product_discounted_price > 0, product_discounted_price, product_actual_price) AS price FROM products
+        WHERE product_ID = $product_ID";
+
+        try{
+            $result = $this->conn->query($priceQuery);
+            $price = $result->fetch_column();
+            $subtotal = $price * $qty;
+            return $subtotal;
+        }
+        catch(Exception | Error $e){
+            echo "<script>console.log('Error in getCartItemSubtotal: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+            return null ?? 0;
+        }
+
+    }
 
 }
 

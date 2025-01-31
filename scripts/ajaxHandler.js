@@ -469,18 +469,20 @@ cartQtyInput.forEach((input) => {
     
     let cartID = event.currentTarget.getAttribute("data-cart-id");
     let subtotalDivs = document.querySelectorAll('.subtotal');
-    
-    let qty = event.target;
+    let tableBody = document.querySelector(".cart-table-body");
 
-      if (qty.value < 1) {
-        qty.value = 1;
-      }
+    tableBody.style.opacity = "0.5";
 
+    let qty = event.target;      
 
     // Clearing previous timer if exists:
     clearTimeout(debounceTimer);
 
     debounceTimer = setTimeout(() => {
+
+      if (qty.value < 1) {
+        qty.value = 1;
+      }
 
       fetch('./ajax/updateCartItem.php', {
         method : 'POST',
@@ -500,17 +502,15 @@ cartQtyInput.forEach((input) => {
       .then(data => {
         
         if(data.status == 'success'){
-          
+          tableBody.style.opacity = "1";                
           qty.blur();
 
-          qty.value = data.updatedQty;
-
-          // update the subtotal of cart item:
+          // Display the updated cart subtotal:
           subtotalDivs.forEach(subtotal => {
             if(subtotal.getAttribute('data-cart-id-subtotal') == cartID){
-              let oldTotal = subtotal.textContent.replace(/[^0-9]/g, '');
-
-              subtotal.textContent = `Rs ${Number((oldTotal / qty) * data.updatedQty).toLocaleString()}`;
+              subtotal.textContent = `Rs ${Number(
+                data.cart_item_subtotal
+              ).toLocaleString()}`;
             }
           })
 
@@ -522,13 +522,18 @@ cartQtyInput.forEach((input) => {
             data.cart_total
           ).toLocaleString()}`;          
 
-
+          // updating value of qty input:
+          qty.value = data.updatedQty;
+          
         } else{
           console.log(data.msg);
         }
         
       })
-      .catch(e => console.log(e));
+      .catch(e => console.log(e))
+      .finally(() => {
+        tableBody.style.opacity = "1";     
+      })
 
     }, 1000);
 

@@ -44,6 +44,7 @@ if ($rate_limiter->checkRateLimit()) {
 
                 if ($fetchCartDetails->num_rows > 0) {
                     $cartDetails = $fetchCartDetails->fetch_assoc();
+                    
 
                     // Validate the stock for the new quantiy given:
                     $checkStock = "select s.stock_quantity from product_stock as s
@@ -66,9 +67,10 @@ if ($rate_limiter->checkRateLimit()) {
                         $updateQty = $DB->conn->query($updateQtyQuery);
 
                         if($updateQty){
+                            $cart_item_subtotal = $cartController->getCartItemSubtotal($cartDetails['product_ID'], $newQty);
                             $cart_total = $cartController->getCartTotal();
 
-                            echo json_encode(['status' => 'success', 'updatedQty' => $newQty, 'cart_total' => $cart_total]);
+                            echo json_encode(['status' => 'success', 'updatedQty' => $newQty, 'cart_total' => $cart_total, 'cart_item_subtotal' => $cart_item_subtotal]);
                         }
 
                     } else {
