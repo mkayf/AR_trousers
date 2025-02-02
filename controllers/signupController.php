@@ -32,6 +32,13 @@
             return ($password == $c_password) ? true : false;
         }
 
+        public function validEmail($email){
+            if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+                return true;
+            }
+            return false;
+        }
+
         public function validPassword($password){
             $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';
             if(preg_match($pattern, $password)){

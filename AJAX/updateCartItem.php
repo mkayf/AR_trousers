@@ -31,65 +31,91 @@ if ($rate_limiter->checkRateLimit()) {
             exit(0);
         }
 
-        if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true) {
-            $user_ID = $_SESSION['user_data']['user_ID'];
+        // Validate the stock for the new quantiy given:
 
+        function validateStock($size, $color, $product_ID, &$newQty, $DB){
+            $checkStock = "select s.stock_quantity from product_stock as s
+            where s.size_ID = (select size_ID from product_sizes where size = '$size') AND
+            s.color_ID = (select color_ID from product_colors where color = '$color') AND
+            s.product_ID = $product_ID";
+
+            $stockResult = $DB->conn->query($checkStock);
+
+            if($stockResult){
+                $stock = $stockResult->fetch_column();
+                
+                if($stock == null || $stock == 0){
+                    return false;
+                }
+
+                if ($newQty > $stock) {
+                    $newQty = $stock;
+                }
+                
+                return true;
+            }
+            
+        }
+
+
+        if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
+
+            $user_ID = $_SESSION['user_data']['user_ID'];
+            
             // Fetch cart details for the given cart ID:
 
-            $cartDetailsQuery = "SELECT product_ID, size, color FROM cart WHERE cart_ID = $cart_ID AND user_ID = $user_ID";
+                $cartDetailsQuery = "SELECT product_ID, size, color FROM cart WHERE cart_ID = $cart_ID AND user_ID = $user_ID";
 
-            $fetchCartDetails = $DB->conn->query($cartDetailsQuery);
-
-            if ($fetchCartDetails) {
-
+                $fetchCartDetails = $DB->conn->query($cartDetailsQuery);
+    
                 if ($fetchCartDetails->num_rows > 0) {
                     $cartDetails = $fetchCartDetails->fetch_assoc();
                     
-
-                    // Validate the stock for the new quantiy given:
-                    $checkStock = "select s.stock_quantity from product_stock as s
-                    where s.size_ID = (select size_ID from product_sizes where size = '$cartDetails[size]') AND
-                    s.color_ID = (select color_ID from product_colors where color = '$cartDetails[color]') AND
-                    s.product_ID = $cartDetails[product_ID]";
-
-                    $stockResult = $DB->conn->query($checkStock);
-
-                    if ($stockResult) {
-                        $stock = $stockResult->fetch_column();
-
-                        if ($newQty > $stock) {
-                            $newQty = $stock;
-                        }
+                    if(validateStock($cartDetails['size'], $cartDetails['color'], $cartDetails['product_ID'], $newQty, $DB)){
 
                         // Update the cart quantity after validation:
                         $updateQtyQuery = "UPDATE cart SET quantity = $newQty WHERE cart_ID = $cart_ID AND user_ID = $user_ID";
-
+        
                         $updateQty = $DB->conn->query($updateQtyQuery);
-
-                        if($updateQty){
+        
+                        if ($updateQty) {
                             $cart_item_subtotal = $cartController->getCartItemSubtotal($cartDetails['product_ID'], $newQty);
                             $cart_total = $cartController->getCartTotal();
-
+        
                             echo json_encode(['status' => 'success', 'updatedQty' => $newQty, 'cart_total' => $cart_total, 'cart_item_subtotal' => $cart_item_subtotal]);
                         }
 
-                    } else {
-                        http_response_code(500);
-                        echo json_encode(['status' => 'failed', 'msg' => 'Internal server error']);
+                    } else{
+                        echo json_encode(['status' => 'failed', 'msg' => 'No stock left for this item']);
                         exit(0);
                     }
+                        
                 } else {
                     echo json_encode(['status' => 'failed', 'msg' => 'No cart item found for the given cart ID or user ID']);
                     exit(0);
                 }
 
-            } else {
-                http_response_code(500);
-                echo json_encode(['status' => 'failed', 'msg' => 'Internal server error']);
-                exit(0);
-            }
-        }
+        } else if(isset($_SESSION['cart_items']) && !empty($_SESSION['cart_items'])){
+            
+            foreach($_SESSION['cart_items'] as &$item){
+                if($item['cart_ID'] == $cart_ID){
+                    if(validateStock($item['size'], $item['color'], $item['product_ID'], $newQty, $DB)){
+                        $item['quantity'] = $newQty;
 
+                        $cart_item_subtotal = $cartController->getCartItemSubtotal($item['product_ID'], $newQty);
+                        $cart_total = $cartController->getCartTotal();
+
+                        echo json_encode(['status' => 'success', 'updatedQty' => $newQty, 'cart_total' => $cart_total, 'cart_item_subtotal' => $cart_item_subtotal]);
+
+                        break;
+                    } else{
+                        echo json_encode(['status' => 'failed', 'msg' => 'No stock left for this item']);
+                        exit(0);
+                    }
+                }
+            }
+
+        }
 
     } else {
         http_response_code(405);

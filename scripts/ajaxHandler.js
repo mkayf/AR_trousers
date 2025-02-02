@@ -442,7 +442,7 @@ deleteCartItemBtn.forEach((deleteBtn) => {
           if (data.cart_total == 0) {
             window.location.href = "";
           }
-        }, 300);
+        }, 500);
       } else {
         console.log(data.msg);
       }
@@ -452,7 +452,7 @@ deleteCartItemBtn.forEach((deleteBtn) => {
       // Adding timeout here also to reset the tableBody to normal opacity if the try block fails:
       setTimeout(() => {
         tableBody.style.opacity = "1";
-      }, 300);
+      }, 500);
     }
   });
 });
@@ -535,7 +535,7 @@ cartQtyInput.forEach((input) => {
         tableBody.style.opacity = "1";     
       })
 
-    }, 1000);
+    }, 500);
 
 
   });

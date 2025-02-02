@@ -109,7 +109,7 @@ if ($rate_limiter->checkRateLimit()) {
                 $_SESSION['cart_ID'] = 1;
             }
 
-            // Check for the similar product stored in the session cart, if yes then just increment the quantity:
+            // Check for the similar product stored in the session cart, if yes then just increment it's quantity:
 
             $similarProductExists = false;
 

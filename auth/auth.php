@@ -17,23 +17,26 @@ if(isset($_POST['signup-btn'])){
 
     if(!empty($user_name) && !empty($user_email) && !empty($user_password) && !empty($user_c_password)){
         if(!$signup->doesUserExist($user_email)){
-            if($signup->validPassword($user_password)){
-                if($signup->confirmPassword($user_password, $user_c_password)){
-                    if($signup->signupUser($user_name, $user_email, $user_password)){
-                        redirect("Your account has been created successfully!", "", "index.php");
+            if($signup->validEmail($user_email)){   
+                if($signup->validPassword($user_password)){
+                    if($signup->confirmPassword($user_password, $user_c_password)){
+                        if($signup->signupUser($user_name, $user_email, $user_password)){
+                            redirect("Your account has been created successfully!", "", "index.php");
+                        } else{
+                            redirect('Internal server error, please signup again.' ,'red', 'signup.php');
+                        }
                     } else{
-                        redirect('Internal server error, please signup again.' ,'red', 'signup.php');
+                        redirect('Passwords do not match.', 'red', 'signup.php');
                     }
                 } else{
-                    redirect('Passwords do not match.', 'red', 'signup.php');
+                    redirect('Password length should be 8 characters, and must contain 1 uppercase letter, 1 lowercase letter and 1 digit.', 'red', 'signup.php');
                 }
             } else{
-                redirect('Password length should be 8 characters, and must contain 1 uppercase letter, 1 lowercase letter and 1 digit.', 'red', 'signup.php');
+                redirect('Please enter a valid email address.', 'red', 'signup.php');
             }
         } else{
             redirect('This email already exists, try different email.', 'red', 'signup.php');
         }
-            
     } else{
         redirect("Fields can't be empty!", 'red', 'signup.php');
     }
