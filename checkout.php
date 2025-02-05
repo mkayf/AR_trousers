@@ -7,6 +7,12 @@ include_once __DIR__ . '/controllers/CheckoutController.php';
 
 $checkout_controller = new CheckoutController($DB->conn);
 
+$cart_items = $cartController->getCartItems() ?? [];
+
+if(empty($cart_items)){
+  redirect('', '', 'cart.php');
+  exit(0);
+}
 
 ?>
 
@@ -35,38 +41,38 @@ $checkout_controller = new CheckoutController($DB->conn);
         </div>
 
         <div class="container checkout-section my-3">
-            <div class="row d-flex justify-content-center align-items-start gap-5">
-                <div class="col col-sm-12 col-md-12 col-lg-7 shipping-details my-5">
+            <div class="row d-flex justify-content-center align-items-start gap-4">
+                <div class="col-sm-12 col-md-12 col-lg-7 shipping-details my-3 my-md-4 my-lg-5 order-2 order-md-1">
                     <h4>Shipping</h4>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="first-name">First name <span class="star">*</span></label>
                           <input type="text" id="first-name" name="first-name" required>
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="last-name">Last name <span class="star">*</span></label>
                           <input type="text" id="last-name" name="last-name" required>
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="phone-number">Phone number <span class="star">*</span></label>
-                          <input type="text" id="phone-number" name="phone-number" required>
+                          <input type="number" id="phone-number" name="phone-number" required>
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="email">Email</label>
-                          <input type="text" id="email" name="email">
+                          <input type="email" id="email" name="email">
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-12">
+                        <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
                           <label for="address">Street address / House number <span class="star">*</span></label>
                           <input type="text" id="address" name="address" required>
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-12">
-                          <label for="landmark">Landmark <span class="star">*</span></label>
-                          <input type="text" id="landmark" name="landmark" required>
+                        <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
+                          <label for="landmark">Landmark</label>
+                          <input type="text" id="landmark" name="landmark">
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="state">State / Province <span class="star">*</span></label>
-                          <select name="state" id="state" >
+                          <select name="state" id="state" required>
                             <option value="null">Select your state</option>
                             <option value="Azad Kashmir">Azad Kashmir</option>
                             <option value="Balochistan">Balochistan</option>
@@ -76,7 +82,7 @@ $checkout_controller = new CheckoutController($DB->conn);
                             <option value="Sindh">Sindh</option>
                           </select>
                         </div>
-                        <div class="mb-3 input-div col col-sm-12 col-md-12 col-lg-6">
+                        <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="city">City <span class="star">*</span></label>
                           <input type="text" id="city" name="city" required>
                         </div>
@@ -88,6 +94,7 @@ $checkout_controller = new CheckoutController($DB->conn);
                           <h5>Payment</h5>
                           <input type="radio" name="COD" id="COD" checked>
                           <label for="COD">Cash On Delivery</label>
+                          <p style="font-size: 0.9rem;">* Shipping charges are Rs 200 for Karachi and Rs 300 for other cities.</p>
                         </div>
                         <div class="mb-3 col-12">
                           <button class="place-order-btn">Place order</button>
@@ -95,35 +102,44 @@ $checkout_controller = new CheckoutController($DB->conn);
                       </div>
                     </form>
                 </div>
-                <div class="col col-sm-12 col-md-12 col-lg-4 checkout-cart-details my-5">
+                <div class="col-sm-12 col-md-12 col-lg-4 checkout-cart-details my-3 my-md-4 my-lg-5 order-1 order-md-2 mx-auto">
                     <h4>Your cart</h4>
-                    <div class="checkout-product mt-3 d-flex align-items-center gap-3">
-                      <div class="checkout-img">
-                        <img src="./assets/product_images/Pure_cotton/Latest trouser designing ideas for summer dresses_cotton trouser designs for eid dressing_modstitch.jfif" alt="" height="80px" width="60px">
+                    <div class="checkout-products-container">
+                      <?php foreach($cart_items as $item) : ?>              
+                      <div class="checkout-product mt-3 d-flex align-items-center">
+                        <div class="checkout-img">
+                          <span class="checkout-item-count"><?= $item['quantity'] ?></span>
+                          <img src=".<?= $item['product_img_1'] ?>" alt="<?= $item['product_name'] ?>">
+                        </div>
+                        <div class="flexer">
+                        <div class="checkout-product-details ms-2">
+                          <p><?php echo substr($item['product_name'], 0,25) ?>...</p>
+                          <p class="text-secondary" style="font-size: 0.8rem;"><?= $item['size'] ?> | <?= ucfirst($item['color']) ?></p>
+                        </div>
+                        <div class="checkout-product-subtotal">
+                          <p>Rs <?php echo $cartController->getCartItemSubtotal($item['product_ID'], $item['quantity']) ?></p>
+                        </div>
+                        </div>
                       </div>
-                      <div class="checkout-product-details">
-                        <p>Product name</p>
-                        <p>Size and color</p>
-                      </div>
-                      <div class="checkout-product-subtotal ms-auto">
-                        4646
-                      </div>
+                      <?php endforeach; ?>
+                      
                     </div>
                     
                     <div class="checkout-totals mt-4">
-                      <div class="d-flex justify-content-between">
+                      <div class="d-flex justify-content-between mt-2">
                         <p>Subtotal</p>
-                        <p>14686</p>
+                        <p>Rs <?= $cartController->getCartTotal() ?></p>
                       </div>
-                      <div class="d-flex justify-content-between">
+                      <div class="d-flex justify-content-between mt-2">
                         <p>Shipping</p>
-                        <p>300</p>
+                        <p>Rs 200</p>
                       </div>
-                      <div class="d-flex justify-content-between">
-                        <p>Shipping</p>
-                        <p>300</p>
+                      <div class="d-flex justify-content-between mt-2 checkout-total">
+                        <p>Total</p>
+                        <p>Rs 300</p>
                       </div>
                     </div>
+
                 </div>
             </div>
         </div>

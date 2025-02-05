@@ -8,7 +8,6 @@ $cart_items = $cartController->getCartItems() ?? [];
 
 ?>
 
-
 <!doctype html>
 <html lang="en">
   <head>

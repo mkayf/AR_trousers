@@ -1,12 +1,12 @@
 <?php
 
-class CheckoutController {
+class CheckoutController{
     public $conn;
-
-    public function __construct($db_connection)
-    {
+    
+    public function __construct($db_connection){
         $this->conn = $db_connection;
     }
+
 } 
 
 ?>

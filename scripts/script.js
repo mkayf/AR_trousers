@@ -62,13 +62,15 @@ if (filename == "index.php" || filename == "") {
 
 
 // focus on the first input of the form:
-let email = document.getElementById('email');
-let name = document.getElementById('name');
-
-setTimeout(() => {
-  if(email) email.focus();
-  if(name) name.focus();
-}, 200)
+if(window.location.pathname.includes('login.php') || window.location.pathname.includes('signup.php') || window.location.pathname.includes('contact.php')){
+  let email = document.getElementById('email');
+  let name = document.getElementById('name');
+  
+  setTimeout(() => {
+    if(email) email.focus();
+    if(name) name.focus();
+  }, 200)
+}
 
 
 

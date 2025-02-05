@@ -96,6 +96,7 @@ body{
 .header-msg{
     padding: 12px 16px;
     font-family: 'proxima-regular';
+    font-size: 0.9rem;
     background-color: var(--primary-color);
     color: var(--background-color);
 }
@@ -175,7 +176,6 @@ body{
     height: 22px;
     padding: 12px;
     border-radius: 50%;
-    display: inline-block;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1646,6 +1646,11 @@ footer .footer-link:hover{
         padding: 12px;
         font-size: 1.3rem;
         font-family: 'proxima-regular';
+        transition: all 0.3s ease-in-out;
+    }
+
+    .place-order-btn:hover{
+        background-color: #5d3324;
     }
 }
 
@@ -1653,7 +1658,68 @@ footer .footer-link:hover{
 .checkout-cart-details{
     padding: 24px;
     background-color: #fff;
-    font-family: 'proxima-semibold';   
+    width: 450px !important;
+}
+
+.checkout-img{
+    position: relative;
+}
+
+.checkout-img img{
+    height: 80px;
+    width: 60px;
+}
+
+.checkout-img .checkout-item-count{
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-size: 0.87rem;
+    font-family: 'proxima-regular';
+    width: 22px;
+    height: 22px;
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 100;
+    right: -10px;
+    top: -10px;
+}
+
+
+.checkout-cart-details p{
+    font-family: 'proxima-regular';   
+    font-size: 0.95rem;
+}
+
+.checkout-product-subtotal{
+    width: 100px;
+    text-align: right;
+}
+
+.flexer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.checkout-total p{
+    font-size: 1.3rem;
+    font-family: 'proxima-semibold';
+}
+
+
+
+@media(max-width: 525px){
+    .shipping-details, .checkout-cart-details{
+        padding: 24px 12px;
+    }
+    .checkout-section .row{
+        flex-direction: column;
+    }
+
 }
 
 /* Checkout page styling */
