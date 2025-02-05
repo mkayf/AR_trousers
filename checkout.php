@@ -5,7 +5,6 @@ include_once __DIR__ . '/auth/auth.php';
 include_once __DIR__ . '/controllers/CartController.php';
 include_once __DIR__ . '/controllers/CheckoutController.php';
 
-$checkout_controller = new CheckoutController($DB->conn);
 
 $cart_items = $cartController->getCartItems() ?? [];
 
@@ -13,6 +12,8 @@ if(empty($cart_items)){
   redirect('', '', 'cart.php');
   exit(0);
 }
+
+
 
 ?>
 
@@ -43,7 +44,12 @@ if(empty($cart_items)){
         <div class="container checkout-section my-3">
             <div class="row d-flex justify-content-center align-items-start gap-4">
                 <div class="col-sm-12 col-md-12 col-lg-7 shipping-details my-3 my-md-4 my-lg-5 order-2 order-md-1">
-                    <h4>Shipping</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h4>Shipping</h4>
+                      <?php if(!isset($_SESSION['authenticated'])) : ?>
+                      <a href="<?php base_url('login.php') ?>">Login</a>
+                      <?php endif; ?>
+                    </div>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
@@ -86,10 +92,12 @@ if(empty($cart_items)){
                           <label for="city">City <span class="star">*</span></label>
                           <input type="text" id="city" name="city" required>
                         </div>
+                        <?php if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true) : ?>
                         <div class="mb-3 col-12">
                           <input type="checkbox" id="save-shipping" name="save-shipping" required>
                           <label for="save-shipping">Save this shipping address</label>
                         </div>
+                        <?php endif; ?>
                         <div class="mb-3 col-12">
                           <h5>Payment</h5>
                           <input type="radio" name="COD" id="COD" checked>
@@ -117,29 +125,26 @@ if(empty($cart_items)){
                           <p class="text-secondary" style="font-size: 0.8rem;"><?= $item['size'] ?> | <?= ucfirst($item['color']) ?></p>
                         </div>
                         <div class="checkout-product-subtotal">
-                          <p>Rs <?php echo $cartController->getCartItemSubtotal($item['product_ID'], $item['quantity']) ?></p>
+                          <p>Rs <?php echo number_format($cartController->getCartItemSubtotal($item['product_ID'], $item['quantity'])) ?></p>
                         </div>
                         </div>
                       </div>
                       <?php endforeach; ?>
-                      
                     </div>
-                    
                     <div class="checkout-totals mt-4">
                       <div class="d-flex justify-content-between mt-2">
                         <p>Subtotal</p>
-                        <p>Rs <?= $cartController->getCartTotal() ?></p>
+                        <p>Rs <?= number_format($cartController->getCartTotal()) ?></p>
                       </div>
                       <div class="d-flex justify-content-between mt-2">
                         <p>Shipping</p>
-                        <p>Rs 200</p>
+                        <p class="shipping-charges">Rs <?= number_format($checkout_controller->shippingCharges) ?></p>
                       </div>
                       <div class="d-flex justify-content-between mt-2 checkout-total">
                         <p>Total</p>
-                        <p>Rs 300</p>
+                        <p id="checkout-total-price">Rs <?= number_format($checkout_controller->getCheckoutTotal()) ?></p>
                       </div>
                     </div>
-
                 </div>
             </div>
         </div>

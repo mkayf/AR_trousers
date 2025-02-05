@@ -6,6 +6,7 @@ include_once __DIR__ . '/controllers/CartController.php';
 
 $cart_items = $cartController->getCartItems() ?? [];
 
+
 ?>
 
 <!doctype html>

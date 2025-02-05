@@ -2,21 +2,20 @@
 
 class CartController{
     public $conn;
-
-    private $user_ID;
+    protected $user_ID;
 
     public function __construct($db_connection)
     {
         $this->conn = $db_connection;
+        if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
+            $this->user_ID = $_SESSION['user_data']['user_ID'];
+        }
     }
 
     // Get the count of total product quantity for the logged in user:
     
     public function getCartCount(){
         if(isset($_SESSION['authenticated']) && $_SESSION['authenticated']){
-
-
-            $this->user_ID = $_SESSION['user_data']['user_ID'];
 
             // Sync the cart items if any, when the user is logged in after adding products to cart as a guest:
 
