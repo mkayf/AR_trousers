@@ -1,0 +1,2 @@
+# Ignore only the database folder and its contents inside config
+config/database/
