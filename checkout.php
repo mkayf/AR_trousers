@@ -4,6 +4,7 @@ include_once __DIR__ . '/config/App.php';
 include_once __DIR__ . '/auth/auth.php';
 include_once __DIR__ . '/controllers/CartController.php';
 include_once __DIR__ . '/controllers/CheckoutController.php';
+include_once __DIR__ . '/placeOrder.php';
 
 
 $cart_items = $cartController->getCartItems() ?? [];
@@ -12,7 +13,6 @@ if(empty($cart_items)){
   redirect('', '', 'cart.php');
   exit(0);
 }
-
 
 
 ?>
@@ -92,13 +92,7 @@ if(empty($cart_items)){
                           <label for="city">City <span class="star">*</span></label>
                           <input type="text" id="city" name="city" required>
                         </div>
-                        <?php if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true) : ?>
-                        <div class="mb-3 col-12">
-                          <input type="checkbox" id="save-shipping" name="save-shipping" required>
-                          <label for="save-shipping">Save this shipping address</label>
-                        </div>
-                        <?php endif; ?>
-                        <div class="mb-3 col-12">
+                        <div class="mb-3 mt-3 col-12">
                           <h5>Payment</h5>
                           <input type="radio" name="COD" id="COD" checked>
                           <label for="COD">Cash On Delivery</label>

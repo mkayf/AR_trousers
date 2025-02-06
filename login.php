@@ -8,7 +8,7 @@
     redirect('You are logged in.', '', 'index.php');
   } else{
     $login->isUserLoggedIn();
-  }
+  } 
   
 
 ?>

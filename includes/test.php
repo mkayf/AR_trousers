@@ -11,6 +11,12 @@
     <button>Add</button>
 </div>
 
+CREATE TABLE orders(
+	ORDER_ID INT PRIMARY KEY AUTO_INCREMENT,
+    USER_ID INT DEFAULT NULL,
+    GUEST_ID INT DEFAULT NULL,
+    ORDER_STATUS ENUM('Pending', 'Confirmed', 'Processing', 'Shipped', )
+)
 
 <script>
 
