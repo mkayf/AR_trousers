@@ -548,36 +548,42 @@ let city = document.getElementById('city');
 let shippingCharges = document.querySelector('.shipping-charges');
 let checkoutTotalPrice = document.getElementById('checkout-total-price');
 
+let cityNameDebouncer;
+
 if(city && shippingCharges){
-  city.addEventListener('blur', async (event) => {
+  city.addEventListener('input', (event) => {
     let cityName = event.target.value;
 
-    try{
-      let response = await fetch('./ajax/getCheckoutTotal.php', {
-        method : 'POST',
-        body : JSON.stringify({cityName}),
-        headers : {
-          'Content-type' : 'application/json'
-        }
-      });
+    clearTimeout(cityNameDebouncer);
 
-      if(!response.ok){
-        console.log('Response not okay.');
-        return;
-      }
+      cityNameDebouncer = setTimeout(() => {
+        
+        fetch('./ajax/getCheckoutTotal.php', {
+          method : 'POST',
+          body : JSON.stringify({cityName}),
+          headers : {
+            'Content-type' : 'application/json'
+          }
+        })
+        .then((response) => {
+          if(!response.ok){
+            console.log('Response not okay.');
+            return;
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if(data.status == 'success'){
+            shippingCharges.textContent = `Rs ${data.shippingCharges}`;
+            checkoutTotalPrice.textContent = `Rs ${data.checkoutTotal}`;
+          }
+          else{
+            console.log(data.msg);
+          }
+        })
+        .catch((e) => console.log(e))
 
-      let data = await response.json();
+      }, 500)
 
-      if(data.status == 'success'){
-        shippingCharges.textContent = `Rs ${data.shippingCharges}`;
-        checkoutTotalPrice.textContent = `Rs ${data.checkoutTotal}`;
-      }
-      else{
-        console.log(data.msg);
-      }
-    }
-    catch(e){
-      console.log(e);
-    }
   })
 }

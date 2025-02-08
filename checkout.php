@@ -9,11 +9,17 @@ include_once __DIR__ . '/placeOrder.php';
 
 $cart_items = $cartController->getCartItems() ?? [];
 
+
 if(empty($cart_items)){
   redirect('', '', 'cart.php');
   exit(0);
 }
 
+$errors = $_SESSION['errors'] ?? [];
+$old_data = $_SESSION['old_data'] ?? [];
+
+unset($_SESSION['errors']);
+unset($_SESSION['old_data']);
 
 ?>
 
@@ -54,31 +60,36 @@ if(empty($cart_items)){
                       <div class="row mt-4">
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="first-name">First name <span class="star">*</span></label>
-                          <input type="text" id="first-name" name="first-name" required>
+                          <input type="text" id="first-name" name="first-name" value="<?= $old_data['first-name'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['first-name'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="last-name">Last name <span class="star">*</span></label>
-                          <input type="text" id="last-name" name="last-name" required>
+                          <input type="text" id="last-name" name="last-name" value="<?= $old_data['last-name'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['last-name'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="phone-number">Phone number <span class="star">*</span></label>
-                          <input type="number" id="phone-number" name="phone-number" required>
+                          <input type="number" id="phone-number" name="phone-number" value="<?= $old_data['phone-number'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['phone-number'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="email">Email</label>
-                          <input type="email" id="email" name="email">
+                          <input type="email" id="email" name="email" value="<?= $old_data['email'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['email'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
                           <label for="address">Street address / House number <span class="star">*</span></label>
-                          <input type="text" id="address" name="address" required>
+                          <input type="text" id="address" name="address" value="<?= $old_data['address'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['address'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
                           <label for="landmark">Landmark</label>
-                          <input type="text" id="landmark" name="landmark">
+                          <input type="text" id="landmark" name="landmark" value="<?= $old_data['landmark'] ?? '' ?>">
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="state">State / Province <span class="star">*</span></label>
-                          <select name="state" id="state" required>
+                          <select name="state" id="state">
                             <option value="null">Select your state</option>
                             <option value="Azad Kashmir">Azad Kashmir</option>
                             <option value="Balochistan">Balochistan</option>
@@ -87,19 +98,22 @@ if(empty($cart_items)){
                             <option value="Punjab">Punjab</option>
                             <option value="Sindh">Sindh</option>
                           </select>
+                          <small style="color: red;"><?= $errors['state'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="city">City <span class="star">*</span></label>
-                          <input type="text" id="city" name="city" required>
+                          <input type="text" id="city" name="city" value="<?= $old_data['city'] ?? '' ?>">
+                          <small style="color: red;"><?= $errors['city'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 mt-3 col-12">
                           <h5>Payment</h5>
-                          <input type="radio" name="COD" id="COD" checked>
+                          <input type="radio" name="payment-method" id="COD" value="COD" checked>
                           <label for="COD">Cash On Delivery</label>
                           <p style="font-size: 0.9rem;">* Shipping charges are Rs 200 for Karachi and Rs 300 for other cities.</p>
+                          <small style="color: red;"><?= $errors['payment-method'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 col-12">
-                          <button class="place-order-btn">Place order</button>
+                          <button type="submit" class="place-order-btn" name="place-order">Place order</button>
                         </div>
                       </div>
                     </form>
