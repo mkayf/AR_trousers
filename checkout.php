@@ -18,6 +18,17 @@ if(empty($cart_items)){
 $errors = $_SESSION['errors'] ?? [];
 $old_data = $_SESSION['old_data'] ?? [];
 
+if(isset($_SESSION['order_placed'])){
+  echo 'order placed';
+}
+
+if(isset($_SESSION['add_order_error'])){
+  echo $_SESSION['add_order_error'];
+}
+
+
+
+unset($_SESSION['order_placed']);
 unset($_SESSION['errors']);
 unset($_SESSION['old_data']);
 
@@ -146,7 +157,7 @@ unset($_SESSION['old_data']);
                       </div>
                       <div class="d-flex justify-content-between mt-2">
                         <p>Shipping</p>
-                        <p class="shipping-charges">Rs <?= number_format($checkout_controller->shippingCharges) ?></p>
+                        <p class="shipping-charges">Rs <?= number_format($checkout_controller->getShippingCharges()) ?></p>
                       </div>
                       <div class="d-flex justify-content-between mt-2 checkout-total">
                         <p>Total</p>

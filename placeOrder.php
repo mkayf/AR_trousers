@@ -16,15 +16,20 @@ if(isset($_POST['place-order'])){
         exit(0);
     }
 
-    // Validate each field:
+    // Validate details to prevent SQL injection attack:
 
+    $detailsArr = [];
+
+    foreach($_POST as $key => $value){
+        $detailsArr[$key] = mysqli_real_escape_string($DB->conn, $value);
+    }   
+    
+    // Check for mandatory fields which shouldn't be empty:
     $errors = [];
     $fields = ['first-name', 'last-name', 'phone-number', 'address', 'city'];
 
-    // Check for empty fields
-
     foreach($fields as $field){
-        if(empty($_POST[$field])){
+        if(empty(trim($_POST[$field]))){
             $errors[$field] = ucfirst(str_replace('-', ' ', $field)) . " is required";
         }
     }
@@ -64,16 +69,16 @@ if(isset($_POST['place-order'])){
 
     if(empty($errors)){
 
-        if($checkout_controller->placeOrder($_POST)){
+        if($checkout_controller->placeOrder($detailsArr)){
             $_SESSION['order_placed'] = true;
         } else{
             $_SESSION['order_placement_error'] = "We couldn't process your order at the moment. Please try again shortly or contact us if the issue persists.";
-            $_SESSION['old_data'] = $_POST;    
+            $_SESSION['old_data'] = $detailsArr;    
         }
         
     } else{
         $_SESSION['errors'] = $errors;
-        $_SESSION['old_data'] = $_POST;
+        $_SESSION['old_data'] = $detailsArr;
     }
 
     header('location: checkout.php');
