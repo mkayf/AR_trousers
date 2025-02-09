@@ -10,27 +10,28 @@ include_once __DIR__ . '/placeOrder.php';
 $cart_items = $cartController->getCartItems() ?? [];
 
 
+if(isset($_SESSION['order_placed']) && $_SESSION['order_placed'] == true){
+  $order_ID = $_SESSION['order_ID'];
+  redirect('', '', "thankyou.php");
+  unset($_SESSION['order_placed']);
+  exit(0);
+}
+
+
 if(empty($cart_items)){
   redirect('', '', 'cart.php');
   exit(0);
 }
 
+
 $errors = $_SESSION['errors'] ?? [];
 $old_data = $_SESSION['old_data'] ?? [];
 
-if(isset($_SESSION['order_placed'])){
-  echo 'order placed';
-}
 
-if(isset($_SESSION['add_order_error'])){
-  echo $_SESSION['add_order_error'];
-}
-
-
-
-unset($_SESSION['order_placed']);
 unset($_SESSION['errors']);
 unset($_SESSION['old_data']);
+
+
 
 ?>
 
@@ -63,9 +64,6 @@ unset($_SESSION['old_data']);
                 <div class="col-sm-12 col-md-12 col-lg-7 shipping-details my-3 my-md-4 my-lg-5 order-2 order-md-1">
                     <div class="d-flex justify-content-between align-items-center">
                       <h4>Shipping</h4>
-                      <?php if(!isset($_SESSION['authenticated'])) : ?>
-                      <a href="<?php base_url('login.php') ?>">Login</a>
-                      <?php endif; ?>
                     </div>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">

@@ -32,10 +32,6 @@ class CheckoutController extends CartController{
         $state = $cusDetails['state'];
         $city = $cusDetails['city'];
 
-        $charges = $this->getShippingCharges();
-        $subtotal = $this->getCartTotal();
-        $total = $this->getCheckoutTotal();
-
         // Place order for the authenticated user:
         if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
 
@@ -91,16 +87,50 @@ class CheckoutController extends CartController{
             
             // Insert data into orders table:
 
-            $addOrderQuery = "INSERT INTO orders(user_ID, shipping_ID, subtotal, shipping_charges, total) VALUES($this->user_ID, $shipping_ID, $subtotal, $charges, $total)";
+            $addOrderQuery = "INSERT INTO orders(user_ID, shipping_ID, subtotal, shipping_charges, total) VALUES($this->user_ID, $shipping_ID, ". $this->getCartTotal() .", ". $this->getShippingCharges() .", ". $this->getCheckoutTotal() .")";
 
             try{
                 $order_result = $this->conn->query($addOrderQuery);
+                $order_ID = $this->conn->insert_id;
             }
             catch(Error | Exception $e){
-                echo "<script>console.log('Error in placeOrder(Failed to data into orders table): ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+                echo "<script>console.log('Error in placeOrder(Failed to insert data into orders table): ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
                 return false;
             }
 
+            // Insert each cart item into order items table:
+
+            $cart_items = $this->getCartItems() ?? [];
+
+            foreach($cart_items as $item){
+                $cartItemSubtotal = $this->getCartItemSubtotal($item['product_ID'], $item['quantity']);
+
+                $insertItemsToOrders = "INSERT INTO order_items(order_ID, product_ID, quantity, subtotal, size, color) VALUES($order_ID, $item[product_ID], $item[quantity], $cartItemSubtotal, '$item[size]', '$item[color]')";
+
+                try{
+                    $orderItemResult = $this->conn->query($insertItemsToOrders);
+                }
+                catch(Error | Exception $e){
+                    echo "<script>console.log('Error in placeOrder(Failed to insert cart items into order items table): ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+                    return false;
+                }   
+            }
+
+            // Empty cart items for the user who placed order after successfully transferring cart items into order items table:
+                        
+            $emptyCartItems = "DELETE FROM cart WHERE user_ID = $this->user_ID";
+
+            try{
+                $emptyCartResult = $this->conn->query($emptyCartItems);
+            }
+            catch(Error | Exception $e){
+                echo "<script>console.log('Error in placeOrder(Failed to empty cart items after inserting into order items table): ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+                return false;
+            }
+
+            // Set order_ID into session:
+
+            $_SESSION['order_ID'] = $order_ID;
 
             return true;
         }
