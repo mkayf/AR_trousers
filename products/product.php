@@ -221,10 +221,6 @@ $productDetails = $productDetails->getSingleProduct() ?? [];
           <?php else : ?>
             <p class="text-center">We are unable to load product details at the moment. Please try again later.</p>           
           <?php endif; ?>
-          <div class="row d-flex justify-content-center align-items-center mt-5">
-                <h3 class="text-center">You may also like</h3>
-          </div>
-
         </div>
 
      </main>

@@ -52,6 +52,13 @@ unset($_SESSION['old_data']);
     <!-- NAVBAR -->
      <header>
          <?php include './includes/Navbar.php'; ?>
+         <?php if(isset($_SESSION['order_placement_error'])) : ?>
+         <div class="header-msg d-flex align-items-center justify-content-between">
+          <p style="font-size: 1rem;"><?= $_SESSION['order_placement_error']; ?></p>
+          <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+         </div>
+         <?php unset($_SESSION['order_placement_error']) ?>
+         <?php endif; ?>
      </header>
 
      <main class="checkout-main">
@@ -65,6 +72,9 @@ unset($_SESSION['old_data']);
                     <div class="d-flex justify-content-between align-items-center">
                       <h4>Shipping</h4>
                     </div>
+                    <?php if(!isset($_SESSION['authenticated'])) : ?>
+                    <p style="font-size: 1rem;"><a href="<?php base_url('login.php'); ?>">Login</a> to view your order status and manage your account.</p>
+                    <?php endif; ?>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
