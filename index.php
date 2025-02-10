@@ -35,7 +35,6 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
 
      <header>
        <?php include './includes/Navbar.php'; ?>
-
         <?php if(isset($_SESSION['authenticated']) && isset($_SESSION['message'])) : ?>
        <div class="header-msg d-flex align-items-center justify-content-between">
         <?php include './includes/message.php' ?>

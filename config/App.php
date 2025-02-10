@@ -11,7 +11,7 @@
     include 'DB_connection.php';
     $DB = new DB_Connection;
 
-
+ 
     // Base url function for routing:
         
     function base_url($url){

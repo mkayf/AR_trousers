@@ -3,4 +3,4 @@
         echo "<p style='color: ". $_SESSION['message']["msgColor"] .";'>". $_SESSION['message']["msg"] ."</p>";
         unset($_SESSION['message']);
     }
-?>
+?> 

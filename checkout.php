@@ -12,8 +12,8 @@ $cart_items = $cartController->getCartItems() ?? [];
 
 if(isset($_SESSION['order_placed']) && $_SESSION['order_placed'] == true){
   $order_ID = $_SESSION['order_ID'];
-  redirect('', '', "thankyou.php");
   unset($_SESSION['order_placed']);
+  redirect('', '', "thankyou.php");
   exit(0);
 }
 

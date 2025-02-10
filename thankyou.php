@@ -7,9 +7,6 @@ include_once __DIR__ . '/controllers/CheckoutController.php';
 include_once __DIR__ . '/placeOrder.php';
 
 
-$cart_items = $cartController->getCartItems() ?? [];
-
-
 if(isset($_SESSION['order_ID'])){
     $order_ID = $_SESSION['order_ID'];
 
@@ -36,7 +33,8 @@ if(isset($_SESSION['order_ID'])){
     unset($_SESSION['order_ID']);
 
 } else{
-   redirect('', '', 'index.php'); 
+    unset($_SESSION['message']);
+    header("location: index.php");
 }
 
 ?>
@@ -89,7 +87,7 @@ if(isset($_SESSION['order_ID'])){
                     </tr>
                     <tr>
                         <td>Payment method</td>
-                        <td><?= $summaryData['payment-method'] ?></td>
+                        <td><?= $summaryData['payment_method'] ?></td>
                     </tr>
                     <tr>
                         <td>Estimated Delivery</td>
