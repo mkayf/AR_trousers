@@ -53,7 +53,7 @@ unset($_SESSION['old_data']);
      <header>
          <?php include './includes/Navbar.php'; ?>
          <?php if(isset($_SESSION['order_placement_error'])) : ?>
-         <div class="header-msg d-flex align-items-center justify-content-between">
+         your<div class="header-msg d-flex align-items-center justify-content-between">
           <p style="font-size: 1rem;"><?= $_SESSION['order_placement_error']; ?></p>
           <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
          </div>

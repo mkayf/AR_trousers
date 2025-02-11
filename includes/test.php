@@ -1,3 +1,10 @@
+<?php
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +18,10 @@
     <button>Add</button>
 </div>
 
-CREATE TABLE orders(
-	ORDER_ID INT PRIMARY KEY AUTO_INCREMENT,
-    USER_ID INT DEFAULT NULL,
-    GUEST_ID INT DEFAULT NULL,
-    ORDER_STATUS ENUM('Pending', 'Confirmed', 'Processing', 'Shipped', )
-)
+<div class="badge">1</div>
+<div class="badge">1</div>
 
 <script>
-
 </script>
 </body>
 </html>

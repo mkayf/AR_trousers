@@ -3,7 +3,28 @@
 include_once __DIR__ . '/config/App.php';
 include_once __DIR__ . '/auth/auth.php';
 include_once __DIR__ . '/controllers/CartController.php';
+include_once __DIR__ . '/controllers/ContactController.php';
 
+
+$contact_controller = new ContactController($DB->conn);
+
+if(isset($_POST['send-message'])){
+    if($contact_controller->sendMessage($_POST)){
+        $_SESSION['contact_success'] = "Your message has been sent successfully. We will get back to you soon!";
+    }
+    header('location: contact.php');
+    exit();
+}
+
+
+// Retrieve messages and errors from session
+$contact_success = $_SESSION['contact_success'] ?? null;
+$errors = $_SESSION['contact_errors'] ?? [];
+$old_data = $_SESSION['contact_old_data'] ?? [];
+
+unset($_SESSION['contact_success']);
+unset($_SESSION['contact_errors']);
+unset($_SESSION['contact_old_data']);
 
 
 ?>
@@ -25,6 +46,12 @@ include_once __DIR__ . '/controllers/CartController.php';
     <!-- NAVBAR -->
      <header>
          <?php include './includes/Navbar.php'; ?>
+         <?php if($contact_success) : ?>
+         <div class="header-msg d-flex align-items-center justify-content-between">
+          <p style="font-size: 1rem;"><?= $contact_success; ?></p>
+          <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+         </div>
+         <?php endif; ?>
      </header>
 
      <main class="contact-main">
@@ -37,8 +64,8 @@ include_once __DIR__ . '/controllers/CartController.php';
     <div class="container contact-container">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-sm-12 col-md-6 col-lg-4 contact-info-div d-flex justify-content-center align-items-start flex-column">
-                <img src="./assets/images/logo-1.png" alt="logo" class="contact-logo">
-                <h4>Contact info</h4>
+                <img src="./assets/images/logo-1.png" alt="logo" class="contact-logo d-none d-md-block">
+                <h5>Contact info</h5>
                 <div>
                     <p>
                         <a href="tel:+923401128236" class="text-reset text-decoration-none"><i class="bi bi-telephone"></i> +92 340 1128236</a>
@@ -52,22 +79,26 @@ include_once __DIR__ . '/controllers/CartController.php';
                 </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-7 contact-form-div">
-                <form>
+                <form method="POST">
                     <div class="mb-3">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" value="<?= $old_data['name'] ?? '' ?>" required>
+                        <small style="color: red;"><?= $errors['name'] ?? '' ?></small>
                     </div>
                     <div class="mb-3">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" value="<?= $old_data['email'] ?? '' ?>">
+                        <small style="color: red;"><?= $errors['email'] ?? '' ?></small>
                     </div>
                     <div class="mb-3">
                         <label for="phone">Phone number</label>
-                        <input type="tel" id="phone" name="phone">
+                        <input type="number" id="phone" name="phone-number" value="<?= $old_data['phone-number'] ?? '' ?>">
+                        <small style="color: red;"><?= $errors['phone-number'] ?? '' ?></small>
                     </div>
                     <div class="mb-3">
                         <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="4" required></textarea>
+                        <textarea name="message" id="message" rows="4" required><?= $old_data['message'] ?? '' ?></textarea>
+                        <small style="color: red;"><?= $errors['message'] ?? '' ?></small>
                     </div>
                     <div class="mb-3">
                         <button type="submit" name="send-message">Send message <i class="bi bi-send"></i></button>

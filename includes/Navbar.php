@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md px-4 py-2">
+<nav class="navbar navbar-expand-md px-2 px-md-4 py-2">
   <div class="container-fluid">
     <a class="navbar-brand pt-0" href="<?php base_url('index.php');?>" tabindex="-1">
       <img class="logo" src="<?php base_url('assets/images/logo-1.png') ?>" alt="">
@@ -7,7 +7,7 @@
         <img src="<?php base_url('assets/images/menu_icon.png') ?>" alt="">
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav m-auto mb-2">
+      <ul class="navbar-nav m-auto pe-5 mb-2">
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="<?php base_url('index.php'); ?>">Home</a>
         </li>
@@ -22,8 +22,6 @@
         </li>
       </ul>
       <div class="nav-icons d-flex align-items-center">
-        <span class="mx-2"><i class="bi bi-search" style="font-size: 1.2rem;"></i></span>
-
         <span class="mx-2">
         <div class="dropdown">
           <button class="dropdown-toggle auth-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" tabindex="-1">
