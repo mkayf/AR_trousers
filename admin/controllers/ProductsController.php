@@ -122,6 +122,74 @@ class ProductsController
         
     }
 
+    public function listProducts(){
+        $listProductsQuery = "SELECT p.product_ID, p.product_name, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.status, c.cat_name, SUM(s.stock_quantity) AS total_stock FROM products as p
+        INNER JOIN product_categories as c
+        ON p.product_cat_ID = c.cat_ID
+        INNER JOIN product_stock as s
+        ON p.product_ID = s.product_ID
+        GROUP BY p.product_ID, p.product_name, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.status, c.cat_name
+        ORDER BY p.product_ID DESC";
 
+        try{
+            $result = $this->conn->query($listProductsQuery);
+    
+            if($result->num_rows > 0){
+                $products = [];
+                while($row = $result->fetch_assoc()){
+                    $products[] = $row;
+                }
+                return $products;
+            }
+        }
+        catch(Error | Exception $e){
+            echo "<script>console.log('Error in listProducts: ". $e->getMessage() .", Line number: ". $e->getLine() ."');</script>";
+            return null;   
+        }
+    }
+
+    public function deleteProduct($product_ID){
+        // Delete record from product_stock(child table) first:
+        $delete_stock = "DELETE FROM product_stock WHERE product_ID = $product_ID";
+
+        $stock_result = $this->conn->query($delete_stock);
+
+        if($stock_result){
+            $delete_product = "DELETE FROM products WHERE product_ID = $product_ID";
+
+            $product_result = $this->conn->query($delete_product);
+            if($product_result){
+                return true;
+            } else{
+                return false;
+            }
+        } else{
+            return false;
+        }
+    }
+
+    public function getProductDetails($product_ID){
+        $getProduct = "SELECT * FROM products as p
+        INNER JOIN product_categories as c
+        on p.product_cat_ID = c.cat_ID
+        WHERE p.product_ID = $product_ID";
+
+        $product_result = $this->conn->query($getProduct);
+
+        if($product_result){
+
+            $product_details = $this->conn->query();
+        } else{
+            return null;
+        }
+
+        $getStock = "select s.color_ID, c.color, s.size_ID, si.size, s.stock_quantity FROM product_stock as s
+        inner join product_colors as c
+        on s.color_ID = c.color_ID
+        inner join product_sizes as si
+        on s.size_ID = si.size_ID
+        where s.product_ID = $product_ID";
+        
+    }
 
 }

@@ -12,34 +12,14 @@
 
     $productsController = new ProductsController($DB->conn);
 
-    $products = $productsController->listProducts() ?? [];
-  
-    
-    // Delete product:
+    // Update product:
 
-    if(isset($_POST['delete-btn'])){
-      // Get product id in the value of delete button:
-      $product_ID = $_POST['delete-btn'];
-      if($productsController->deleteProduct($product_ID)){
-        $_SESSION['product_deleted'] = "Product deleted successfully!";
-      } else{
-        $_SESSION['product_delete_error'] = "Failed to delete product. Please try again";
-      }
-      header('location: products.php');
-      exit();
+    if(isset($_GET['id']) && is_numeric($_GET['id'])){
+        
+    } else{
+        redirect('', '', 'admin/products');
+        exit(0);
     }
-
-
-    $product_added = $_SESSION['product_added'] ?? false;
-    $product_adding_errors = $_SESSION['product_adding_errors'] ?? false;
-    $product_deleted = $_SESSION['product_deleted'] ?? false;
-    $product_delete_error = $_SESSION['product_delete_error'] ?? false;
-
-    unset($_SESSION['product_added']);
-    unset($_SESSION['product_adding_errors']);
-    unset($_SESSION['product_deleted']);
-    unset($_SESSION['product_delete_error']);
-
 ?>
 
 <!DOCTYPE html>
@@ -121,94 +101,15 @@
 
       <!-- Alert messages -->
 
-      <?php if($product_added) : ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Product added successfully.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['empty_fields'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['empty_fields'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['image_error'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['image_error'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['extension_error'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['extension_error'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['image_limit_error'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['image_limit_error'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['product_details_insertion'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['product_details_insertion'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if(isset($product_adding_errors['stock_error'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_adding_errors['stock_error'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if($product_deleted) : ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= $product_deleted ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-
-      <?php if($product_delete_error) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $product_delete_error ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <?php endif; ?>
-    
-        <!-- Product add and update modal -->
-        <div
-          class="modal fade"
-          id="productModal"
-          tabindex="-1"
-          aria-labelledby="productModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">
-                  Add a new product
-                </h1>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body container-fluid">
-                <form method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                  <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
+      <!-- Alert messages -->
+     
+        <div class="products-content-div px-4">
+          <h1 class="mt-4">Update Product</h1>
+          
+          <div class="products-container my-5">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="row">
+                <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
                     <label for="product-name" class="form-label"
                       >Product name *</label
                     >
@@ -229,10 +130,13 @@
                     </select>
                   </div>
                   <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
-                    <label for="product-images" class="form-label"
-                      >Upload images *</label
+                    <label for="product-status" class="form-label"
+                      >Product status</label
                     >
-                    <input type="file" name="product-images[]" id="product-images" multiple class="form-control" accept=".avif, .webp, .png, .jpeg, .jpg, .jfif">
+                    <select name="product-status" id="product-status" class="form-control">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
                   </div>
                   <div class="mb-3 col-12">
                     <label for="product-description" class="form-label"
@@ -412,17 +316,7 @@
                       value="0"
                     />
                   </div>
-
-                  <div class="mb-3 col-6 col-sm-6 col-md-6 col-lg-6">
-                    <label for="product-status" class="form-label"
-                      >Product status</label
-                    >
-                    <select name="product-status" id="product-status" class="form-control">
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                  </div>
-                  <div class="mb-3 col-6 col-sm-6 col-md-6 col-lg-6">
+                  <div class="mb-3 col-12">
                     <label for="product-slug" class="form-label"
                       >Product slug</label
                     >
@@ -433,72 +327,11 @@
                       name="product-slug"
                     />
                   </div>
+                  <div class="mb-3">
+                    <input type="submit" name="update-btn" class="btn btn-primary" value="Update product">
                   </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <input type="submit" value="Add" class="btn btn-primary" name="add-product">
-              </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Product add and update modal -->
-
-        <div class="products-content-div px-4">
-          <h1 class="mt-4">Manage Products</h1>
-          <div class="action-btns mt-4">
-            <button
-              class="add-product btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#productModal"
-            >
-              <i class="bi bi-plus-circle"></i> Add product
-            </button>
-          </div>
-          <div class="products-container my-5 table-responsive">
-          <table class="table table-hover" id="productsTable">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Discounted Price</th>
-                <th>Stock</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php if(!empty($products)) :  ?>
-                <?php foreach($products as $product) : ?>
-                  <tr>
-                    <td><img src="../<?= $product['product_img_1'] ?>" alt="<?= $product['product_name'] ?>" height="80px" width="60px"></td>
-                    <td><?= $product['product_name'] ?></td>
-                    <td><?= $product['cat_name'] == 'Pure_cotton' ? 'Pure cotton' : 'Polyester cotton' ?></td>
-                    <td><?= $product['product_actual_price'] ?></td>
-                    <td><?= $product['product_discounted_price'] ?? 0 ?></td>
-                    <td><?= $product['total_stock'] ?></td>
-                    <td><?= $product['status'] ?></td>
-                    <td>
-                      <a href="./showProductDetails.php?id=<?= $product['product_ID']; ?>" class="btn btn-success btn-sm">Show details</a>
-                      <a href="./updateProduct.php?id=<?= $product['product_ID']; ?>" class="btn btn-primary btn-sm">Update</a>
-                      <form method="POST" class="d-inline-block">
-                        <button class="btn btn-danger btn-sm" value="<?= $product['product_ID']; ?>" name="delete-btn">Delete</button>
-                      </form>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </tbody>
-          </table>
+                </div>
+            </form>
           </div>
         </div>
       </main>

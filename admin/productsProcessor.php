@@ -47,13 +47,11 @@
 
 
         if($productsController->addProduct($product_data) === true){
-            $product_added = true;
+            $_SESSION['product_added'] = true;
         } else{
-            $product_adding_errors = [...$productsController->addProduct($product_data)];
-            
+            $_SESSION['product_adding_errors'] =  [...$productsController->addProduct($product_data)];
         }
-
-        
-        
+        header('location: products.php');
+        exit();
     }
 ?>
