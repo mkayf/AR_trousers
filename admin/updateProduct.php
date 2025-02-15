@@ -15,10 +15,14 @@
     // Update product:
 
     if(isset($_GET['id']) && is_numeric($_GET['id'])){
-        
+        $product_details = $productsController->getProductDetails($_GET['id']);
     } else{
         redirect('', '', 'admin/products');
         exit(0);
+    }
+
+    if(isset($_POST['update-btn'])){
+      $productsController->updateProduct($_POST, $_FILES);
     }
 ?>
 
@@ -105,9 +109,25 @@
      
         <div class="products-content-div px-4">
           <h1 class="mt-4">Update Product</h1>
-          
+
           <div class="products-container my-5">
             <form method="POST" enctype="multipart/form-data">
+            <div class="product-imgs-container my-5">
+              <div class="row d-flex justify-content-center align-items-center">
+                <div class="img-3 col-12 col-md-4 col-lg-4">
+                  <img src="..<?= $product_details['product_details'][0]['product_img_1'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-1">
+                  <input type="file" name="img-1" id="img-1" class="my-4" accept="image/*">
+                </div>
+                <div class="img-3 col-12 col-md-4 col-lg-4">
+                <img src="..<?= $product_details['product_details'][0]['product_img_2'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-2">
+                <input type="file" name="img-2" id="img-2" class="my-4" accept="image/*">
+                </div>
+                <div class="img-3 col-12 col-md-4 col-lg-4">
+                <img src="..<?= $product_details['product_details'][0]['product_img_3'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-3">
+                <input type="file" name="img-3" id="img-3" class="my-4" accept="image/*">
+                </div>
+              </div>
+            </div>
                 <div class="row">
                 <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
                     <label for="product-name" class="form-label"
@@ -118,6 +138,7 @@
                       class="form-control"
                       id="product-name"
                       name="product-name"
+                      value="<?= $product_details['product_details'][0]['product_name'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
@@ -125,8 +146,8 @@
                       >Select Category *</label
                     >
                     <select name="product-category" id="product-category" class="form-control">
-                        <option value="1">Pure cotton</option>
-                        <option value="2">Polyester cotton</option>
+                        <option value="1" <?= $product_details['product_details'][0]['product_cat_ID'] == '1' ? 'selected' : '' ?>>Pure cotton</option>
+                        <option value="2" <?= $product_details['product_details'][0]['product_cat_ID'] == '2' ? 'selected' : '' ?>>Polyester cotton</option>
                     </select>
                   </div>
                   <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
@@ -134,15 +155,15 @@
                       >Product status</label
                     >
                     <select name="product-status" id="product-status" class="form-control">
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="active"  <?= $product_details['product_details'][0]['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+                        <option value="inactive"  <?= $product_details['product_details'][0]['status'] == 'inactive' ? 'selected' : '' ?>>Inactive</option>
                     </select>
                   </div>
                   <div class="mb-3 col-12">
                     <label for="product-description" class="form-label"
                       >Product description *</label
                     >
-                    <textarea name="product-description" id="product-description" class="form-control" rows="4"></textarea>
+                    <textarea name="product-description" id="product-description" class="form-control" rows="4"><?= $product_details['product_details'][0]['product_desc'] ?></textarea>
                   </div>
                   <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
                     <label for="product-price" class="form-label"
@@ -153,7 +174,7 @@
                       class="form-control"
                       id="product-price"
                       name="product-price"
-                      value="0"
+                      value="<?= $product_details['product_details'][0]['product_actual_price'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
@@ -177,7 +198,7 @@
                       class="form-control"
                       id="product-discounted-price"
                       name="product-discounted-price"
-                      value="0"
+                      value="<?= $product_details['product_details'][0]['product_discounted_price'] ?>"
                     />
                   </div>
 
@@ -197,7 +218,7 @@
                       class="form-control"
                       id="b-small"
                       name="b-small"
-                      value="0"
+                      value="<?= $product_details['stock_details']['blackS'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -209,7 +230,7 @@
                       class="form-control"
                       id="b-medium"
                       name="b-medium"
-                      value="0"
+                      value="<?= $product_details['stock_details']['blackM'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -221,7 +242,7 @@
                       class="form-control"
                       id="b-large"
                       name="b-large"
-                      value="0"
+                      value="<?= $product_details['stock_details']['blackL'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -233,7 +254,7 @@
                       class="form-control"
                       id="b-xlarge"
                       name="b-xlarge"
-                      value="0"
+                      value="<?= $product_details['stock_details']['blackXL'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -245,7 +266,7 @@
                       class="form-control"
                       id="b-xxlarge"
                       name="b-xxlarge"
-                      value="0"
+                      value="<?= $product_details['stock_details']['blackXXL'] ?>"
                     />
                   </div>
 
@@ -265,7 +286,7 @@
                       class="form-control"
                       id="w-small"
                       name="w-small"
-                      value="0"
+                      value="<?= $product_details['stock_details']['whiteS'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -277,7 +298,7 @@
                       class="form-control"
                       id="w-medium"
                       name="w-medium"
-                      value="0"
+                      value="<?= $product_details['stock_details']['whiteM'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -289,7 +310,7 @@
                       class="form-control"
                       id="w-large"
                       name="w-large"
-                      value="0"
+                      value="<?= $product_details['stock_details']['whiteL'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -301,7 +322,7 @@
                       class="form-control"
                       id="w-xlarge"
                       name="w-xlarge"
-                      value="0"
+                      value="<?= $product_details['stock_details']['whiteXL'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-4 col-sm-4 col-md-2 col-lg-2">
@@ -313,7 +334,7 @@
                       class="form-control"
                       id="w-xxlarge"
                       name="w-xxlarge"
-                      value="0"
+                      value="<?= $product_details['stock_details']['whiteXXL'] ?>"
                     />
                   </div>
                   <div class="mb-3 col-12">
@@ -325,6 +346,7 @@
                       class="form-control"
                       id="product-slug"
                       name="product-slug"
+                      value="<?= $product_details['product_details'][0]['slug'] ?>"
                     />
                   </div>
                   <div class="mb-3">

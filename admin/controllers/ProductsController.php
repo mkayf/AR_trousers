@@ -169,7 +169,7 @@ class ProductsController
     }
 
     public function getProductDetails($product_ID){
-        $getProduct = "SELECT * FROM products as p
+        $getProduct = "SELECT p.product_ID, p.product_cat_ID, p.product_name, p.product_desc, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.product_img_2, p.product_img_3, p.status, p.slug FROM products as p
         INNER JOIN product_categories as c
         on p.product_cat_ID = c.cat_ID
         WHERE p.product_ID = $product_ID";
@@ -177,19 +177,37 @@ class ProductsController
         $product_result = $this->conn->query($getProduct);
 
         if($product_result){
-
-            $product_details = $this->conn->query();
+            $product_details = [];
+            while($row = $product_result->fetch_assoc()){
+                $product_details[] = $row;
+            }
         } else{
             return null;
         }
 
-        $getStock = "select s.color_ID, c.color, s.size_ID, si.size, s.stock_quantity FROM product_stock as s
-        inner join product_colors as c
-        on s.color_ID = c.color_ID
-        inner join product_sizes as si
+        $getStock = "SELECT si.size, c.color, s.stock_quantity FROM product_stock AS s
+        INNER JOIN product_colors AS c
+        ON s.color_ID = c.color_ID
+        INNER JOIN product_sizes AS si
         on s.size_ID = si.size_ID
-        where s.product_ID = $product_ID";
+        WHERE s.product_ID = $product_ID";
         
+        $stock_result = $this->conn->query($getStock);
+
+        if($stock_result){
+            $stock_details = [];
+            while($row = $stock_result->fetch_assoc()){
+                $stock_details[$row['color'] . $row['size']] = $row['stock_quantity'];
+            }
+            return ['product_details' => $product_details, 'stock_details' => $stock_details];           
+        } else{ 
+            return null;
+        }
+
+    }
+
+    public function updateProduct($product_data, $imgs){
+        print_r([...$product_data, $imgs]);
     }
 
 }
