@@ -27,22 +27,6 @@ window.addEventListener('DOMContentLoaded', event => {
         })
     }
 
-    // Product discount calculation:
-
-    const productPrice = document.getElementById('product-price');
-    const productDiscountPercent = document.getElementById('product-discount-percent');
-    const productDiscountedPrice = document.getElementById('product-discounted-price');
-
-    if(productPrice && productDiscountPercent && productDiscountedPrice){
-        
-            productDiscountPercent.value =  (100 - (productDiscountedPrice.value / productPrice.value * 100)).toFixed(2);
-        
-            productDiscountPercent.addEventListener('input', (event) => {
-                productDiscountedPrice.value = Math.round(productPrice.value - (productPrice.value * event.target.value / 100));   
-            })
-        
-    }
-
     // Preview image on upload in updateProduct.php file:
 
     const previewImg = (fileInput, imgPreview) => {
@@ -67,3 +51,9 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
 });
+
+
+// Year for the footer:
+
+let date = new Date();
+document.querySelector('.year').textContent = date.getFullYear();

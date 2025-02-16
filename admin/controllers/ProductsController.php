@@ -37,10 +37,9 @@ class ProductsController
 
                     $upload_dir = __DIR__ . '/../..';
 
-
                     // Check if the uploaded files are actual images:
                     $file_type = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-                    $accepted_extensions = ['avif', 'webp', 'jpg', '.jpeg', 'png', 'jfif'];
+                    $accepted_extensions = ['avif', 'webp', 'jpg', 'jpeg', 'png', 'jfif'];
 
                     if (in_array($file_type, $accepted_extensions)) {
 
@@ -82,8 +81,6 @@ class ProductsController
             }
     
         }
-
-
 
         // Get the last inserted product ID to insert into product stock table:
 
@@ -169,6 +166,7 @@ class ProductsController
     }
 
     public function getProductDetails($product_ID){
+        
         $getProduct = "SELECT p.product_ID, p.product_cat_ID, p.product_name, p.product_desc, p.product_actual_price, p.product_discounted_price, p.product_img_1, p.product_img_2, p.product_img_3, p.status, p.slug FROM products as p
         INNER JOIN product_categories as c
         on p.product_cat_ID = c.cat_ID
@@ -207,7 +205,172 @@ class ProductsController
     }
 
     public function updateProduct($product_data, $imgs){
-        print_r([...$product_data, $imgs]);
+        // Validate product data:
+        $details_arr = [];
+        foreach($product_data as $key => $value){
+            $details_arr[$key] = mysqli_real_escape_string($this->conn, $value);
+        }
+        
+        // Check for main fields if they are empty:
+        $fields = ['product-name', 'product-category', 'product-status', 'product-description'];
+        $errors = [];
+
+        foreach($fields as $field){
+            if(empty(trim($details_arr[$field]))){
+                $errors[$field] = ucfirst(str_replace('-', ' ', $field)) . ' is required';
+            }
+        }
+
+        // Check if actual price is empty or 0:
+        if(empty(trim($details_arr['product-price'])) || $details_arr['product-price'] == '0'){
+            $errors['product-price'] = 'Product price is required';
+        }
+
+
+        // Fetch product category first to set the directory path for image uploads:
+            $category_ID = $details_arr['product-category'];
+            $fetch_cat = "SELECT cat_name from product_categories WHERE cat_ID = $category_ID";
+            $result = $this->conn->query($fetch_cat);
+            $category_name = $result->fetch_assoc();
+                
+
+            // Check if the new images are being uploaded:
+            $img_paths = [];
+            $img_1 = $img_2 = $img_3 = null;
+            if(!empty($imgs['img-1']['name'])){
+                $img_1 = $imgs['img-1'];
+                $img_paths[] = $img_1;
+            }
+
+            if(!empty($imgs['img-2']['name'])){
+                $img_2 = $imgs['img-2'];
+                $img_paths[] = $img_2;
+            }
+
+            if(!empty($imgs['img-3']['name'])){
+                $img_3 = $imgs['img-3'];
+                $img_paths[] = $img_3;
+            }
+        
+        if(!empty($img_paths)){
+
+            for($i = 0; $i < count($img_paths); $i++){
+                $target_file_path = '/assets/product_images/' . $category_name['cat_name'] . '/' . basename(mysqli_real_escape_string($this->conn, $img_paths[$i]['name']));
+    
+                $upload_dir = __DIR__ . '/../..';
+    
+                // Check if the uploaded files are actual images:
+                $file_type = strtolower(pathinfo($img_paths[$i]['name'], PATHINFO_EXTENSION));
+                $accepted_extensions = ['avif', 'webp', 'jpg', 'jpeg', 'png', 'jfif'];            
+    
+                if(in_array($file_type, $accepted_extensions)){
+                    // Move uploaded images to targeted directory:
+                    if(!move_uploaded_file($img_paths[$i]['tmp_name'], $upload_dir . $target_file_path)){
+                        $errors['image-error'] = 'Failed to upload image';
+                    }
+                } else{
+                    $errors['image-error'] = 'You can only upload images of these extensions: AVIF, WEBP, PNG, JPG, JPEG'; 
+                }
+                
+            }
+        }
+
+        // Update product details now:
+        $product_ID = $details_arr['product-id'];
+        $product_name = $details_arr['product-name'];
+        $product_desc = $details_arr['product-description'];
+        $product_price = $details_arr['product-price'];
+        $product_discounted_price = $details_arr['product-discounted-price'];
+
+        $product_img_1 = isset($img_1) ? '/assets/product_images/' . $category_name['cat_name'] . '/' . basename(mysqli_real_escape_string($this->conn, $img_1['name'])) : null;
+
+        $product_img_2 = isset($img_2) ? '/assets/product_images/' . $category_name['cat_name'] . '/' . basename(mysqli_real_escape_string($this->conn, $img_2['name'])) : null;
+
+        $product_img_3 = isset($img_3) ? '/assets/product_images/' . $category_name['cat_name'] . '/' . basename(mysqli_real_escape_string($this->conn, $img_3['name'])) : null;
+
+        $product_status = $details_arr['product-status'];
+        $product_slug = $details_arr['product-slug'];
+
+        $updateProductDetails = "UPDATE products SET product_cat_ID = $category_ID, product_name = '$product_name', product_desc = '$product_desc', product_actual_price = '$product_price', product_discounted_price = '$product_discounted_price'"; 
+        
+        if($product_img_1 !== null){
+            $updateProductDetails .= ", product_img_1 = '$product_img_1'";
+        }
+
+        if($product_img_2 !== null){
+            $updateProductDetails .= ", product_img_2 = '$product_img_2'";
+        }
+
+        if($product_img_3 !== null){
+            $updateProductDetails .= ", product_img_3 = '$product_img_3'";
+        }
+
+        $updateProductDetails .= ", status = '$product_status', slug = '$product_slug' WHERE product_ID = '$product_ID'";
+
+        $product_result = $this->conn->query($updateProductDetails);
+
+        if(!$product_result){
+            $errors['details-update-error'] = "Failed to update product details";
+        }
+
+        // Update stock:
+
+        // stock for each size and color:
+            
+
+        $colors = [
+            'black' => $details_arr['black-color'],
+            'white' => $details_arr['white-color']
+        ];
+        
+        $size_stocks = [
+            'black' => [
+                $details_arr['b-small'],
+                $details_arr['b-medium'],
+                $details_arr['b-large'],
+                $details_arr['b-xlarge'],
+                $details_arr['b-xxlarge'],
+            ],
+            'white' => [
+                $details_arr['w-small'],
+                $details_arr['w-medium'],
+                $details_arr['w-large'],
+                $details_arr['w-xlarge'],
+                $details_arr['w-xxlarge'],
+            ]
+        ];
+
+        // $update_stock_query = "";
+
+        foreach ($colors as $color => $color_ID) {
+            for($i = 0; $i < 5; $i++){
+                $size_ID = $i + 1;
+                $stock_quantity = !empty($size_stocks[$color][$i]) ? $size_stocks[$color][$i] : 0;
+
+                $update_stock_query = "UPDATE product_stock SET stock_quantity = $stock_quantity WHERE product_ID = '$product_ID' AND color_ID = $color_ID AND size_ID = $size_ID";
+
+                $update_stock_result = $this->conn->query($update_stock_query);
+
+                if(!$update_stock_result){
+                    $errors['stock-error'] = 'Failed to update product stock for color: ' . $color . ' and size: ' . ($i + 1);
+                }
+            }
+        }
+
+
+        if(!$update_stock_result){
+            $errors['stock-error'] = 'Failed to update product stock';
+        }
+
+        if(empty($errors)){
+            $_SESSION['product-updated'] = 'Product updated successfully';
+            header('location: products.php');
+            exit();
+        } else{
+            $_SESSION['update_errors'] = $errors;
+            return false;
+        }
+        
     }
 
 }

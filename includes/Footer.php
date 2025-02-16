@@ -97,7 +97,7 @@
   </section>
 
   <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © <span class="year">2024</span>
+    © <span class="year"></span>
     <a class="text-reset fw-bold" href="<?php base_url('index.php') ?>">AR Trouser</a>
     All rights reserved.
   </div>

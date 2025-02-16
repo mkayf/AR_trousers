@@ -29,16 +29,18 @@
       exit();
     }
 
-
     $product_added = $_SESSION['product_added'] ?? false;
     $product_adding_errors = $_SESSION['product_adding_errors'] ?? false;
     $product_deleted = $_SESSION['product_deleted'] ?? false;
     $product_delete_error = $_SESSION['product_delete_error'] ?? false;
+    $product_updated = $_SESSION['product-updated'] ?? false;
 
     unset($_SESSION['product_added']);
     unset($_SESSION['product_adding_errors']);
     unset($_SESSION['product_deleted']);
     unset($_SESSION['product_delete_error']);
+    unset($_SESSION['product-updated']);
+
 
 ?>
 
@@ -184,6 +186,13 @@
       </div>
       <?php endif; ?>
     
+      <?php if($product_updated) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= $product_updated ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php endif; ?>
+
         <!-- Product add and update modal -->
         <div
           class="modal fade"
@@ -240,7 +249,7 @@
                     >
                     <textarea name="product-description" id="product-description" class="form-control" rows="4"></textarea>
                   </div>
-                  <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="mb-3 col-12 col-sm-12 col-md-6 col-lg-6">
                     <label for="product-price" class="form-label"
                       >Product price *</label
                     >
@@ -252,19 +261,7 @@
                       value="0"
                     />
                   </div>
-                  <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
-                    <label for="product-discount-percent" class="form-label"
-                      >Product discount %</label
-                    >
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="product-discount-percent"
-                      name="product-discount-percent"
-                      value="0"
-                    />
-                  </div>
-                  <div class="mb-3 col-12 col-sm-12 col-md-4 col-lg-4">
+                  <div class="mb-3 col-12 col-sm-12 col-md-6 col-lg-6">
                     <label for="product-discounted-price" class="form-label"
                       >Product discounted price</label
                     >
