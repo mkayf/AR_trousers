@@ -480,8 +480,8 @@
                     <td><img src="../<?= $product['product_img_1'] ?>" alt="<?= $product['product_name'] ?>" height="80px" width="60px"></td>
                     <td><?= $product['product_name'] ?></td>
                     <td><?= $product['cat_name'] == 'Pure_cotton' ? 'Pure cotton' : 'Polyester cotton' ?></td>
-                    <td><?= $product['product_actual_price'] ?></td>
-                    <td><?= $product['product_discounted_price'] ?? 0 ?></td>
+                    <td>Rs <?= number_format($product['product_actual_price']) ?></td>
+                    <td>Rs <?= number_format($product['product_discounted_price'] ?? 0) ?></td>
                     <td><?= $product['total_stock'] ?></td>
                     <td><?= $product['status'] ?></td>
                     <td>

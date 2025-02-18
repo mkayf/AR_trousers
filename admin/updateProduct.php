@@ -22,10 +22,10 @@
     }
 
     if(isset($_POST['update-btn'])){
-      if(!$productsController->updateProduct($_POST, $_FILES)){
-        $update_errors = $_SESSION['update_errors']; 
-      }
+      $productsController->updateProduct($_POST, $_FILES);
     }
+
+    $update_errors = $_SESSION['update_errors'] ?? false;
 
     unset($_SESSION['update_errors']);
 ?>
@@ -42,9 +42,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Admin Panel - AR Trouser</title>
-    <!-- DATA TABLE LINK CDN -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
-
+    <!-- BOOTSTRAP LINK CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <!-- PREDEFINED CLASSES STYLESHEET -->
     <link href="css/styles.css" rel="stylesheet" />
     <!-- CUSTOM CSS -->
@@ -106,20 +110,23 @@
           <div class="products-container my-5">
             <form method="POST" enctype="multipart/form-data">
               <input type="hidden" name="product-id" value="<?= $_GET['id'] ?>">
-            <div class="product-imgs-container my-5">
+            <div class="product-imgs container my-5">
               <div class="row d-flex justify-content-center align-items-center">
-                <div class="img-1 col-12 col-md-4 col-lg-4">
+                <div class="img-1 col-12 col-md-4 col-lg-4 my-2">
                   <img src="..<?= $product_details['product_details'][0]['product_img_1'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-1">
                   <input type="file" name="img-1" id="img-1" class="my-4" accept="image/*">
                 </div>
-                <div class="img-2 col-12 col-md-4 col-lg-4">
+                
+                <div class="img-2 col-12 col-md-4 col-lg-4 my-2">
                 <img src="..<?= $product_details['product_details'][0]['product_img_2'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-2">
                 <input type="file" name="img-2" id="img-2" class="my-4" accept="image/*">
                 </div>
-                <div class="img-3 col-12 col-md-4 col-lg-4">
+
+                <div class="img-3 col-12 col-md-4 col-lg-4 my-2">
                 <img src="..<?= $product_details['product_details'][0]['product_img_3'] ?>" alt="<?= $product_details['product_details'][0]['product_name'] ?>" height="300px" width="250px" id="preview-3">
                 <input type="file" name="img-3" id="img-3" class="my-4" accept="image/*">
                 </div>
+
               </div>
               <small style="color: red;"><?= $update_errors['image-error'] ?? '' ?></small>
             </div>
@@ -363,16 +370,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <!-- JQUERY CDN -->
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <!-- DATA TABLE WITH BOOTSTRAP -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script>
-      $(document).ready( function () {
-        $('#productsTable').DataTable();
-      });
-    </script>
     <!-- VANILLA JS SCRIPT -->
     <script src="js/scripts.js"></script>
   </body>

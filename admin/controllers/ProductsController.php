@@ -275,7 +275,12 @@ class ProductsController
             }
         }
 
-        // Update product details now:
+        
+
+
+        if(empty($errors)){
+
+            // Update product details now:
         $product_ID = $details_arr['product-id'];
         $product_name = $details_arr['product-name'];
         $product_desc = $details_arr['product-description'];
@@ -308,10 +313,6 @@ class ProductsController
         $updateProductDetails .= ", status = '$product_status', slug = '$product_slug' WHERE product_ID = '$product_ID'";
 
         $product_result = $this->conn->query($updateProductDetails);
-
-        if(!$product_result){
-            $errors['details-update-error'] = "Failed to update product details";
-        }
 
         // Update stock:
 
@@ -351,24 +352,16 @@ class ProductsController
 
                 $update_stock_result = $this->conn->query($update_stock_query);
 
-                if(!$update_stock_result){
-                    $errors['stock-error'] = 'Failed to update product stock for color: ' . $color . ' and size: ' . ($i + 1);
-                }
             }
         }
 
-
-        if(!$update_stock_result){
-            $errors['stock-error'] = 'Failed to update product stock';
-        }
-
-        if(empty($errors)){
             $_SESSION['product-updated'] = 'Product updated successfully';
             header('location: products.php');
             exit();
         } else{
             $_SESSION['update_errors'] = $errors;
-            return false;
+            header('location: updateProduct.php?id=' . $_GET['id']);
+            exit();
         }
         
     }
