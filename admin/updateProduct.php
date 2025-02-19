@@ -6,9 +6,9 @@
     include_once __DIR__ . '/controllers/ProductsController.php';
 
     if($_SESSION['user_data']['user_role'] !== 'admin'){
-        redirect('', '', 'admin/404.php');
-        exit(0);
-    }
+      redirect('', '', '404.php');
+      exit(0);
+  }
 
     $productsController = new ProductsController($DB->conn);
 

@@ -4,7 +4,7 @@
     include_once __DIR__ . '/../auth/auth.php';
 
     if($_SESSION['user_data']['user_role'] !== 'admin'){
-        redirect('', '', 'admin/404.php');
+        redirect('', '', '404.php');
         exit(0);
     }
 
@@ -69,7 +69,8 @@
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-end small">
                     <div class="text-muted">Copyright &copy; <a href="<?php base_url('index.php') ?>">AR Trouser</a>
-                        2023</div>
+                    <span class="year"></span>
+                    </div>
                 </div>
             </div>
         </footer>

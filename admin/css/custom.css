@@ -127,3 +127,38 @@
 }
 
 /* show product details page styling */
+
+/* Orders page styling */
+
+.order{
+    background-color: #e9ecef;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    background-color: #ffffff;
+    border-radius: 15px 15px 0 0;
+    padding: 1.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+.detail-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.product-img {
+    height: 80px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* Orders page styling */

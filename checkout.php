@@ -103,7 +103,7 @@ unset($_SESSION['old_data']);
                           <small style="color: red;"><?= $errors['address'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
-                          <label for="landmark">Landmark</label>
+                          <label for="landmark">Landmark / مشہور جگہ</label>
                           <input type="text" id="landmark" name="landmark" value="<?= $old_data['landmark'] ?? '' ?>">
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">

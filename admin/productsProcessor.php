@@ -2,6 +2,11 @@
     include_once __DIR__ . '/../config/App.php';
     include_once __DIR__ . '/controllers/ProductsController.php';
 
+    if($_SESSION['user_data']['user_role'] !== 'admin'){
+        redirect('', '', '404.php');
+        exit(0);
+    }
+
     // Message variables related to product adding:
     $product_added = false;
     $product_adding_errors = false;
