@@ -35,7 +35,9 @@
 
 <body class="sb-nav-fixed">
 
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+
+     <!-- navbar -->
+     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">AR Trouser</a>
         <!-- Sidebar Toggle-->
@@ -43,18 +45,23 @@
                 class="bi bi-list text-white fs-4 text-white"></i></button>
         <!-- Navbar-->
         <ul class="navbar-nav mx-auto me-3 me-lg-4">
+            <li class="nav-item">
+                <a href="<?php base_url('index.php') ?>" class="nav-link text-white">Home</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="bi bi-person-circle fs-5 text-white"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end py-1" aria-labelledby="navbarDropdown">
                     <form method="POST">
                         <button type="submit" class="dropdown-item d-flex align-items-center gap-2" name="logout-btn"><i
-                                class="bi bi-box-arrow-right fs-5"></i> Logout</button>
+                                class="bi bi-box-arrow-right fs-5"></i> Logout
+                        </button>
                     </form>
                 </ul>
             </li>
         </ul>
     </nav>
+    <!-- navbar -->
 
     <!-- Side bar -->
     <?php include './includes/sidebar.php' ?>

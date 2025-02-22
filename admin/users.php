@@ -43,6 +43,9 @@
                 class="bi bi-list text-white fs-4 text-white"></i></button>
         <!-- Navbar-->
         <ul class="navbar-nav mx-auto me-3 me-lg-4">
+        <li class="nav-item">
+                <a href="<?php base_url('index.php') ?>" class="nav-link text-white">Home</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="bi bi-person-circle fs-5 text-white"></i></a>
