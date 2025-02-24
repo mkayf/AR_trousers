@@ -12,7 +12,66 @@
     $orders_controller = new OrdersController($DB->conn);    
     $orders = $orders_controller->getOrders() ?? [];
 
+    if(isset($_POST['order_status'])){
+        $allowed_status = ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Canceled'];
+
+        $order_status = $_POST['order_status'];
+        $order_ID = $_POST['order_ID'];
+
+        if(in_array($order_status, $allowed_status)){
+            if($orders_controller->updateOrderStatus($order_ID, $order_status)){
+                $_SESSION['order-status-updated'] = "Order status updated successfully for Order ID: $order_ID";
+                
+            } else{
+                $_SESSION['order-status-update-failed'] = 'Failed to update order status. Please try again';
+            }
+        } else{
+            $_SESSION['invalid-order-status'] = 'Please select a valid order status';
+            
+        }
+        
+        header('location: orders.php');
+        exit();
+
+    }
     
+    if(isset($_POST['payment-status'])){
+        $allowed_status = ['Pending', 'Received'];
+        $payment_status = $_POST['payment-status'];
+        $order_ID = $_POST['order_ID'];
+
+        if(in_array($payment_status, $allowed_status)){
+
+            if($orders_controller->updatePaymentStatus($order_ID, $payment_status)){
+                $_SESSION['payment-status-updated'] = "Payment status updated successfully for Order ID: $order_ID";
+            } else{
+                $_SESSION['payment-status-update-failed'] = 'Failed to update payment status. Please try again';
+            }
+
+        } else{
+            $_SESSION['invalid-payment-status'] = 'Please select a valid payment status to update';
+        }
+
+        header('location: orders.php');
+        exit();
+    }
+
+
+    $order_status_updated = $_SESSION['order-status-updated'] ?? null;
+    $order_status_update_failed = $_SESSION['order-status-update-failed'] ?? null;
+    $invalid_order_status = $_SESSION['invalid-order-status'] ?? null;
+    $payment_status_updated = $_SESSION['payment-status-updated'] ?? null;
+    $payment_status_update_failed = $_SESSION['payment-status-update-failed'] ?? null;
+    $invalid_payment_status = $_SESSION['invalid-payment-status'] ?? null;
+
+
+    unset($_SESSION['order-status-updated']);
+    unset($_SESSION['order-status-update-failed']);
+    unset($_SESSION['invalid-order-status']);
+    unset($_SESSION['payment-status-updated']);
+    unset($_SESSION['payment-status-update-failed']);
+    unset($_SESSION['invalid-payment-status']);
+
 ?>
 
 
@@ -72,8 +131,55 @@
 
     <div id="layoutSidenav_content">
         <main>
+
+        <!-- alert messages -->
+        <?php if(isset($invalid_order_status)) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $invalid_order_status ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if(isset($order_status_updated)) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $order_status_updated ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        
+        <?php if(isset($order_status_update_failed)) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $order_status_update_failed ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if(isset($payment_status_updated)) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $payment_status_updated ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if(isset($payment_status_update_failed)) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $payment_status_update_failed ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <?php if(isset($invalid_payment_status)) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $invalid_payment_status ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
+        <!-- alert messages -->
+
             <div class="px-4">
                 <h1 class="mt-4">Manage orders</h1>
+                <?php if(!empty($orders)) : ?>
                 <?php foreach($orders as $order) : ?>
                 <div class="order mt-5">
                 <!-- Order Header -->
@@ -116,7 +222,9 @@
                         </div>
                         <div class="col-md-6 text-end">
                             <small class="text-muted d-block mb-2">Update order status</small>
-                            <select class="form-select w-50 d-inline-block">
+                            <form method="POST" id="order-status-form-<?= $order['order_ID'] ?>">
+                                <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
+                            <select class="form-select w-50 d-inline-block" name="order_status" onchange="document.getElementById('order-status-form-<?= $order['order_ID'] ?>').submit()">
                                 <option value="Pending" <?= $order['order_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
                                 <option value="Confirmed" <?= $order['order_status'] == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
                                 <option value="Processing" <?= $order['order_status'] == 'Processing' ? 'selected' : '' ?>>Processing</option>
@@ -125,6 +233,7 @@
                                 <option value="Delivered" <?= $order['order_status'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
                                 <option value="Canceled" <?= $order['order_status'] == 'Canceled' ? 'selected' : '' ?>>Canceled</option>
                             </select>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -157,10 +266,13 @@
                                 </div>
                                 <div>
                                 <small class="text-muted">Payment Status</small>
-                                <select class="form-select w-100 d-inline-block mt-1">
+                                <form method="POST" id="payment-status-form-<?= $order['order_ID'] ?>">
+                                    <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
+                                <select class="form-select w-100 d-inline-block mt-1" name="payment-status" onchange="document.getElementById('payment-status-form-<?= $order['order_ID'] ?>').submit()">
                                     <option value="Pending" <?= $order['payment_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
                                     <option value="Received" <?= $order['payment_status'] == 'Received' ? 'selected' : '' ?>>Received</option>
                                 </select>
+                                </form>
                                 </div>
                             </div>
                         </div>
@@ -169,9 +281,9 @@
                     <!-- Order Items -->
                     <div class="detail-card">
                         <h6 class="mb-3">Order Items</h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
+                        <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                            <table class="table table-hover" >
+                                <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                     <tr>
                                         <th></th>
                                         <th>Product ID</th>
@@ -262,6 +374,11 @@
                 </div>
             </div>
             <?php endforeach; ?>
+            <?php else:  ?>
+                <div class="text-center mt-5">
+                    <p class="fs-3">No orders yet.</p>
+                </div>
+            <?php endif; ?>
             </div>
         </main>
 
