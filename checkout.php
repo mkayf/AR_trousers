@@ -23,6 +23,10 @@ if(empty($cart_items)){
   exit(0);
 }
 
+if(isset($_SESSION['authenticated'])){
+  $shipping_details = $checkout_controller->getShippingDetails();
+}
+
 
 $errors = $_SESSION['errors'] ?? [];
 $old_data = $_SESSION['old_data'] ?? [];
@@ -52,6 +56,7 @@ unset($_SESSION['old_data']);
     <!-- NAVBAR -->
      <header>
          <?php include './includes/Navbar.php'; ?>
+
          <?php if(isset($_SESSION['order_placement_error'])) : ?>
          your<div class="header-msg d-flex align-items-center justify-content-between">
           <p style="font-size: 1rem;"><?= $_SESSION['order_placement_error']; ?></p>
@@ -73,38 +78,74 @@ unset($_SESSION['old_data']);
                       <h4>Shipping</h4>
                     </div>
                     <?php if(!isset($_SESSION['authenticated'])) : ?>
-                    <p style="font-size: 1rem;"><a href="<?php base_url('login.php'); ?>">Login</a> to view your order status and manage your account.</p>
+                    <p style="font-size: 1rem;"><a href="<?php base_url('login.php?redirect=checkout'); ?>">Login</a> to view your order status and manage your account.</p>
                     <?php endif; ?>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="first-name">First name <span class="star">*</span></label>
-                          <input type="text" id="first-name" name="first-name" value="<?= $old_data['first-name'] ?? '' ?>">
+                          <input type="text" id="first-name" name="first-name" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['first_name'];
+                            } else{
+                              $old_data['first-name'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['first-name'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="last-name">Last name <span class="star">*</span></label>
-                          <input type="text" id="last-name" name="last-name" value="<?= $old_data['last-name'] ?? '' ?>">
+                          <input type="text" id="last-name" name="last-name" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['last_name'];
+                            } else{
+                              $old_data['last-name'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['last-name'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="phone-number">Phone number <span class="star">*</span></label>
-                          <input type="number" id="phone-number" name="phone-number" value="<?= $old_data['phone-number'] ?? '' ?>">
+                          <input type="number" id="phone-number" name="phone-number" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['phone_number'];
+                            } else{
+                              $old_data['phone_number'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['phone-number'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="email">Email</label>
-                          <input type="email" id="email" name="email" value="<?= $old_data['email'] ?? '' ?>">
+                          <input type="email" id="email" name="email" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['email'];
+                            } else{
+                              $old_data['email'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['email'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
                           <label for="address">Street address / House number <span class="star">*</span></label>
-                          <input type="text" id="address" name="address" value="<?= $old_data['address'] ?? '' ?>">
+                          <input type="text" id="address" name="address" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['street_address'];
+                            } else{
+                              $old_data['street_address'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['address'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-12 col-lg-12">
                           <label for="landmark">Landmark / مشہور جگہ</label>
-                          <input type="text" id="landmark" name="landmark" value="<?= $old_data['landmark'] ?? '' ?>">
+                          <input type="text" id="landmark" name="landmark" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['landmark'];
+                            } else{
+                              $old_data['landmark'] ?? '';
+                            }
+                          ?>">
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="state">State / Province <span class="star">*</span></label>
@@ -121,7 +162,13 @@ unset($_SESSION['old_data']);
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
                           <label for="city">City <span class="star">*</span></label>
-                          <input type="text" id="city" name="city" value="<?= $old_data['city'] ?? '' ?>">
+                          <input type="text" id="city" name="city" value="<?php 
+                            if(isset($shipping_details) && !empty($shipping_details)){
+                              echo $shipping_details['city'];
+                            } else{
+                              $old_data['city'] ?? '';
+                            }
+                          ?>">
                           <small style="color: red;"><?= $errors['city'] ?? '' ?></small>
                         </div>
                         <div class="mb-3 mt-3 col-12">

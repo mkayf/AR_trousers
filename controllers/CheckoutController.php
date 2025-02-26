@@ -26,6 +26,18 @@ class CheckoutController extends CartController
         return $this->getCartTotal() + $this->getShippingCharges();
     }
 
+    public function getShippingDetails(){
+        $get_details_query = "SELECT * FROM shipping_details WHERE user_ID = $this->user_ID";
+
+        $details_result = $this->conn->query($get_details_query);
+
+        if($details_result){
+            return $details_result->fetch_assoc();
+        }
+
+        return [];
+    }
+
     public function placeOrder($cusDetails)
     {
 
@@ -135,6 +147,7 @@ class CheckoutController extends CartController
             return false;
         }
 
+
         // Insert each cart item into order items table:
 
         $cart_items = $this->getCartItems() ?? [];
@@ -151,6 +164,23 @@ class CheckoutController extends CartController
                 return false;
             }
         }
+
+
+        // INSERT shipping details into saved_shipping_details table so when user updates its shipping details then it should be applied to only shipping details of the user not to the orders that have been placed already.
+
+        if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
+            $save_shipping_details = "INSERT INTO saved_shipping_details (order_ID, user_ID, first_name, last_name, phone_number, email, street_address, landmark, state, city) VALUES ($order_ID, $this->user_ID, '$first_name', '$last_name', '$phone_number', '$email', '$address', '$landmark', '$state', '$city')";
+
+        } else if(isset($_SESSION['guest_ID'])){
+            $save_shipping_details = "INSERT INTO saved_shipping_details (order_ID, guest_ID, first_name, last_name, phone_number, email, street_address, landmark, state, city) VALUES ($order_ID, $_SESSION[guest_ID], '$first_name', '$last_name', '$phone_number', '$email', '$address', '$landmark', '$state', '$city')";
+        }
+
+        $save_details_result = $this->conn->query($save_shipping_details);
+
+        if(!$save_details_result){
+            return false;
+        }
+
 
         // Subtract the stock quantity from product_stock table for the given product IDs:
         

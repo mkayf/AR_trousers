@@ -10,7 +10,14 @@
     }
 
     $orders_controller = new OrdersController($DB->conn);    
-    $orders = $orders_controller->getOrders() ?? [];
+
+    if(isset($_GET['status'])){
+        $status = mysqli_real_escape_string($DB->conn, $_GET['status']);
+    } else{
+        $status = 'all';
+    }
+
+    $orders = $orders_controller->getOrders($status) ?? [];
 
     if(isset($_POST['order_status'])){
         $allowed_status = ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Canceled'];
@@ -179,6 +186,19 @@
 
             <div class="px-4">
                 <h1 class="mt-4">Manage orders</h1>
+
+                <!-- Order tabs -->
+                <div class=" mt-4 d-flex flex-wrap">
+                    <a href="orders.php?status=all" class="btn btn-sm order-tab <?= $status == 'all' ? 'active' : '' ?>">All</a>
+                    <a href="orders.php?status=pending" class="btn btn-sm order-tab <?= $status == 'pending' ? 'active' : '' ?>">Pending</a>
+                    <a href="orders.php?status=confirmed" class="btn btn-sm  order-tab <?= $status == 'confirmed' ? 'active' : '' ?>">Confirmed</a>
+                    <a href="orders.php?status=processing" class="btn btn-sm  order-tab <?= $status == 'processing' ? 'active' : '' ?>">Processing</a>
+                    <a href="orders.php?status=shipped" class="btn btn-sm  order-tab <?= $status == 'shipped' ? 'active' : '' ?>">Shipped</a>
+                    <a href="orders.php?status=out-for-delivery" class="btn btn-sm  order-tab <?= $status == 'out-for-delivery' ? 'active' : '' ?>">Out for delivery</a>
+                    <a href="orders.php?status=delivered" class="btn btn-sm  order-tab <?= $status == 'delivered' ? 'active' : '' ?>">Delivered</a>
+                    <a href="orders.php?status=canceled" class="btn btn-sm  order-tab <?= $status == 'canceled' ? 'active' : '' ?>">Canceled</a>
+                </div>
+
                 <?php if(!empty($orders)) : ?>
                 <?php foreach($orders as $order) : ?>
                 <div class="order mt-5">
@@ -317,13 +337,13 @@
                             </table>
                         </div>
                     </div>
-
+ 
                     <!-- Shipping Details -->
                     <div class="detail-card">
                         <h6 class="mb-3">Shipping Details</h6>
                         <div class="row">
                         <?php 
-                        $shipping_details = $orders_controller->getShippingDetails($order['shipping_ID']) ?? [];
+                        $shipping_details = $orders_controller->getShippingDetails($order['order_ID']) ?? [];
                         ?>
                             <div class="col-md-6">
                                 <div class="row mb-2">
@@ -375,8 +395,8 @@
             </div>
             <?php endforeach; ?>
             <?php else:  ?>
-                <div class="text-center mt-5">
-                    <p class="fs-3">No orders yet.</p>
+                <div class=" mt-5 ms-2">
+                    <p class="fs-3">No orders found for this status.</p>
                 </div>
             <?php endif; ?>
             </div>

@@ -162,3 +162,17 @@
 }
 
 /* Orders page styling */
+
+.order-tab{
+    margin-right: 12px;
+    margin-top: 8px;
+    background-color: #e7e7e7;
+    color: black;
+    font-weight: 500;
+    outline: none;
+}
+
+.order-tab.active{
+    background-color: rgb(44, 44, 44);
+    color: white;
+}

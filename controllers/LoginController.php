@@ -9,7 +9,7 @@
             }
             else{
                 return false;
-            }
+            } 
         }
 
         // Check if user is already logged and if he is then redirect him to the home page whenever he tries to access login or signup page:

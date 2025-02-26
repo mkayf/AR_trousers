@@ -551,8 +551,15 @@ let checkoutTotalPrice = document.getElementById('checkout-total-price');
 let cityNameDebouncer;
 
 if(city && shippingCharges){
-  city.addEventListener('input', (event) => {
-    let cityName = event.target.value;
+
+  function changeShippingCharges (event){
+    let cityName;
+
+    if(event){
+      cityName = event.target.value.trim();
+    } else{
+      cityName = city.value.trim();
+    }
 
     clearTimeout(cityNameDebouncer);
 
@@ -585,5 +592,12 @@ if(city && shippingCharges){
 
       }, 500)
 
-  })
+  }
+
+  // Change the charges on first load of page:
+  if(city.value.trim() != ''){
+    changeShippingCharges();
+  }
+
+  city.addEventListener('input', changeShippingCharges)
 }

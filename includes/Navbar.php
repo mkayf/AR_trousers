@@ -31,7 +31,7 @@
             <?php if(isset($_SESSION['authenticated'])) : ?>
 
               <?php if($_SESSION['user_data']['user_role'] == 'admin') :?>
-                <li><a class="dropdown-item" href="<?php echo base_url('admin/') ?>">Admin panel</a></li>
+                <li><a class="dropdown-item" href="<?php echo base_url('admin/products.php') ?>">Admin panel</a></li>
 
                 <?php endif; ?>
 

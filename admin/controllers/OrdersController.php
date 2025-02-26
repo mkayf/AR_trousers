@@ -8,12 +8,47 @@ class OrdersController {
         $this->conn = $db_connection;
     }
 
-    public function getOrders(){
+    public function getOrders($status){
         
         $orders = [];
         // get only orders from orders table:
 
-        $getOrdersQuery = "SELECT * FROM orders";
+        switch ($status) {
+
+            case 'pending':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Pending' ORDER BY order_ID DESC";
+                break;
+
+            case 'confirmed':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Confirmed' ORDER BY order_ID DESC";
+                break;
+                    
+            case 'processing':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Processing' ORDER BY order_ID DESC";
+                break;
+
+            case 'shipped':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Shipped' ORDER BY order_ID DESC";
+                break;
+            
+            case 'out-for-delivery':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Out for delivery' ORDER BY order_ID DESC";
+                break;
+
+            case 'delivered':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Delivered' ORDER BY order_ID DESC";
+                break;
+
+            case 'canceled':                
+                $getOrdersQuery = "SELECT * FROM orders WHERE order_status = 'Canceled' ORDER BY order_ID DESC";
+                break;
+                    
+            default:
+                $getOrdersQuery = "SELECT * FROM orders ORDER BY order_ID DESC";
+                break;
+        }
+
+        
 
         $orderResult = $this->conn->query($getOrdersQuery);
         
@@ -47,11 +82,11 @@ class OrdersController {
 
         return null;
 
-    }
+    } 
 
-    public function getShippingDetails($shipping_ID){
+    public function getShippingDetails($order_ID){
 
-        $get_shipping_query = "SELECT * FROM shipping_details WHERE shipping_ID = $shipping_ID";
+        $get_shipping_query = "SELECT * FROM saved_shipping_details WHERE order_ID = $order_ID";
 
         $shipping_result = $this->conn->query($get_shipping_query);
 

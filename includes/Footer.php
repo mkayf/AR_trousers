@@ -53,7 +53,7 @@
             
             <?php if($_SESSION['user_data']['user_role'] == 'admin') : ?>
               <p class="mb-2 footer-link">
-              <a href="<?php base_url('admin') ?>" class="text-reset text-decoration-none">Admin panel</a>
+              <a href="<?php base_url('admin/products.php') ?>" class="text-reset text-decoration-none">Admin panel</a>
               </p>  
             <?php endif; ?>  
 

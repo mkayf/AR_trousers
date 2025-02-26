@@ -9,6 +9,19 @@ $productController = new ProductsController($DB->conn);
 $newArrivalProducts = $productController->newArrivalProducts() ?? [];
 $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
 
+if(isset($_POST['subscribe'])){
+  // Subscribe user for news letter:
+  $email = mysqli_real_escape_string($DB->conn, $_POST['news-email']);
+
+  $subscribe_user = "INSERT INTO news_letter (email) VALUE ('$email')";
+
+  $result = $DB->conn->query($subscribe_user);
+
+  if($result){
+    redirect('Thanks for subscribing! Your journey to stylish and comfy trousers just got better!', '', 'index.php');
+  }
+}
+
 ?>
 
 
@@ -36,6 +49,13 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
      <header>
        <?php include './includes/Navbar.php'; ?>
         <?php if(isset($_SESSION['authenticated']) && isset($_SESSION['message'])) : ?>
+       <div class="header-msg d-flex align-items-center justify-content-between">
+        <?php include './includes/message.php' ?>
+        <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+       </div>
+       <?php endif; ?>
+
+       <?php if(isset($_SESSION['message'])) :?>
        <div class="header-msg d-flex align-items-center justify-content-between">
         <?php include './includes/message.php' ?>
         <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
@@ -354,7 +374,7 @@ $polyCottonTrousers = $productController->polyCottonTrousers(8) ?? [];
       <h4>Newsletter</h4>
       <p class="tag-line">Subscribe to our news letter for updates about the trousers.</p>
       <div class="letter-form-div">
-        <form class="d-flex">
+        <form class="d-flex" method="POST">
           <input type="email" placeholder="Enter your email address" name="news-email" required>
           <button type="submit" name="subscribe">Subscribe</button>
         </form>

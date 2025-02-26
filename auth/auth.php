@@ -54,12 +54,18 @@ if(isset($_POST['login-btn'])){
     $user_password = mysqli_real_escape_string($DB->conn, $_POST['user_password']);
 
     // Validation for logging user in:
-
-    if(!empty($user_email) && !empty($user_password)){
+ 
+    if(!empty(trim($user_email)) && !empty(trim($user_password))){
         if($login->loginUser($user_email, $user_password)){
                 if(isset($_POST['remember-me'])){
                     $login->rememberUserCredentials($user_email);
-                }   
+                } 
+                
+                if(isset($_GET['redirect']) && $_GET['redirect'] == 'checkout'){
+                    redirect('You are logged in.', '', 'checkout.php');
+                    exit();
+                }
+
                 redirect("You are logged in.", "", "index.php");
         } else{
                 exit(0);
