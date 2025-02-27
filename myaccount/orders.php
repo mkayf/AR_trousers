@@ -1,10 +1,12 @@
 <?php
 
-include_once __DIR__ . '/config/App.php';
-include_once __DIR__ . '/auth/auth.php';
-include_once __DIR__ . '/controllers/CartController.php';
+include_once __DIR__ . '/../config/App.php';
+include_once __DIR__ . '/../auth/auth.php';
+include_once __DIR__ . '/../controllers/CartController.php';
 
-
+if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
+    redirect('', '', 'login.php');
+}
 
 ?>
 
@@ -20,26 +22,28 @@ include_once __DIR__ . '/controllers/CartController.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <!-- CUSTOM CSS STYLESHEET -->
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <body>
     <!-- NAVBAR -->
     <header>
-        <?php include './includes/Navbar.php'; ?>
+        <?php include '../includes/Navbar.php'; ?>
     </header>
 
-    <main class="myaccount-main">
+    <!-- Sidebar -->
+    <div class="pt-4 px-3 px-md-5">
+        <button type="button" class="sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" tabindex="-1">
+        <i class="bi bi-list"></i>
+        </button>
+    
+        <?php include '../includes/Sidebar.php' ?>
+    </div>
+    <!-- Sidebar -->
 
-        <div class="heading-div d-flex justify-content-center align-items-center mt-5">
-            <span class="separator"></span>
-            <h2 class="section-heading">My account</h2><span class="separator"></span>
-        </div>
+    <main class="myaccount-main content">
 
-        <p class="tag-line">All Your Orders, One Place!</p>
-
-
-        <div class="container my-5">
-        <h2 class="your-orders-heading">My orders</h2>
+        <div class="container-fluid mt-4 mb-5 px-3 px-md-5">
+        <h2 class="myaccount-heading">My orders</h2>
         <div class="row justify-content-center">
             <div class="col-xxl-10 col-xl-12 px-0">
                 <div class="order-container">
@@ -95,7 +99,7 @@ include_once __DIR__ . '/controllers/CartController.php';
                     
                     <div class="accordion" id="accordionExample">   
                         <div class="accordion-item">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             More details
                         </button>
                         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -134,7 +138,7 @@ include_once __DIR__ . '/controllers/CartController.php';
 
                     <!-- Shipping Details -->
                     <div class="detail-card shipping-details">
-                        <h6 style="color: var(--primary);">Shipping Details</h6>
+                        <h6 style="color: var(--primary); margin-bottom: 16px;">Shipping Details</h6>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="row mb-2">
@@ -188,12 +192,12 @@ include_once __DIR__ . '/controllers/CartController.php';
     </main>
 
     <!-- Footer -->
-    <?php include './includes/Footer.php'; ?>
+    <?php include '../includes/Footer.php'; ?>
 
     <!-- BOOTSTRAP SCRIPT CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- VANILLA JS -->
-    <script src="./scripts/script.js"></script>
+    <script src="../scripts/script.js"></script>
 </body>
 </html>

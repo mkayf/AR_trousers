@@ -58,7 +58,7 @@
             <?php endif; ?>  
 
             <p class="mb-2 footer-link">
-            <a href="<?php base_url('myaccount.php') ?>" class="text-reset text-decoration-none">My account</a>
+            <a href="<?php base_url('myaccount/accountdetails.php') ?>" class="text-reset text-decoration-none">My account</a>
             </p>
             <form method="POST">
             <p class="mb-2 footer-link">

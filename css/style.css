@@ -1804,10 +1804,12 @@ footer .footer-link:hover{
 
 /* My account page styling */
 
+.myaccount-heading{
+    font-family: 'proxima-semibold';
+}
+
 .order-container {
     background-color: white;
-    /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
-    /* border: 1px solid #e0e0e0; */
     margin: 1rem;
     font-family: 'proxima-regular';
 }
@@ -1815,8 +1817,7 @@ footer .footer-link:hover{
 .order-header {
     background-color: white;
     padding: 1.5rem;
-    border-bottom: 2px solid #e0e0e0;
-    font-family: 'proxima-semibold';
+    font-family: 'proxima-regular';
 }
 
 .detail-card {
@@ -1854,11 +1855,21 @@ footer .footer-link:hover{
 
 .order-container .table thead th {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--background-color);
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.order-container .table tbody tr td{
+    font-size: 1rem;
 }
 
 .accordion {
     --bs-accordion-border-width: 0px;
+}
+
+.accordion-body{
+    padding: 0;
 }
 
 .accordion-button:not(.collapsed) {
@@ -1886,7 +1897,7 @@ footer .footer-link:hover{
     }
     
     .btn-cancel {
-        width: 100%;
+        /* width: 100%; */
         margin-top: 0.5rem;
     }
     
@@ -1894,6 +1905,64 @@ footer .footer-link:hover{
         height: 60px;
         width: 45px;
     }
+    .order-container .table thead th,
+    .order-container .table tbody tr td{
+        font-size: 0.9rem;
+    }
 }
 
+.btn-close{
+    --bs-btn-close-focus-shadow: none;
+}
+
+.sidebar{
+    width: 250px !important;
+    font-family: 'proxima-semibold';
+}
+
+.sidebar-toggler{
+    outline: none;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar-toggler:hover{
+    background-color: #5d3324;
+}
+
+.sidebar nav ul{
+    padding-left: 0;
+}
+
+.sidebar nav ul li{
+    list-style: none;
+    font-family: 'proxima-regular';
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+}
+
+.sidebar nav ul li a{
+    text-decoration: none;
+    color: #626262;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar nav ul li a:hover{
+    color: var(--text-color);
+}
+
+.sidebar nav .logout-btn{
+    font-family: 'proxima-regular';
+    font-size: 1.1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: #626262;
+
+}
 /* My account page styling */
