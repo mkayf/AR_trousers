@@ -347,10 +347,6 @@
                         ?>
                             <div class="col-md-6">
                                 <div class="row mb-2">
-                                    <div class="col-4 text-muted">User ID:</div>
-                                    <div class="col-8"><?= $shipping_details['user_ID'] ?? 'Error' ?></div>
-                                </div>
-                                <div class="row mb-2">
                                     <div class="col-4 text-muted">Name:</div>
                                     <div class="col-8"><?= $shipping_details['first_name'] . ' ' . $shipping_details['last_name'] ?? 'Error' ?></div>
                                 </div>
@@ -370,7 +366,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-4 text-muted">Landmark:</div>
-                                    <div class="col-8"><?= $shipping_details['landmark'] ?? 'Error' ?></div>
+                                    <div class="col-8"><?= $shipping_details['landmark'] ?? '' ?></div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-4 text-muted">City:</div>

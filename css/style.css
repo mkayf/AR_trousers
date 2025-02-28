@@ -67,6 +67,8 @@
 
 .shop-now-btn{
     background-color: var(--primary-color);
+    outline: none;
+    border: none;
     color: var(--background-color);
     text-decoration: none;
     padding: 12px 36px;
