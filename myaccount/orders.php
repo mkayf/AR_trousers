@@ -5,7 +5,7 @@ include_once __DIR__ . '/../auth/auth.php';
 include_once __DIR__ . '/../controllers/CartController.php';
 include_once __DIR__ . '/../controllers/OrdersController.php';
 
-if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
+if(!isset($_SESSION['authenticated']) && $_SESSION['authenticated'] != true){
     redirect('', '', 'login.php');
 }
 

@@ -3,10 +3,18 @@
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../auth/auth.php';
 include_once __DIR__ . '/../controllers/CartController.php';
+include_once __DIR__ . '/../controllers/MyAccountController.php';
 
-if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
+
+if(!isset($_SESSION['authenticated']) && $_SESSION['authenticated'] != true){
     redirect('', '', 'login.php');
 }
+
+$myaccount_controller = new MyAccountController($DB->conn);
+
+$shipping_details = $myaccount_controller->getShippingDetails($_SESSION['user_data']['user_ID']) ?? null;
+
+$states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
 
 ?>
 
@@ -48,50 +56,54 @@ if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
             <div class="user-shipping-container row my-4 col-12 col-md-12 col-lg-6">
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="first-name">First name <span class="star">*</span></label>
-                    <input type="text" name="first-name" id="first-name">
+                    <input type="text" name="first-name" id="first-name" value="<?= $shipping_details['first_name'] ?? '' ?>">
+                    <small style="color: red;"><?= $errors['first-name'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="last-name">Last name <span class="star">*</span></label>
-                    <input type="text" name="last-name" id="last-name">
+                    <input type="text" name="last-name" id="last-name" value="<?= $shipping_details['last_name'] ?? '' ?>">
+                    <small style="color: red;"><?= $errors['last-name'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="phone-number">Phone number <span class="star">*</span></label>
-                    <input type="number" name="phone-number" id="phone-number">
+                    <input type="number" name="phone-number" id="phone-number" value="<?= $shipping_details['phone_number'] ?? '' ?>">
+                    <small style="color: red;"><?= $errors['phone-number'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" value="<?= $shipping_details['email'] ?? '' ?>">
+                    <small style="color: red;"><?= $errors['email'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12">
                     <label for="street-address">Street address / House number <span class="star">*</span></label>
-                    <input type="text" name="address" id="address">
+                    <input type="text" name="address" id="address" value="<?= $shipping_details['street_address'] ?? '' ?>">
+                    <small style="color: red;"><?= $errors['address'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12">
                     <label for="landmark">Landmark / مشہور جگہ</label>
-                    <input type="text" name="landmark" id="landmark">
+                    <input type="text" name="landmark" id="landmark" value="<?= $shipping_details['landmark'] ?? '' ?>">
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="state">State / Province <span class="star">*</span></label>
                     <select name="state" id="state">
                         <option value="null">Select your state</option>
-                        <option value="Azad Kashmir">Azad Kashmir</option>
-                        <option value="Balochistan">Balochistan</option>
-                        <option value="Islamabad Capital Territory">Islamabad Capital Territory</option>
-                        <option value="Khyber Pakhtunkhwa">Khyber Pakhtunkhwa</option>
-                        <option value="Punjab">Punjab</option>
-                        <option value="Sindh">Sindh</option>
+                        <?php foreach($states as $state) : ?>
+                        <option value="<?= $state ?>" <?= $state == $shipping_details['state'] ? 'selected' : '' ?>><?= $state ?></option>
+                        <?php endforeach; ?>
                     </select>
+                    <small style="color: red;"><?= $errors['state'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="landmark">City <span class="star">*</span></label>
-                    <input type="text" name="city" id="city">
+                    <input type="text" name="city" id="city" value="<?= $shipping_details['city'] ?>">
+                    <small style="color: red;"><?= $errors['city'] ?? '' ?></small>
                 </div>
                 <div class="mt-4 input-div col-12">
                     <input type="submit" name="save-details" id="save-btn" value="Save">
                 </div>
             </div>
 
-            <div class="shipping-faqs-container my-4 col-12 col-md-12 col-lg-5">
+            <div class="shipping-faqs-container my-0 my-md-4 col-12 col-md-12 col-lg-5">
                 <h4>Shipping & Delivery FAQs</h4>
             <div class="accordion" id="accordionPanelsStayOpenExample">
   <div class="accordion-item">
@@ -114,7 +126,7 @@ if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
     </h2>
     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
       <div class="accordion-body px-4">
-        Shipping charges are Rs 200 for Karachi and Rs 300 for other cities all across Pakistan.
+      Shipping charges are Rs 200 for Karachi and Rs 300 for other cities all across Pakistan.
       </div>
     </div>
   </div>
@@ -147,7 +159,7 @@ if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
   <div class="accordion-item">
     <h2 class="accordion-header">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
-      <p>Can I change my shipping address after placing an order??</p>
+      <p>Can I change my shipping address after placing an order?</p>
       </button>
     </h2>
     <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
@@ -156,9 +168,21 @@ if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
       </div>
     </div>
   </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="true" aria-controls="panelsStayOpen-collapseSix">
+      <p>What happens if I’m not available at the time of delivery?</p>
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse">
+      <div class="accordion-body px-4">
+      Our delivery partner will attempt 2 times before returning the parcel.
+      </div>
+    </div>
+  </div>
+
 </div>
-
-
 </div>
 
             </div>

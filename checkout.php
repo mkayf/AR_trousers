@@ -148,7 +148,7 @@ unset($_SESSION['old_data']);
                           ?>">
                         </div>
                         <div class="mb-3 input-div col-sm-12 col-md-6 col-lg-6">
-                          <label for="state">State / Province <span class="star">*</span></label>
+                         <label for="state">State / Province <span class="star">*</span></label>
                           <select name="state" id="state">
                             <option value="null">Select your state</option>
                             <option value="Azad Kashmir">Azad Kashmir</option>
