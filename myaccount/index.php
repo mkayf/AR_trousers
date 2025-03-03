@@ -8,5 +8,5 @@ if(!isset($_SESSION['authenticated']) && !$_SESSION['authenticated'] == true){
     redirect('', '', 'login.php');
 }
 
-header('location: accountdetails.php');
+header('location: orders.php');
 exit();

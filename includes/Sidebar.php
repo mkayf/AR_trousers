@@ -7,7 +7,6 @@
     <nav>
         <ul>
             <li><a href="orders.php">Orders</a></li>
-            <li><a href="accountdetails.php">Account details</a></li>
             <li><a href="shippingdetails.php">Shipping details</a></li>
             <form method="POST">
                   <button type="submit" class="logout-btn" name="logout-btn">Logout</button>

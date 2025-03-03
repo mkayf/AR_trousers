@@ -29,7 +29,7 @@ if(isset($_POST['place-order'])){
     $fields = ['first-name', 'last-name', 'phone-number', 'address', 'city'];
 
     foreach($fields as $field){
-        if(empty(trim($_POST[$field]))){
+        if(empty(trim($detailsArr[$field]))){
             $errors[$field] = ucfirst(str_replace('-', ' ', $field)) . " is required";
         }
     }

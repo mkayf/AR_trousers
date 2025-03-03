@@ -92,10 +92,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Admin Panel - AR Trouser</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="manifest" href="../config/site.webmanifest">
     <!-- BOOTSTRAP LINK CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   
     <!-- PREDEFINED CLASSES STYLESHEET -->
     <link href="css/styles.css" rel="stylesheet" />
     <!-- CUSTOM CSS -->
@@ -346,6 +349,15 @@
                         $shipping_details = $orders_controller->getShippingDetails($order['order_ID']) ?? [];
                         ?>
                             <div class="col-md-6">
+                                <div class="row mb-2">
+                                    <?php if(isset($shipping_details['user_ID'])) :  ?>
+                                        <div class="col-4 text-muted">User ID:</div>
+                                        <div class="col-8"><?= $shipping_details['user_ID'] ?? 'Error' ?></div>
+                                    <?php else: ?>
+                                        <div class="col-4 text-muted">Guest ID:</div>
+                                        <div class="col-8"><?= $shipping_details['guest_ID'] ?? 'Error' ?></div>
+                                    <?php endif; ?>    
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col-4 text-muted">Name:</div>
                                     <div class="col-8"><?= $shipping_details['first_name'] . ' ' . $shipping_details['last_name'] ?? 'Error' ?></div>

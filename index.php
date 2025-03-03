@@ -31,6 +31,10 @@ if(isset($_POST['subscribe'])){
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AR Trousers - Shop Stylish Women's Stitched Trousers Online</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-16x16.png">
+    <link rel="manifest" href="./config/site.webmanifest">
     <!-- BOOTSTRAP LINK CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- CUSTOM CSS STYLESHEET -->
@@ -337,37 +341,6 @@ if(isset($_POST['subscribe'])){
 </section>
 
   <!-- Poly cotton trousers section -->
-
-  <!-- speciality section -->
-   <section class="speciality-section container-fluid">
-    <div class="row d-flex justify-content-center align-items-center">
-    <div class="speciality col-sm-12 col-md-6 col-lg-3"> 
-      <div class="speciality-img">
-        <img src="./assets/images/fast-delivery.png" alt="">
-      </div>
-      <h5>Timely Delivery</h5>
-    </div>
-    <div class="speciality col-sm-12 col-md-6 col-lg-3"> 
-      <div class="speciality-img">
-        <img src="./assets/images/return.png" alt="">
-      </div>
-      <h5>Easy Returns</h5>
-    </div>
-    <div class="speciality col-sm-12 col-md-6 col-lg-3"> 
-      <div class="speciality-img">
-        <img src="./assets/images/customer-service.png" alt="">
-      </div>
-      <h5>24/7 Customer Support</h5>
-    </div>
-    <div class="speciality col-sm-12 col-md-6 col-lg-3"> 
-      <div class="speciality-img">
-        <img src="./assets/images/quality.png" alt="">
-      </div>
-      <h5>Premium Quality</h5>
-    </div>
-    </div>
-   </section>
-  <!-- speciality section -->
 
   <!-- News letter section -->
     <section class="letter-section container-fluid">

@@ -14,7 +14,24 @@ $myaccount_controller = new MyAccountController($DB->conn);
 
 $shipping_details = $myaccount_controller->getShippingDetails($_SESSION['user_data']['user_ID']) ?? null;
 
-$states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
+$states = ['Azad Kashmir', 'Balochistan', '
+Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
+
+if(isset($_POST['save-details'])){
+  
+  $myaccount_controller->saveShippingDetails($_SESSION['user_data']['user_ID'], $_POST);
+
+  header('location: shippingdetails.php');
+  exit();
+}
+
+
+$details_saved = $_SESSION['details_saved'] ?? null;
+$errors = $_SESSION['errors'] ?? null;
+
+unset($_SESSION['details_saved']);
+unset($_SESSION['errors']);
+
 
 ?>
 
@@ -26,6 +43,10 @@ $states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AR Trousers - Shop Stylish Women's Stitched Trousers Online</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="manifest" href="./config/site.webmanifest">
     <!-- BOOTSTRAP LINK CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -36,6 +57,12 @@ $states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber
     <!-- NAVBAR -->
     <header>
         <?php include '../includes/Navbar.php'; ?>
+        <?php if(isset($details_saved)) :  ?>
+          <div class="header-msg d-flex align-items-center justify-content-between">
+          <p style="font-size: 1rem;"><?= $details_saved ?></p>
+          <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+          </div>  
+        <?php endif; ?>
     </header>
 
     <!-- Sidebar -->
@@ -54,6 +81,8 @@ $states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber
         <h2 class="myaccount-heading">Shipping details</h2>
         <div class="row d-flex justify-content-center align-items-start gap-5">
             <div class="user-shipping-container row my-4 col-12 col-md-12 col-lg-6">
+              <form method="POST">
+                <div class="row">
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="first-name">First name <span class="star">*</span></label>
                     <input type="text" name="first-name" id="first-name" value="<?= $shipping_details['first_name'] ?? '' ?>">
@@ -101,7 +130,9 @@ $states = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber
                 <div class="mt-4 input-div col-12">
                     <input type="submit" name="save-details" id="save-btn" value="Save">
                 </div>
-            </div>
+              </div>
+           </form>
+        </div>
 
             <div class="shipping-faqs-container my-0 my-md-4 col-12 col-md-12 col-lg-5">
                 <h4>Shipping & Delivery FAQs</h4>

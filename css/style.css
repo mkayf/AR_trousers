@@ -697,7 +697,7 @@ p{
 .poly-cotton-section{
     margin-top: var(--top-spacing);
     padding: 24px 48px;
-    background-color: rgb(236, 236, 236);
+    background-color: var(--background-color);
 }
 
 .tag-line{
@@ -834,47 +834,9 @@ p{
 
 /* Poly cotton section */
 
-/* Speciality section */
-
-.speciality-section{
-    margin-top: var(--top-spacing);
-    padding: 0 48px;
-}
-
-.speciality{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 16px;
-    font-family: 'proxima-semibold';
-    color: var(--text-color);
-    font-size: 1.5rem;
-}
-
-.speciality-section .speciality-img{
-    background-color: rgb(236, 236, 236);
-    border: 2px dashed var(--primary-color);
-    padding: 32px;
-    border-radius: 50%;
-}
-
-.speciality-section .speciality-img img{
-    width: 100px;
-}
-
-
-@media (max-width: 992px){
-    .speciality{
-        margin-bottom: 32px;
-    }
-}
-/* Speciality section */
-
 /* newsletter section */
 .letter-section{
     background-color: rgb(236, 236, 236);
-    margin-top: var(--top-spacing);
     padding: 24px 48px;
 }
 
@@ -1979,6 +1941,7 @@ footer .footer-link:hover{
         display: block;
         margin-bottom: 4px;
     }
+
 
     .input-div input{
         width: 100%;

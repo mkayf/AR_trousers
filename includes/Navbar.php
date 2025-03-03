@@ -35,7 +35,7 @@
 
                 <?php endif; ?>
 
-              <li><a class="dropdown-item" href="<?php base_url('myaccount/accountdetails.php') ?>">My account</a></li>
+              <li><a class="dropdown-item" href="<?php base_url('myaccount/orders.php') ?>">My account</a></li>
               <li>
               <form method="POST">
                   <button type="submit" class="dropdown-item" name="logout-btn">Logout</button>
