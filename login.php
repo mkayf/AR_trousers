@@ -5,11 +5,16 @@
   include_once __DIR__ . '/controllers/CartController.php';
   
   if($login->validateUserCredentials()){
+    if(isset($_GET['redirect']) && $_GET['redirect'] == 'checkout'){
+      redirect('You are logged in.', '', 'checkout.php');
+      exit();
+    }
+    
     redirect('You are logged in.', '', 'index.php');
   } else{
     $login->isUserLoggedIn();
   } 
-  
+   
 
 ?>
 

@@ -27,7 +27,6 @@ $products = $productController->getProductsOnFirstLoad() ?? [];
   </head>
   <!-- CUSTOM CSS STYLESHEET -->
    <link rel="stylesheet" href="../css/style.css">
-
   <body>
     
     <!-- NAVBAR -->

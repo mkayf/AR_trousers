@@ -2,7 +2,7 @@
     class LoginController extends SignupController{
 
         // Logging user in:
-
+ 
         public function loginUser($email, $password){
             if($this->getUserInfo($email, $password)){
                 return true;

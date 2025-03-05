@@ -9,6 +9,7 @@ include_once __DIR__ . '/placeOrder.php';
 
 $cart_items = $cartController->getCartItems() ?? [];
 
+$state_arr = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
 
 if(isset($_SESSION['order_placed']) && $_SESSION['order_placed'] == true){
   $order_ID = $_SESSION['order_ID'];
@@ -35,8 +36,6 @@ $old_data = $_SESSION['old_data'] ?? [];
 unset($_SESSION['errors']);
 unset($_SESSION['old_data']);
 
-
-
 ?>
 
 
@@ -61,6 +60,13 @@ unset($_SESSION['old_data']);
     <!-- NAVBAR -->
      <header>
          <?php include './includes/Navbar.php'; ?>
+         
+         <?php if(isset($_SESSION['authenticated']) && isset($_SESSION  ['message'])) : ?>
+        <div class="header-msg d-flex align-items-center justify-content-between">
+          <?php include './includes/message.php' ?>
+          <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+        </div>
+        <?php endif; ?>       
 
          <?php if(isset($_SESSION['order_placement_error'])) : ?>
           <div class="header-msg d-flex align-items-center justify-content-between">
@@ -156,12 +162,9 @@ unset($_SESSION['old_data']);
                          <label for="state">State / Province <span class="star">*</span></label>
                           <select name="state" id="state">
                             <option value="null">Select your state</option>
-                            <option value="Azad Kashmir">Azad Kashmir</option>
-                            <option value="Balochistan">Balochistan</option>
-                            <option value="Islamabad Capital Territory">Islamabad Capital Territory</option>
-                            <option value="Khyber Pakhtunkhwa">Khyber Pakhtunkhwa</option>
-                            <option value="Punjab">Punjab</option>
-                            <option value="Sindh">Sindh</option>
+                            <?php foreach($state_arr as $state) : ?>
+                              <option value="<?= $state ?>" <?= $shipping_details['state'] == $state ? 'selected' : '' ?>><?= $state ?></option>
+                            <?php endforeach; ?>
                           </select>
                           <small style="color: red;"><?= $errors['state'] ?? '' ?></small>
                         </div>

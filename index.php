@@ -47,7 +47,80 @@ if(isset($_POST['subscribe'])){
     />
   </head>
   <body>
-    
+
+    <!-- size guide modal -->
+    <div class="modal fade" id="size-guide-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Size Guide</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div style="overflow-x: auto;">    
+            <table class="table text-center size-table table-bordered border-dark">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-start">Size</th>
+                  <th scope="col">Small</th>
+                  <th scope="col">Medium</th>
+                  <th scope="col">Large</th>
+                  <th scope="col">X large</th>
+                  <th scope="col">XX large</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-start">Waist</td>
+                  <td>24</td>
+                  <td>28</td>
+                  <td>30</td>
+                  <td>32.5</td>
+                  <td>34</td>
+                </tr> 
+                <tr>
+                  <td class="fw-bold text-start">Hip</td>
+                  <td>38</td>
+                  <td>40</td>
+                  <td>44</td>
+                  <td>48</td>
+                  <td>56</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Thigh</td>
+                  <td>23</td>
+                  <td>24</td>
+                  <td>26</td>
+                  <td>28</td>
+                  <td>32</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Length</td>
+                  <td>36</td>
+                  <td>37</td>
+                  <td>38</td>
+                  <td>39</td>
+                  <td>39</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-start">Bottom</td>
+                  <td>6</td>
+                  <td>6.5</td>
+                  <td>7</td>
+                  <td>7.5</td>
+                  <td>7.5</td>
+                </tr>
+              </tbody>
+           </table>
+          </div>
+           <p class="size-note"><span class="fw-bold">Note:</span> All measurements are in inches.</p>
+            </div>
+          </div>
+        </div>
+  </div>
+<!-- Size guide modal -->
+
+
     <!-- NAVBAR -->
 
      <header>
@@ -73,17 +146,20 @@ if(isset($_POST['subscribe'])){
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <div class="slide-img-bg-1 slide-img">
-        <h1 class="heading">AR Trousers</h1>
+        <h1 class="heading">Trendy & Stylish Trousers</h1>
+        <p>Style That Moves With You – Explore Trendy Trousers Now!</p>
         </div>
       </div>
       <div class="swiper-slide">
         <div class="slide-img-bg-2 slide-img">
-        <h1 class="heading">AR Trousers</h1>
+        <h1 class="heading">Premium Quality, Best Prices!</h1>
+        <p>Unbeatable Quality, Unbelievable Prices – Grab Yours Today!</p>
         </div>
       </div>
       <div class="swiper-slide">
         <div class="slide-img-bg-3 slide-img">
-        <h1 class="heading">AR Trousers</h1>
+        <h1 class="heading">Perfect Fit, Ultimate Comfort!</h1>
+        <p>Designed for You, Styled for Perfection!</p>
         </div>
       </div>
     </div>
@@ -173,7 +249,7 @@ if(isset($_POST['subscribe'])){
 
 
   <!-- Our latest products -->
-   <section class="latest-products-section container-fluid">
+   <section class="latest-products-section container-fluid" id="new-arrivals">
     <div class="heading-div d-flex justify-content-center align-items-center">
     <span class="separator"></span><h2 class="section-heading">new arrivals</h2><span class="separator"></span>
     </div>

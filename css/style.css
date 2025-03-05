@@ -161,12 +161,6 @@ body{
     position: relative;
 }
 
-.navbar .mobile-cart{
-    position: absolute;
-    right: 55px;
-    top: 25px;
-}
-
 .nav-icons span, .cart-icon-m{
     color: var(--primary-color);
     cursor: pointer;
@@ -176,9 +170,6 @@ body{
     position: relative;
 }
 
-.cart-icon-m{
-    position: relative;
-}
 
 .nav-icons .cart-icon .count-badge, .cart-icon-m .count-badge{
     background-color: var(--primary-color);
@@ -212,7 +203,7 @@ body{
     font-family: 'cormorant-bold';
     text-align: center;
     /* margin-top: 100px; */
-    font-size: 8rem;
+    font-size: 4rem;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: var(--background-color);
@@ -221,7 +212,6 @@ body{
 p{
     font-family: 'proxima-regular';
     font-size: 1.1rem;
-    /* letter-spacing: var(--spacing-1); */
 }
 
 @media(max-width: 768px){
@@ -261,10 +251,21 @@ p{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    padding: 48px;
+  }
+
+  .slide-img h1{
+    font-size: 4.5rem;
+  }
+
+  .slide-img p{
+    color: white;
+    font-size: 2.2rem;
   }
 
   .slide-img-bg-1{
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)) ,url("https://sitarastudio.pk/cdn/shop/articles/87_3.webp?v=1707206116");
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)) ,url("https://sitarastudio.pk/cdn/shop/articles/87_3.webp?v=1707206116");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -274,7 +275,7 @@ p{
 
 
   .slide-img-bg-2{
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)) ,url("https://safwa.pk/cdn/shop/articles/101d9a8bb40d9a8718ac093ca9c28fa9.jpg?v=1703887083&width=1000");
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)) ,url("https://safwa.pk/cdn/shop/articles/101d9a8bb40d9a8718ac093ca9c28fa9.jpg?v=1703887083&width=1000");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -283,7 +284,7 @@ p{
   }
   
   .slide-img-bg-3{
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)) ,url("https://safwa.pk/cdn/shop/files/40_dbfd5a96-a137-4891-9e78-14eeb0ef25e9.jpg?v=1730699767&width=1400");
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)) ,url("https://safwa.pk/cdn/shop/files/40_dbfd5a96-a137-4891-9e78-14eeb0ef25e9.jpg?v=1730699767&width=1400");
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
@@ -321,9 +322,33 @@ p{
     transform: rotate(-90deg);
   }
 
+  @media(max-width: 992px){
+    .swiper .slide-img h1{
+        font-size: 3rem;
+    }
+
+    .swiper .slide-img p{
+        font-size: 1.5rem;
+    }
+  }
+
+
   @media(max-width: 576px){
+     
     .swiper{
-        height: 500px;
+        height: 450px;
+    }
+
+    .swiper .slide-img{
+        padding: 18px;
+        align-items: flex-start;
+    }
+    .swiper .slide-img h1{
+        font-size: 2rem;
+    }
+
+    .swiper .slide-img p{
+        font-size: 1.1rem;
     }
   }
 
@@ -676,13 +701,14 @@ p{
 @media (max-width: 576px){
     .fabric-quality-section{
         padding: 0 16px;
+        margin-top: 48px;
     }
     .fabric-quality-img-div{
-        height: 400px;
+        height: 350px;
         width: 300px;
     }
     .fabric-quality-content-div h3{
-        font-size: 2.3rem;
+        font-size: 2rem;
     }
     .fabric-quality-content p{
         font-size: 1rem;
@@ -693,7 +719,7 @@ p{
 
 
 /* Poly cotton section */
-
+ 
 .poly-cotton-section{
     margin-top: var(--top-spacing);
     padding: 24px 48px;
@@ -801,7 +827,7 @@ p{
     }
 
     .polyswiper{
-        height: 250px;
+        height: 270px;
     }
     
     .polyswiper .swiper-slide{
@@ -907,6 +933,12 @@ footer .footer-link:hover{
     color: var(--primary-color);
 }
 
+@media (max-width: 576px) {
+    footer .footer-bottom{
+        font-size: 0.8rem;
+    }
+    
+}
 /* Footer section */
 
 
@@ -1853,11 +1885,6 @@ footer .footer-link:hover{
         margin-bottom: 1rem;
     }
     
-    .payment-summary .d-flex {
-        flex-direction: column;
-        gap: 1rem !important;
-    }
-    
     .order-container .shipping-details .row > div {
         margin-bottom: 1rem;
     }
@@ -1873,6 +1900,26 @@ footer .footer-link:hover{
     }
     .order-container .table thead th,
     .order-container .table tbody tr td{
+        font-size: 0.9rem;
+    }
+
+}
+
+
+@media(max-width: 576px){
+    .payment-summary .small, h5, p{
+        font-size: 0.9rem;
+    }
+
+    .btn-cancel{
+        font-size: 0.9rem;
+    }
+
+    .status-badge{
+        font-size: 0.9rem;
+    }
+    
+    .detail-card.shipping-details{
         font-size: 0.9rem;
     }
 }

@@ -83,12 +83,12 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
 
     <main class="myaccount-main content">
 
-        <div class="container-fluid mt-4 mb-5 px-3 px-md-5">
-        <h2 class="myaccount-heading">My orders</h2>
+        <div class="container-fluid mt-4 mb-5 px-1 px-md-5">
+        <h2 class="myaccount-heading px-3">My orders</h2>
         <div class="row justify-content-center">
         <?php if(!empty($orders)) : ?>
             <?php foreach($orders as $order) : ?>
-            <div class="col-xxl-10 col-xl-12 px-0">
+            <div class="col-xxl-10 col-xl-12">
                 <div class="order-container">
                     <!-- Order Header -->
                     <div class="order-header">
@@ -121,16 +121,16 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
                     <div class="detail-card payment-summary">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="d-flex flex-wrap gap-5">
-                                    <div>
+                                <div class="row">
+                                    <div class="col-4 col-md-3">
                                         <small class="text-muted">Subtotal</small>
                                         <h5 style="color: var(--primary);">Rs <?= number_format($order['subtotal']) ?></h5>
                                     </div>
-                                    <div>
+                                    <div class="col-4 col-md-3">
                                         <small class="text-muted">Shipping</small>
                                         <h5 style="color: var(--primary);">Rs <?= number_format($order['shipping_charges']) ?></h5>
                                     </div>
-                                    <div>
+                                    <div class="col-4 col-md-3">
                                         <small class="text-muted">Total</small>
                                         <h5 style="color: var(--primary);">Rs <?= number_format($order['total']) ?></h5>
                                     </div>
@@ -152,7 +152,7 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
                         </button>
                         <div id="collapse<?= $order['order_ID'] ?>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-
+ 
                     <!-- Order Items -->
                     <div class="detail-card">
                         <h6 style="color: var(--primary); font-family: 'proxima-semibold';">Order Items</h6>
@@ -214,7 +214,7 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-5 col-sm-4 text-muted">Email:</div>
-                                    <div class="col-7 col-sm-8"><?= $shipping_details['email'] ?? '' ?></div>
+                                    <div class="col-7 col-sm-8" style="word-wrap: break-word;"><?= $shipping_details['email'] ?? '' ?></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-5 col-sm-4 text-muted">Address:</div>

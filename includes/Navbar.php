@@ -21,6 +21,8 @@
           <a class="nav-link" aria-current="page" href="<?php base_url('contact.php'); ?>">Contact</a>
         </li>
       </ul>
+
+      <!-- nav icons -->
       <div class="nav-icons d-flex align-items-center">
         <span class="mx-2">
         <div class="dropdown">
@@ -66,8 +68,9 @@
           <span class="mx-2"><i class="bi bi-bag" style="font-size: 1.2rem;"></i></span>
         </div>
         </a>
-
       </div>
+      <!-- nav icons -->
+       
     </div>
   </div>
 </nav>

@@ -38,10 +38,10 @@
             <a href="<?php base_url('index.php') ?>" class="text-reset text-decoration-none">Home</a>
           </p>
           <p class="mb-2 footer-link">
-            <a href="<?php base_url('trousers.php') ?>" class="text-reset text-decoration-none">Trousers</a>
+            <a href="<?php base_url('products/trousers.php') ?>" class="text-reset text-decoration-none">Trousers</a>
           </p>
           <p class="mb-2 footer-link">
-            <a href="<?php base_url('about.php') ?>" class="text-reset text-decoration-none">About</a>
+            <a href="index.php#new-arrivals" class="text-reset text-decoration-none">New arrivals</a>
           </p>
         </div>
 
@@ -50,16 +50,15 @@
             Account
           </h6>
           <?php if(isset($_SESSION['authenticated'])) : ?>
-            
-            <?php if($_SESSION['user_data']['user_role'] == 'admin') : ?>
-              <p class="mb-2 footer-link">
-              <a href="<?php base_url('admin/products.php') ?>" class="text-reset text-decoration-none">Admin panel</a>
-              </p>  
-            <?php endif; ?>  
-
+          
             <p class="mb-2 footer-link">
             <a href="<?php base_url('myaccount/orders.php') ?>" class="text-reset text-decoration-none">My account</a>
             </p>
+
+            <p class="mb-2 footer-link">
+                <a href="<?php base_url('myaccount/orders.php') ?>" class="text-reset text-decoration-none">Orders</a>
+            </p>
+
             <form method="POST">
             <p class="mb-2 footer-link">
               <button type="submit" name="logout-btn" class="text-reset text-decoration-none bg-transparent" style="border: none;">Logout</button>
@@ -74,29 +73,29 @@
                 <a href="<?php base_url('signup.php') ?>" class="text-reset text-decoration-none">Signup</a>
               </p>
               <p class="mb-2 footer-link">
-                <a href="<?php base_url('myaccount.php') ?>" class="text-reset text-decoration-none">My account</a>
+                <a href="<?php base_url('myaccount/') ?>" class="text-reset text-decoration-none">My account</a>
               </p>
 
             <?php endif; ?>
         </div>
 
         <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
-          <h6 class="text-uppercase fw-bold mb-4">Customer service</h6>
-          <p class="mb-2 footer-link">
-            <a href="<?php base_url('exchange_policy.php') ?>" class="text-reset text-decoration-none">Exchange Policy</a>
-          </p>
+          <h6 class="text-uppercase fw-bold mb-4">Customer support</h6>
           <p class="mb-2 footer-link">
             <a href="<?php base_url('contact.php') ?>" class="text-reset text-decoration-none">Contact us</a>
           </p>
           <p class="mb-2 footer-link">
-            <a href="#!" class="text-reset text-decoration-none">Size chart</a>
+            <a href="<?php base_url('about.php') ?>" class="text-reset text-decoration-none">About</a>
+          </p>
+          <p class="mb-2 footer-link">
+            <a href="#" class="text-reset text-decoration-none" data-bs-toggle="modal" data-bs-target="#size-guide-modal">Size chart</a>
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+  <div class="text-center p-4 footer-bottom" style="background-color: rgba(0, 0, 0, 0.05);">
     © <span class="year"></span>
     <a class="text-reset fw-bold" href="<?php base_url('index.php') ?>">AR Trouser</a>
     All rights reserved.
