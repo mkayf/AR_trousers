@@ -72,23 +72,23 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
     </header>
 
     <!-- Sidebar -->
-    <div class="pt-4 px-3 px-md-5">
-        <button type="button" class="sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" tabindex="-1">
+    <div class="pt-4 px-4">
+        <button type="button" class="sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#myaccount-sidebar" aria-controls="offcanvasExample" tabindex="-1">
         <i class="bi bi-list"></i>
         </button>
     
-        <?php include '../includes/Sidebar.php' ?>
+        <?php include '../includes/myaccountSidebar.php' ?>
     </div>
     <!-- Sidebar -->
 
     <main class="myaccount-main content">
 
-        <div class="container-fluid mt-4 mb-5 px-1 px-md-5">
-        <h2 class="myaccount-heading px-3">My orders</h2>
-        <div class="row justify-content-center">
+        <div class="container mt-4 mb-5">
+        <h2 class="myaccount-heading">My orders</h2>
+        <div class="row d-flex justify-content-center">
         <?php if(!empty($orders)) : ?>
             <?php foreach($orders as $order) : ?>
-            <div class="col-xxl-10 col-xl-12">
+            <div class="col-12 my-4">
                 <div class="order-container">
                     <!-- Order Header -->
                     <div class="order-header">
@@ -145,7 +145,7 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
                         </div>
                     </div>
                     
-                    <div class="accordion" id="accordionExample">   
+                    <div class="accordion   " id="accordionExample">   
                         <div class="accordion-item">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $order['order_ID'] ?>" aria-expanded="false" aria-controls="collapse<?= $order['order_ID'] ?>">
                             More details
@@ -156,7 +156,7 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
                     <!-- Order Items -->
                     <div class="detail-card">
                         <h6 style="color: var(--primary); font-family: 'proxima-semibold';">Order Items</h6>
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="overflow-x: auto;">
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>

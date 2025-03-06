@@ -66,18 +66,18 @@ unset($_SESSION['errors']);
     </header>
 
     <!-- Sidebar -->
-    <div class="pt-4 px-4 px-md-5">
-        <button type="button" class="sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" tabindex="-1">
+    <div class="pt-4 px-4">
+        <button type="button" class="sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#myaccount-sidebar" aria-controls="offcanvasExample" tabindex="-1">
         <i class="bi bi-list"></i>
         </button>
     
-        <?php include '../includes/Sidebar.php' ?>
+        <?php include '../includes/myaccountSidebar.php' ?>
     </div>
     <!-- Sidebar -->
 
     <main class="myaccount-main content">
 
-        <div class="container-fluid mt-4 mb-5 px-4 px-md-5">
+        <div class="container mt-4 mb-5">
         <h2 class="myaccount-heading">Shipping details</h2>
         <div class="row d-flex justify-content-center align-items-start gap-5">
             <div class="user-shipping-container row my-4 col-12 col-md-12 col-lg-6">

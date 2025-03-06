@@ -140,6 +140,7 @@ if(isset($_POST['subscribe'])){
        <?php endif; ?>
      </header>
 
+
     <main>
       <div class="slider">
   <div class="swiper mySwiper">
