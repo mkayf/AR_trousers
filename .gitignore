@@ -1,1 +1,7 @@
 .env
+
+includes/test.php
+
+admin/test.php
+
+scripts/test.js

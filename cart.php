@@ -5,7 +5,7 @@ include_once __DIR__ . '/auth/auth.php';
 include_once __DIR__ . '/controllers/CartController.php';
 
 $cart_items = $cartController->getCartItems() ?? [];
-
+ 
 
 ?>
 

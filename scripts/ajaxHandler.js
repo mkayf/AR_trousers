@@ -535,7 +535,7 @@ cartQtyInput.forEach((input) => {
         tableBody.style.opacity = "1";     
       })
 
-    }, 500);
+    }, 1000);
 
 
   });
