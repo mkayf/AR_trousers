@@ -351,7 +351,7 @@ if (addToCartBtn) {
 
 // Get cart count dynamically and giving URL parameter to use this function in other pages too:
 
-async function getCartCount($url = "../ajax/cartCount.php?cart_count=true") {
+async function getCartCount($url = "../AJAX/cartCount.php?cart_count=true") {
   let countBadge = document.querySelector(".count-badge");
   try {
     let response = await fetch($url);
@@ -402,7 +402,7 @@ deleteCartItemBtn.forEach((deleteBtn) => {
     event.currentTarget.setAttribute("disable", true);
 
     try {
-      let response = await fetch("./ajax/deleteCartItem.php", {
+      let response = await fetch("./AJAX/deleteCartItem.php", {
         method: "POST",
         body: JSON.stringify({ cartID }),
         headers: {
@@ -431,7 +431,7 @@ deleteCartItemBtn.forEach((deleteBtn) => {
           });
 
           // Get the updated cart count:
-          getCartCount("./ajax/cartCount.php?cart_count=true");
+          getCartCount("./AJAX/cartCount.php?cart_count=true");
 
           // Get and set the updated cart total:
           document.querySelector(".cart-total").textContent = `Rs ${Number(
@@ -484,7 +484,7 @@ cartQtyInput.forEach((input) => {
         qty.value = 1;
       }
 
-      fetch('./ajax/updateCartItem.php', {
+      fetch('./AJAX/updateCartItem.php', {
         method : 'POST',
         body : JSON.stringify({cartID, qty : qty.value}),
         headers : {
@@ -515,7 +515,7 @@ cartQtyInput.forEach((input) => {
           })
 
           // Get the updated cart count:
-          getCartCount("./ajax/cartCount.php?cart_count=true");
+          getCartCount("./AJAX/cartCount.php?cart_count=true");
 
           // Get and set the updated cart total:
           document.querySelector(".cart-total").textContent = `Rs ${Number(
@@ -565,7 +565,7 @@ if(city && shippingCharges){
 
       cityNameDebouncer = setTimeout(() => {
         
-        fetch('./ajax/getCheckoutTotal.php', {
+        fetch('./AJAX/getCheckoutTotal.php', {
           method : 'POST',
           body : JSON.stringify({cityName}),
           headers : {

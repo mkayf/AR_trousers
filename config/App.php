@@ -5,7 +5,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
     $envPath = __DIR__ . '/../.env';
 } else {
     // Live server ke liye (public_html ke bahar .env)
-    $envPath = dirname(__DIR__, 2) . '.env';  // 2 levels upar jao
+    $envPath = dirname(__DIR__, 2) . '/.env';  // 2 levels upar jao
 }
 
 if (file_exists($envPath)) {
