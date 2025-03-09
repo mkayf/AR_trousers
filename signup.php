@@ -66,7 +66,7 @@ include_once __DIR__ . '/controllers/CartController.php';
             </form>
                 <div class="mb-3">
                     <span>Already have account?
-                    <a href="<?php base_url('login.php') ?>" class="login-link">Login</a>
+                    <a href="<?= ROOT_URL ?>login.php" class="login-link">Login</a>
                     </span>
                 </div>
         </div>

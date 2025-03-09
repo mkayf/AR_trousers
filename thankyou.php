@@ -102,7 +102,7 @@ if(isset($_SESSION['order_ID'])){
             </table>
             </div>
             <div class="d-flex justify-content-center">
-                <a href="<?php base_url('products/trousers.php') ?>">
+                <a href="<?= ROOT_URL ?>products/trousers.php">
                     <button class="con-shop-empty">Continue shopping</button>
                 </a>
             </div>

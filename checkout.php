@@ -25,7 +25,7 @@ if(empty($cart_items)){
 }
 
 if(isset($_SESSION['authenticated'])){
-  $shipping_details = $checkout_controller->getShippingDetails();
+  $shipping_details = $checkout_controller->getShippingDetails() ?? [];
 }
 
 
@@ -89,7 +89,7 @@ unset($_SESSION['old_data']);
                       <h4>Shipping</h4>
                     </div>
                     <?php if(!isset($_SESSION['authenticated'])) : ?>
-                    <p style="font-size: 1rem;"><a href="<?php base_url('login.php?redirect=checkout'); ?>">Login</a> to view your order status and manage your account.</p>
+                    <p style="font-size: 1rem;"><a href="<?= ROOT_URL ?>login.php?rediect=checkout">Login</a> to view your order status and manage your account.</p>
                     <?php endif; ?>
                     <form method="post" class="checkout-form">
                       <div class="row mt-4">
@@ -162,9 +162,18 @@ unset($_SESSION['old_data']);
                          <label for="state">State / Province <span class="star">*</span></label>
                           <select name="state" id="state">
                             <option value="null">Select your state</option>
-                            <?php foreach($state_arr as $state) : ?>
+                            <?php if(isset($shipping_details) && !empty($shipping_details)) : ?>
+                              <?php foreach($state_arr as $state) : ?>
                               <option value="<?= $state ?>" <?= $shipping_details['state'] == $state ? 'selected' : '' ?>><?= $state ?></option>
                             <?php endforeach; ?>
+
+                                <?php else : ?>
+
+                            <?php foreach($state_arr as $state) : ?>
+                              <option value="<?= $state ?>"><?= $state ?></option>
+                            <?php endforeach; ?>
+
+                            <?php endif; ?>
                           </select>
                           <small style="color: red;"><?= $errors['state'] ?? '' ?></small>
                         </div>

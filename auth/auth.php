@@ -81,7 +81,7 @@ if(isset($_POST['login-btn'])){
 
 if(isset($_POST['logout-btn'])){
     if($login->logout()){
-        redirect('', '', 'login.php');
+        header('location: login.php');  
     }
     else{
         echo "<script>alert('Some error occured while logging out. Please try again.');</script>";

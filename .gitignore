@@ -1,7 +1,1 @@
-config/database/
-
-config/App.php
-
-config/DB_connection.php
-
-config/table_queries.txt
+.env

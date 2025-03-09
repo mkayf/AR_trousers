@@ -181,31 +181,31 @@ if(isset($_POST['subscribe'])){
  <div class="marquee-slide"> 
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Quality fabric</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Quality fabric</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Soft & breathable</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Soft & breathable</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Tailored fit</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Tailored fit</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Pure cotton</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Pure cotton</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Luxurious feel</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Luxurious feel</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Ethnic charm</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Ethnic charm</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Fully handcrafted</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Fully handcrafted</h3>  
   </div>
 
  </div>
@@ -214,31 +214,31 @@ if(isset($_POST['subscribe'])){
  <div class="marquee-slide"> 
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Quality fabric</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Quality fabric</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Soft & breathable</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Soft & breathable</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Tailored fit</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Tailored fit</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Pure cotton</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Pure cotton</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Luxurious feel</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Luxurious feel</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Ethnic charm</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Ethnic charm</h3>  
   </div>
 
   <div class="marquee-content">
-  <img src="<?php base_url('assets/images/mandala.svg') ?>" alt="Marquee mandala art icon"> <h3>Fully handcrafted</h3>  
+  <img src="<?= ROOT_URL ?>assets/images/mandala.svg" alt="Marquee mandala art icon"> <h3>Fully handcrafted</h3>  
   </div>
 
  </div> 
@@ -282,7 +282,7 @@ if(isset($_POST['subscribe'])){
 <?php endforeach; ?>
 </div>
     <div class="d-flex justify-content-center align-items-center">
-      <a href="<?php base_url('products/trousers.php'); ?>" class="view-more-btn">
+      <a href="<?= ROOT_URL ?>products/trousers.php" class="view-more-btn">
       <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
     </div>
 
@@ -359,7 +359,7 @@ if(isset($_POST['subscribe'])){
         </div>
 
         <div class="mt-5">
-        <a href="<?php base_url('products/trousers.php') ?>" class="shop-now-btn">Shop now</a>
+        <a href="<?= ROOT_URL ?>products/trousers.php" class="shop-now-btn">Shop now</a>
         </div>
 
       </div>
@@ -402,7 +402,7 @@ if(isset($_POST['subscribe'])){
 </div>
   <?php endforeach; ?>
       <div class="swiper-slide view-more-slide">
-        <a href="<?php base_url('products/trousers.php?product-category=Polyester_cotton'); ?>" class="view-more-btn">
+        <a href="<?= ROOT_URL ?>products/trousers.php?product-category=Polyester_cotton" class="view-more-btn">
           <p>View more <i class="bi bi-arrow-right-short"></i></p></a>
       </div>
 

@@ -111,14 +111,14 @@
     <!-- navbar -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">AR Trouser</a>
+        <a class="navbar-brand ps-3" href="index.php">AR Trouser</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="bi bi-list text-white fs-4 text-white"></i></button>
         <!-- Navbar-->
         <ul class="navbar-nav mx-auto me-3 me-lg-4">
             <li class="nav-item">
-                <a href="<?php base_url('index.php') ?>" class="nav-link text-white">Home</a>
+                <a href="<?= ROOT_URL ?>index.php" class="nav-link text-white">Home</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
@@ -210,7 +210,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-6">
                             <h4 class="mb-3">Order ID #<?= $order['order_ID'] ?></h4>
-                            <div class="d-flex gap-4">
+                            <div class="d-flex gap-4 flex-wrap">
                                 <div>
                                     <small class="text-muted">Order Date</small>
                                     <p class="mb-0"><?= (new DateTime($order['order_date']))->format('d F, Y') ?></p>
@@ -243,7 +243,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 text-end">
+                        <div class="col-md-6 text-end update-order-select">
                             <small class="text-muted d-block mb-2">Update order status</small>
                             <form method="POST" id="order-status-form-<?= $order['order_ID'] ?>">
                                 <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
@@ -267,7 +267,7 @@
                     <div class="detail-card">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="d-flex gap-5">
+                                <div class="d-flex gap-3 gap-sm-5 justify-content-start">
                                     <div>
                                         <small class="text-muted">Subtotal</small>
                                         <h5>Rs <?= number_format($order['subtotal']) ?></h5>
@@ -276,7 +276,7 @@
                                         <small class="text-muted">Shipping</small>
                                         <h5>Rs <?= number_format($order['shipping_charges']) ?></h5>
                                     </div>
-                                    <div>
+                                    <div class="order-total">
                                         <small class="text-muted">Total</small>
                                         <h5 class="text-success">Rs <?= number_format($order['total']) ?></h5>
                                     </div>
@@ -309,7 +309,7 @@
                                 <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
                                     <tr>
                                         <th></th>
-                                        <th>Product ID</th>
+                                        <th>ID</th>
                                         <th>Name</th>
                                         <th>Qty</th>
                                         <th>Price</th>
@@ -414,7 +414,7 @@
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-end small">
                     <div class="text-muted">
-                    Copyright &copy; <a href="<?php base_url('index.php') ?>">AR Trouser</a> <span class="year"></span>
+                    Copyright &copy; <a href="<?= ROOT_URL?>index.php">AR Trouser</a> <span class="year"></span>
                     </div>
                 </div>
             </div>

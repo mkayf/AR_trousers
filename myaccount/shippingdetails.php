@@ -7,15 +7,14 @@ include_once __DIR__ . '/../controllers/MyAccountController.php';
 
 
 if(!isset($_SESSION['authenticated']) && $_SESSION['authenticated'] != true){
-    redirect('', '', 'login.php');
+  header("location: " . ROOT_URL . 'login.php');
 }
 
 $myaccount_controller = new MyAccountController($DB->conn);
 
-$shipping_details = $myaccount_controller->getShippingDetails($_SESSION['user_data']['user_ID']) ?? null;
+$shipping_details = $myaccount_controller->getShippingDetails($_SESSION['user_data']['user_ID']) ?? [];
 
-$states = ['Azad Kashmir', 'Balochistan', '
-Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
+$state_arr = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
 
 if(isset($_POST['save-details'])){
   
@@ -27,8 +26,10 @@ if(isset($_POST['save-details'])){
 
 
 $details_saved = $_SESSION['details_saved'] ?? null;
+$save_error = $_SESSION['save_error'] ?? null;
 $errors = $_SESSION['errors'] ?? null;
 
+unset($_SESSION['save_error']);
 unset($_SESSION['details_saved']);
 unset($_SESSION['errors']);
 
@@ -60,6 +61,13 @@ unset($_SESSION['errors']);
         <?php if(isset($details_saved)) :  ?>
           <div class="header-msg d-flex align-items-center justify-content-between">
           <p style="font-size: 1rem;"><?= $details_saved ?></p>
+          <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
+          </div>  
+        <?php endif; ?>
+
+        <?php if(isset($save_error)) :  ?>
+          <div class="header-msg d-flex align-items-center justify-content-between">
+          <p style="font-size: 1rem;"><?= $save_error ?></p>
           <span class="msg-close-btn"><i class="bi bi-x-lg"></i></span>
           </div>  
         <?php endif; ?>
@@ -116,15 +124,24 @@ unset($_SESSION['errors']);
                     <label for="state">State / Province <span class="star">*</span></label>
                     <select name="state" id="state">
                         <option value="null">Select your state</option>
-                        <?php foreach($states as $state) : ?>
-                        <option value="<?= $state ?>" <?= $state == $shipping_details['state'] ? 'selected' : '' ?>><?= $state ?></option>
-                        <?php endforeach; ?>
+                        <?php if(isset($shipping_details) && !empty($shipping_details)) : ?>
+                              <?php foreach($state_arr as $state) : ?>
+                              <option value="<?= $state ?>" <?= $shipping_details['state'] == $state ? 'selected' : '' ?>><?= $state ?></option>
+                            <?php endforeach; ?>
+
+                                <?php else : ?>
+
+                            <?php foreach($state_arr as $state) : ?>
+                              <option value="<?= $state ?>"><?= $state ?></option>
+                            <?php endforeach; ?>
+
+                            <?php endif; ?>
                     </select>
                     <small style="color: red;"><?= $errors['state'] ?? '' ?></small>
                 </div>
                 <div class="mb-3 input-div col-12 col-md-6 col-lg-6">
                     <label for="landmark">City <span class="star">*</span></label>
-                    <input type="text" name="city" id="city" value="<?= $shipping_details['city'] ?>">
+                    <input type="text" name="city" id="city" value="<?= $shipping_details['city'] ?? '' ?>">
                     <small style="color: red;"><?= $errors['city'] ?? '' ?></small>
                 </div>
                 <div class="mt-4 input-div col-12">

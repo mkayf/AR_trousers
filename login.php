@@ -68,7 +68,7 @@
             </form>
                 <div class="mb-3">
                     <span>Don't have an account?
-                    <a href="<?php base_url('signup.php') ?>" class="signup-link">Sign up</a>
+                    <a href="<?= ROOT_URL ?>signup.php" class="signup-link">Sign up</a>
                     </span>
                 </div>
         </div>

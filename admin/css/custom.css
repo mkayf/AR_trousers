@@ -34,7 +34,7 @@
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
-
+ 
 .card .card-block {
     padding: 25px;
 }
@@ -50,6 +50,12 @@
 .f-right {
     float: right;
 }
+
+
+.action-btn-head{
+    
+}
+
 /* dashboard section styling */
 
 /* show product details page styling */
@@ -161,7 +167,6 @@
     font-weight: 500;
 }
 
-/* Orders page styling */
 
 .order-tab{
     margin-right: 12px;
@@ -176,3 +181,29 @@
     background-color: rgb(44, 44, 44);
     color: white;
 }
+
+@media(max-width: 576px){
+    .detail-card{
+        font-size: 0.9rem;
+        word-wrap: break-word;
+        h5{
+            font-size: 0.9rem;
+        }
+
+        .order-total{
+            word-wrap: break-word;
+        }
+    }
+
+    .status-badge{
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .update-order-select{
+        margin-top: 12px;
+        text-align: left !important;
+    }
+}
+
+/* Orders page styling */

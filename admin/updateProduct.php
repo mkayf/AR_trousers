@@ -62,7 +62,7 @@
   <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <!-- Navbar Brand-->
-      <a class="navbar-brand ps-3" href="index.html">AR Trouser</a>
+      <a class="navbar-brand ps-3" href="index.php">AR Trouser</a>
       <!-- Sidebar Toggle-->
       <button
         class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
@@ -74,7 +74,7 @@
       <!-- Navbar-->
       <ul class="navbar-nav mx-auto me-3 me-lg-4">
       <li class="nav-item">
-                <a href="<?php base_url('index.php') ?>" class="nav-link text-white">Home</a>
+                <a href="<?= ROOT_URL ?>index.php" class="nav-link text-white">Home</a>
             </li>
         <li class="nav-item dropdown">
           <a
@@ -364,7 +364,7 @@
           <div class="d-flex align-items-center justify-content-end small">
             <div class="text-muted">
               Copyright &copy;
-              <a href="<?php base_url('index.php') ?>">AR Trouser</a> <span class="year"></span>
+              <a href="<?= ROOT_URL ?>index.php">AR Trouser</a> <span class="year"></span>
             </div>
           </div>
         </div>

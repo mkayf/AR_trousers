@@ -3,8 +3,8 @@
 
     <!-- logo -->
     <div class="logo-div">
-      <a class="navbar-brand pt-0" href="<?php base_url('index.php');?>" tabindex="-1">
-        <img class="logo" src="<?php base_url('assets/images/logo-1.png') ?>" alt="">
+      <a class="navbar-brand pt-0" href="<?= ROOT_URL ?>index.php" tabindex="-1">
+        <img class="logo" src="<?= ROOT_URL ?>assets/images/logo-1.png" alt="">
       </a>
     </div>
     <!-- logo -->
@@ -12,10 +12,10 @@
     <!-- nav-links -->
       <div class="nav-links-div">
         <ul>
-          <li class="nav-link"><a href="<?php base_url('index.php') ?>">Home</a></li>
-          <li class="nav-link"><a href="<?php base_url('products/trousers.php') ?>">Trousers</a></li>
-          <li class="nav-link"><a href="<?php base_url('about.php') ?>">About</a></li>
-          <li class="nav-link"><a href="<?php base_url('contact.php') ?>">Contact</a></li>
+          <li class="nav-link"><a href="<?= ROOT_URL ?>index.php">Home</a></li>
+          <li class="nav-link"><a href="<?= ROOT_URL ?>products/trousers.php">Trousers</a></li>
+          <li class="nav-link"><a href="<?= ROOT_URL ?>about.php">About</a></li>
+          <li class="nav-link"><a href="<?= ROOT_URL ?>contact.php">Contact</a></li>
         </ul>
       </div>
     <!-- nav-links -->
@@ -31,11 +31,11 @@
             <?php if(isset($_SESSION['authenticated'])) : ?>
 
               <?php if($_SESSION['user_data']['user_role'] == 'admin') :?>
-                <li><a class="dropdown-item" href="<?php echo base_url('admin/products.php') ?>">Admin panel</a></li>
+                <li><a class="dropdown-item" href="<?= ROOT_URL ?>admin/products.php">Admin panel</a></li>
 
                 <?php endif; ?>
 
-              <li><a class="dropdown-item" href="<?php base_url('myaccount/orders.php') ?>">My account</a></li>
+              <li><a class="dropdown-item" href="<?= ROOT_URL ?>myaccount/orders.php">My account</a></li>
               <li>
               <form method="POST">
                   <button type="submit" class="dropdown-item" name="logout-btn">Logout</button>
@@ -44,15 +44,15 @@
 
             <?php else : ?>
 
-              <li><a class="dropdown-item" href="<?php base_url('login.php#login') ?>">Login</a></li>
-              <li><a class="dropdown-item" href="<?php base_url('signup.php#signup') ?>">Sign up</a></li>
+              <li><a class="dropdown-item" href="<?= ROOT_URL ?>login.php#login">Login</a></li>
+              <li><a class="dropdown-item" href="<?= ROOT_URL ?>signup.php#signup">Sign up</a></li>
 
             <?php endif; ?>
           </ul>
         </div>
         </span>
         
-        <a href="<?php base_url('cart.php') ?>" class="">
+        <a href="<?= ROOT_URL ?>cart.php" class="">
         <div class="cart-icon">
           <span class="count-badge">
             <?php 
@@ -67,7 +67,7 @@
         </div>
         </a>
 
-        <button class="menu-btn ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#nav-sidebar" aria-controls="nav-sidebar"><img src="<?php base_url('assets/images/menu_icon.png') ?>" alt=""></button>
+        <button class="menu-btn ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#nav-sidebar" aria-controls="nav-sidebar"><img src="<?= ROOT_URL ?>assets/images/menu_icon.png" alt=""></button>
 
       </div>
       <!-- nav icons -->
@@ -83,10 +83,10 @@
   <div class="offcanvas-body nav-sidebar-body">
       <nav>
         <ul>
-         <li><a href="<?php base_url('index.php') ?>">Home</a></li>
-          <li><a href="<?php base_url('products/trousers.php') ?>">Trousers</a></li>
-          <li><a href="<?php base_url('about.php') ?>">About</a></li>
-          <li><a href="<?php base_url('contact.php') ?>">Contact</a></li>
+         <li><a href="<?= ROOT_URL ?>index.php">Home</a></li>
+          <li><a href="<?= ROOT_URL ?>products/trousers.php">Trousers</a></li>
+          <li><a href="<?= ROOT_URL ?>about.php">About</a></li>
+          <li><a href="<?= ROOT_URL ?>contact.php">Contact</a></li>
         </ul>
       </nav>
   </div>

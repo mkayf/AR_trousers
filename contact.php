@@ -73,13 +73,13 @@ unset($_SESSION['contact_old_data']);
                 <h5>Contact info</h5>
                 <div>
                     <p>
-                        <a href="tel:+923401128236" class="text-reset text-decoration-none"><i class="bi bi-telephone"></i> +92 340 1128236</a>
+                        <a href="tel:+923401128236" target="_blank" class="text-reset text-decoration-none"><i class="bi bi-telephone"></i> +92 340 1128236</a>
                     </p>
                     <p>
-                        <a href="mailto:artrouser@gmail.com" class="text-reset text-decoration-none"><i class="bi bi-envelope"></i> artrouser@gmail.com</a>
+                        <a href="mailto:support@artrouser.com" target="_blank"class="text-reset text-decoration-none"><i class="bi bi-envelope"></i> support@artrouser.com</a>
                     </p>
                     <p>
-                        <a href="https://wa.me/923401128236" class="text-reset text-decoration-none"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+                        <a href="https://wa.me/923401128236" target="_blank" class="text-reset text-decoration-none"><i class="bi bi-whatsapp"></i> WhatsApp</a>
                     </p>
                 </div>
             </div>
@@ -123,6 +123,9 @@ unset($_SESSION['contact_old_data']);
 
 <!-- VANILLA JS -->
 <script src="./scripts/script.js"></script>
+
+<!-- AJAX Handler -->
+<script src="./scripts/ajaxHandler.js"></script>
 
 
 </body>

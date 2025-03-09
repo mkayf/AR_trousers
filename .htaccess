@@ -1,0 +1,11 @@
+# Block access to .env file
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Extra Security (Block access to all dotfiles like .git, .htaccess)
+<FilesMatch "^\.(.*)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

@@ -3,11 +3,11 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link text-white" href="<?php base_url('admin/products.php') ?>">
+                            <a class="nav-link text-white" href="<?= ROOT_URL ?>admin/products.php">
                                 <div class="sb-nav-link-icon"><i class="bi bi-box-fill fs-5 text-white"></i></i></div>
                                 Products
                             </a>
-                            <a class="nav-link text-white" href="<?php base_url('admin/orders.php') ?>">
+                            <a class="nav-link text-white" href="<?= ROOT_URL ?>admin/orders.php">
                                 <div class="sb-nav-link-icon"><i class="bi bi-boxes fs-5 text-white"></i></div>
                                 Orders
                             </a>

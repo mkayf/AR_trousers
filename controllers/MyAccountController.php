@@ -65,7 +65,7 @@ class MyAccountController
                 $errors['email'] = "Please enter valid email";
             }
         }
-
+ 
         // Validate state:
 
         $state_arr = ['Azad Kashmir', 'Balochistan', 'Islamabad Capital Territory', 'Khyber Pakhtunkhwa', 'Punjab', 'Sindh'];
@@ -104,6 +104,7 @@ class MyAccountController
         }
         else {
             $_SESSION['errors'] = $errors;
+            $_SESSION['save_error'] = "Please provide all required details correctly.";
         }
 
     }

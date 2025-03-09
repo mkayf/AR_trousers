@@ -6,7 +6,7 @@ include_once __DIR__ . '/../controllers/CartController.php';
 include_once __DIR__ . '/../controllers/OrdersController.php';
 
 if(!isset($_SESSION['authenticated']) && $_SESSION['authenticated'] != true){
-    redirect('', '', 'login.php');
+    header("location: " . ROOT_URL . 'login.php');
 }
 
 if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
@@ -249,7 +249,7 @@ if(isset($_SESSION['authenticated']) && $_SESSION['authenticated'] == true){
             <?php else : ?>
                 <div class="container text-center mt-5">
                     <p class="mb-4 fs-5" style="font-family: 'proxima-regular';">Your order history is empty. Time to change that!</p>
-                    <a href="<?php base_url('products/trousers.php') ?>" class="shop-now-btn">Shop now</a>
+                    <a href="<?= ROOT_URL ?>products/trousers.php" class="shop-now-btn">Shop now</a>
                 </div>
             <?php endif; ?>
         </div>

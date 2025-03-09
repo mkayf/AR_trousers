@@ -36,7 +36,7 @@
     <div class="container d-flex justify-content-center align-items-center flex-column">
         <h1>404</h1>
         <h2>Page not found</h2>
-        <a href="index.php" class="anchor">Go to home page</a>
+        <a href="<?= ROOT_URL ?>index.php" class="anchor">Go to home page</a>
     </div>
 </body>
 </html>
