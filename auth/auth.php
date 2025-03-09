@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../config/App.php';
 include_once __DIR__ . '/../controllers/signupController.php';
-include_once __DIR__ . '/../controllers/loginController.php';
+include_once __DIR__ . '/../controllers/LoginController.php';
 
 // Signup user:
 

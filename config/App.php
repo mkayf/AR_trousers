@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-if ($_SERVER['HTTP_HOST'] === 'artrouser.com' || $_SERVER['HTTP_HOST'] === 'www.artrouser.com') {
-    $envPath = dirname(__DIR__, 1) . '/.env';
+if ($_SERVER['SERVER_NAME'] == 'localhost') {
+    $envPath = __DIR__ . '/../.env';
 } else {
-    $envPath = dirname(__DIR__) . '/.env';
+    // Live server ke liye (public_html ke bahar .env)
+    $envPath = dirname(__DIR__, 2) . '.env';  // 2 levels upar jao
 }
 
 if (file_exists($envPath)) {
@@ -18,7 +19,7 @@ define("USERNAME", $env['USERNAME']);
 define("PASSWORD", $env['PASSWORD']);
 define("DATABASE", $env['DATABASE']);
 define("ROOT_URL", (isset($_SERVER['HTTPS']) ? "https://" : "http://") . $_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', dirname(__DIR__, 1))) . '/');
-
+define("ROOT_INCLUDE_PATH", realpath(__DIR__ . '/..'));
 
 // Database connection
 include 'DB_connection.php';
