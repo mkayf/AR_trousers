@@ -28,32 +28,36 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
     // Preview image on upload in updateProduct.php file:
-
-    const previewImg = (fileInput, imgPreview) => {
-        const input = document.getElementById(fileInput);
-        const img = document.getElementById(imgPreview);
-
-        input.addEventListener('change', () => {
-            const file = input.files[0];
-            if(file){
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    img.src = e.target.result;
+    
+    if(window.location.pathname.includes('updateProduct.php')){
+        
+        const previewImg = (fileInput, imgPreview) => {
+            const input = document.getElementById(fileInput);
+            const img = document.getElementById(imgPreview);
+    
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                if(file){
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        img.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
                 }
-                reader.readAsDataURL(file);
-            }
-        })
-    }
-
-    previewImg('img-1', 'preview-1');
-    previewImg('img-2', 'preview-2');
-    previewImg('img-3', 'preview-3');
-
-
-});
+            })
+        }
+    
+        previewImg('img-1', 'preview-1');
+        previewImg('img-2', 'preview-2');
+        previewImg('img-3', 'preview-3');    
+    }    
 
 
 // Year for the footer:
 
 let date = new Date();
 document.querySelector('.year').textContent = date.getFullYear();
+
+});
+
+
