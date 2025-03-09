@@ -6,7 +6,7 @@
     include_once __DIR__ . '/controllers/ProductsController.php';
 
     if($_SESSION['user_data']['user_role'] !== 'admin'){
-      redirect('', '', '404.php');
+      header("location: " . ROOT_URL . "404.php");
       exit(0);
   }
     $productsController = new ProductsController($DB->conn);
@@ -82,15 +82,9 @@
             class="dropdown-menu dropdown-menu-end py-1"
             aria-labelledby="navbarDropdown"
           >
-            <form method="POST">
-              <button
-                type="submit"
-                class="dropdown-item d-flex align-items-center gap-2"
-                name="logout-btn"
-              >
-                <i class="bi bi-box-arrow-right fs-5"></i> Logout
-              </button>
-            </form>
+          <li>
+            <a class="text-dark" href="<?= ROOT_URL ?>admin/logoutAdmin.php"><i class="bi bi-box-arrow-right fs-5"></i> Logout</a>
+          </li>
           </ul>
         </li>
       </ul>

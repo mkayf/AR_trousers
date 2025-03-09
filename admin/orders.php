@@ -1,83 +1,80 @@
 <?php
 
-    include_once __DIR__ . '/../config/App.php';
-    include_once __DIR__ . '/../auth/auth.php';
-    include_once __DIR__ . '/controllers/OrdersController.php';
+include_once __DIR__ . '/../config/App.php';
+include_once __DIR__ . '/../auth/auth.php';
+include_once __DIR__ . '/controllers/OrdersController.php';
 
-    if($_SESSION['user_data']['user_role'] !== 'admin'){
-        redirect('', '', '404.php');
-        exit(0);
-    }
 
-    $orders_controller = new OrdersController($DB->conn);    
+if ($_SESSION['user_data']['user_role'] !== 'admin') {
+    header("location: " . ROOT_URL . "404.php");
+    exit(0);
+}
 
-    if(isset($_GET['status'])){
-        $status = mysqli_real_escape_string($DB->conn, $_GET['status']);
-    } else{
-        $status = 'all';
-    }
+$orders_controller = new OrdersController($DB->conn);
 
-    $orders = $orders_controller->getOrders($status) ?? [];
+if (isset($_GET['status'])) {
+    $status = mysqli_real_escape_string($DB->conn, $_GET['status']);
+} else {
+    $status = 'all';
+}
 
-    if(isset($_POST['order_status'])){
-        $allowed_status = ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Canceled'];
+$orders = $orders_controller->getOrders($status) ?? [];
 
-        $order_status = $_POST['order_status'];
-        $order_ID = $_POST['order_ID'];
+if (isset($_POST['order_status'])) {
+    $allowed_status = ['Pending', 'Confirmed', 'Processing', 'Shipped', 'Out for delivery', 'Delivered', 'Canceled'];
 
-        if(in_array($order_status, $allowed_status)){
-            if($orders_controller->updateOrderStatus($order_ID, $order_status)){
-                $_SESSION['order-status-updated'] = "Order status updated successfully for Order ID: $order_ID";
-                
-            } else{
-                $_SESSION['order-status-update-failed'] = 'Failed to update order status. Please try again';
-            }
-        } else{
-            $_SESSION['invalid-order-status'] = 'Please select a valid order status';
-            
+    $order_status = $_POST['order_status'];
+    $order_ID = $_POST['order_ID'];
+
+    if (in_array($order_status, $allowed_status)) {
+        if ($orders_controller->updateOrderStatus($order_ID, $order_status)) {
+            $_SESSION['order-status-updated'] = "Order status updated successfully for Order ID: $order_ID";
+        } else {
+            $_SESSION['order-status-update-failed'] = 'Failed to update order status. Please try again';
         }
-        
-        header('location: orders.php');
-        exit();
-
+    } else {
+        $_SESSION['invalid-order-status'] = 'Please select a valid order status';
     }
-    
-    if(isset($_POST['payment-status'])){
-        $allowed_status = ['Pending', 'Received'];
-        $payment_status = $_POST['payment-status'];
-        $order_ID = $_POST['order_ID'];
 
-        if(in_array($payment_status, $allowed_status)){
+    header('location: orders.php');
+    exit();
+}
 
-            if($orders_controller->updatePaymentStatus($order_ID, $payment_status)){
-                $_SESSION['payment-status-updated'] = "Payment status updated successfully for Order ID: $order_ID";
-            } else{
-                $_SESSION['payment-status-update-failed'] = 'Failed to update payment status. Please try again';
-            }
+if (isset($_POST['payment-status'])) {
+    $allowed_status = ['Pending', 'Received'];
+    $payment_status = $_POST['payment-status'];
+    $order_ID = $_POST['order_ID'];
 
-        } else{
-            $_SESSION['invalid-payment-status'] = 'Please select a valid payment status to update';
+    if (in_array($payment_status, $allowed_status)) {
+
+        if ($orders_controller->updatePaymentStatus($order_ID, $payment_status)) {
+            $_SESSION['payment-status-updated'] = "Payment status updated successfully for Order ID: $order_ID";
+        } else {
+            $_SESSION['payment-status-update-failed'] = 'Failed to update payment status. Please try again';
         }
-
-        header('location: orders.php');
-        exit();
+    } else {
+        $_SESSION['invalid-payment-status'] = 'Please select a valid payment status to update';
     }
 
-
-    $order_status_updated = $_SESSION['order-status-updated'] ?? null;
-    $order_status_update_failed = $_SESSION['order-status-update-failed'] ?? null;
-    $invalid_order_status = $_SESSION['invalid-order-status'] ?? null;
-    $payment_status_updated = $_SESSION['payment-status-updated'] ?? null;
-    $payment_status_update_failed = $_SESSION['payment-status-update-failed'] ?? null;
-    $invalid_payment_status = $_SESSION['invalid-payment-status'] ?? null;
+    header('location: orders.php');
+    exit();
+}
 
 
-    unset($_SESSION['order-status-updated']);
-    unset($_SESSION['order-status-update-failed']);
-    unset($_SESSION['invalid-order-status']);
-    unset($_SESSION['payment-status-updated']);
-    unset($_SESSION['payment-status-update-failed']);
-    unset($_SESSION['invalid-payment-status']);
+$order_status_updated = $_SESSION['order-status-updated'] ?? null;
+$order_status_update_failed = $_SESSION['order-status-update-failed'] ?? null;
+$invalid_order_status = $_SESSION['invalid-order-status'] ?? null;
+$payment_status_updated = $_SESSION['payment-status-updated'] ?? null;
+$payment_status_update_failed = $_SESSION['payment-status-update-failed'] ?? null;
+$invalid_payment_status = $_SESSION['invalid-payment-status'] ?? null;
+
+
+unset($_SESSION['order-status-updated']);
+unset($_SESSION['order-status-update-failed']);
+unset($_SESSION['invalid-order-status']);
+unset($_SESSION['payment-status-updated']);
+unset($_SESSION['payment-status-update-failed']);
+unset($_SESSION['invalid-payment-status']);
 
 ?>
 
@@ -124,11 +121,9 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="bi bi-person-circle fs-5 text-white"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end py-1" aria-labelledby="navbarDropdown">
-                    <form method="POST">
-                        <button type="submit" class="dropdown-item d-flex align-items-center gap-2" name="logout-btn"><i
-                                class="bi bi-box-arrow-right fs-5"></i> Logout
-                        </button>
-                    </form>
+                <li>
+                    <a class="text-dark" href="<?= ROOT_URL ?>admin/logoutAdmin.php"><i class="bi bi-box-arrow-right fs-5"></i> Logout</a>
+                </li>
                 </ul>
             </li>
         </ul>
@@ -142,50 +137,50 @@
     <div id="layoutSidenav_content">
         <main>
 
-        <!-- alert messages -->
-        <?php if(isset($invalid_order_status)) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= $invalid_order_status ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+            <!-- alert messages -->
+            <?php if (isset($invalid_order_status)) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $invalid_order_status ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-        <?php if(isset($order_status_updated)) : ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= $order_status_updated ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-        
-        <?php if(isset($order_status_update_failed)) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= $order_status_update_failed ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+            <?php if (isset($order_status_updated)) : ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= $order_status_updated ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-        <?php if(isset($payment_status_updated)) : ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= $payment_status_updated ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+            <?php if (isset($order_status_update_failed)) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $order_status_update_failed ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-        <?php if(isset($payment_status_update_failed)) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= $payment_status_update_failed ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+            <?php if (isset($payment_status_updated)) : ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= $payment_status_updated ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-        <?php if(isset($invalid_payment_status)) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= $invalid_payment_status ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+            <?php if (isset($payment_status_update_failed)) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $payment_status_update_failed ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-        <!-- alert messages -->
+            <?php if (isset($invalid_payment_status)) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $invalid_payment_status ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
+            <!-- alert messages -->
 
             <div class="px-4">
                 <h1 class="mt-4">Manage orders</h1>
@@ -202,211 +197,205 @@
                     <a href="orders.php?status=canceled" class="btn btn-sm  order-tab <?= $status == 'canceled' ? 'active' : '' ?>">Canceled</a>
                 </div>
 
-                <?php if(!empty($orders)) : ?>
-                <?php foreach($orders as $order) : ?>
-                <div class="order mt-5">
-                <!-- Order Header -->
-                <div class="order-header">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <h4 class="mb-3">Order ID #<?= $order['order_ID'] ?></h4>
-                            <div class="d-flex gap-4 flex-wrap">
-                                <div>
-                                    <small class="text-muted">Order Date</small>
-                                    <p class="mb-0"><?= (new DateTime($order['order_date']))->format('d F, Y') ?></p>
-                                </div>
-                                <div>
-                                    <small class="text-muted">Status</small>
-                                    <?php 
-                                    if($order['order_status'] == 'Pending'){
-                                        echo '<span class="status-badge bg-secondary text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Confirmed'){
-                                        echo '<span class="status-badge bg-primary text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Processing'){
-                                        echo '<span class="status-badge bg-warning text-dark">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Shipped'){
-                                        echo '<span class="status-badge bg-info text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Out for delivery'){
-                                        echo '<span class="status-badge bg-info text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Delivered'){
-                                        echo '<span class="status-badge bg-success text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    else if($order['order_status'] == 'Canceled'){
-                                        echo '<span class="status-badge bg-danger text-white">'.$order['order_status'].'</span>';
-                                    }
-                                    ?>
+                <?php if (!empty($orders)) : ?>
+                    <?php foreach ($orders as $order) : ?>
+                        <div class="order mt-5">
+                            <!-- Order Header -->
+                            <div class="order-header">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <h4 class="mb-3">Order ID #<?= $order['order_ID'] ?></h4>
+                                        <div class="d-flex gap-4 flex-wrap">
+                                            <div>
+                                                <small class="text-muted">Order Date</small>
+                                                <p class="mb-0"><?= (new DateTime($order['order_date']))->format('d F, Y') ?></p>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">Status</small>
+                                                <?php
+                                                if ($order['order_status'] == 'Pending') {
+                                                    echo '<span class="status-badge bg-secondary text-white">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Confirmed') {
+                                                    echo '<span class="status-badge bg-primary text-white">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Processing') {
+                                                    echo '<span class="status-badge bg-warning text-dark">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Shipped') {
+                                                    echo '<span class="status-badge bg-info text-white">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Out for delivery') {
+                                                    echo '<span class="status-badge bg-info text-white">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Delivered') {
+                                                    echo '<span class="status-badge bg-success text-white">' . $order['order_status'] . '</span>';
+                                                } else if ($order['order_status'] == 'Canceled') {
+                                                    echo '<span class="status-badge bg-danger text-white">' . $order['order_status'] . '</span>';
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-end update-order-select">
+                                        <small class="text-muted d-block mb-2">Update order status</small>
+                                        <form method="POST" id="order-status-form-<?= $order['order_ID'] ?>">
+                                            <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
+                                            <select class="form-select w-50 d-inline-block" name="order_status" onchange="document.getElementById('order-status-form-<?= $order['order_ID'] ?>').submit()">
+                                                <option value="Pending" <?= $order['order_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                                <option value="Confirmed" <?= $order['order_status'] == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
+                                                <option value="Processing" <?= $order['order_status'] == 'Processing' ? 'selected' : '' ?>>Processing</option>
+                                                <option value="Shipped" <?= $order['order_status'] == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
+                                                <option value="Out for delivery" <?= $order['order_status'] == 'Out for delivery' ? 'selected' : '' ?>>Out for delivery</option>
+                                                <option value="Delivered" <?= $order['order_status'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
+                                                <option value="Canceled" <?= $order['order_status'] == 'Canceled' ? 'selected' : '' ?>>Canceled</option>
+                                            </select>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 text-end update-order-select">
-                            <small class="text-muted d-block mb-2">Update order status</small>
-                            <form method="POST" id="order-status-form-<?= $order['order_ID'] ?>">
-                                <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
-                            <select class="form-select w-50 d-inline-block" name="order_status" onchange="document.getElementById('order-status-form-<?= $order['order_ID'] ?>').submit()">
-                                <option value="Pending" <?= $order['order_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                                <option value="Confirmed" <?= $order['order_status'] == 'Confirmed' ? 'selected' : '' ?>>Confirmed</option>
-                                <option value="Processing" <?= $order['order_status'] == 'Processing' ? 'selected' : '' ?>>Processing</option>
-                                <option value="Shipped" <?= $order['order_status'] == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
-                                <option value="Out for delivery" <?= $order['order_status'] == 'Out for delivery' ? 'selected' : '' ?>>Out for delivery</option>
-                                <option value="Delivered" <?= $order['order_status'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
-                                <option value="Canceled" <?= $order['order_status'] == 'Canceled' ? 'selected' : '' ?>>Canceled</option>
-                            </select>
-                            </form>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Main Content -->
-                <div class="p-4">
-                    <!-- Payment Summary -->
-                    <div class="detail-card">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="d-flex gap-3 gap-sm-5 justify-content-start">
-                                    <div>
-                                        <small class="text-muted">Subtotal</small>
-                                        <h5>Rs <?= number_format($order['subtotal']) ?></h5>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted">Shipping</small>
-                                        <h5>Rs <?= number_format($order['shipping_charges']) ?></h5>
-                                    </div>
-                                    <div class="order-total">
-                                        <small class="text-muted">Total</small>
-                                        <h5 class="text-success">Rs <?= number_format($order['total']) ?></h5>
+                            <!-- Main Content -->
+                            <div class="p-4">
+                                <!-- Payment Summary -->
+                                <div class="detail-card">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="d-flex gap-3 gap-sm-5 justify-content-start">
+                                                <div>
+                                                    <small class="text-muted">Subtotal</small>
+                                                    <h5>Rs <?= number_format($order['subtotal']) ?></h5>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted">Shipping</small>
+                                                    <h5>Rs <?= number_format($order['shipping_charges']) ?></h5>
+                                                </div>
+                                                <div class="order-total">
+                                                    <small class="text-muted">Total</small>
+                                                    <h5 class="text-success">Rs <?= number_format($order['total']) ?></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex justify-content-end gap-5">
+                                            <div class="d-inline-block text-start">
+                                                <small class="text-muted">Payment Method</small>
+                                                <p class="mb-1"><?= $order['payment_method'] ?></p>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">Payment Status</small>
+                                                <form method="POST" id="payment-status-form-<?= $order['order_ID'] ?>">
+                                                    <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
+                                                    <select class="form-select w-100 d-inline-block mt-1" name="payment-status" onchange="document.getElementById('payment-status-form-<?= $order['order_ID'] ?>').submit()">
+                                                        <option value="Pending" <?= $order['payment_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                                        <option value="Received" <?= $order['payment_status'] == 'Received' ? 'selected' : '' ?>>Received</option>
+                                                    </select>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 d-flex justify-content-end gap-5">
-                                <div class="d-inline-block text-start">
-                                    <small class="text-muted">Payment Method</small>
-                                    <p class="mb-1"><?= $order['payment_method'] ?></p>
-                                </div>
-                                <div>
-                                <small class="text-muted">Payment Status</small>
-                                <form method="POST" id="payment-status-form-<?= $order['order_ID'] ?>">
-                                    <input type="hidden" name="order_ID" value="<?= $order['order_ID'] ?>">
-                                <select class="form-select w-100 d-inline-block mt-1" name="payment-status" onchange="document.getElementById('payment-status-form-<?= $order['order_ID'] ?>').submit()">
-                                    <option value="Pending" <?= $order['payment_status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                                    <option value="Received" <?= $order['payment_status'] == 'Received' ? 'selected' : '' ?>>Received</option>
-                                </select>
-                                </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Order Items -->
-                    <div class="detail-card">
-                        <h6 class="mb-3">Order Items</h6>
-                        <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
-                            <table class="table table-hover" >
-                                <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
-                                    <tr>
-                                        <th></th>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th>Subtotal</th>
-                                        <th>Size</th>
-                                        <th>Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                        $order_items = $orders_controller->getOrderItems($order['order_ID']);
-                                    ?>
-                                    <?php foreach($order_items as $item) : ?>
-                                    <tr>
-                                        <td><a href="../products/product.php?id=<?= $item['product_ID'] ?>" target="_blank">
-                                        <img src="../<?= $item['product_img_1'] ?>" class="product-img">
-                                        </a></td>
-                                        <td><?= $item['product_ID'] ?></td>
-                                        <td><?= $item['product_name'] ?></td>
-                                        <td><?= $item['quantity'] ?></td>
-                                        <td>Rs <?= number_format($item['price']) ?></td>
-                                        <td>Rs <?= number_format($item['subtotal']) ?></td>
-                                        <td><?= $item['size'] ?></td>
-                                        <td><?= $item['color'] ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
- 
-                    <!-- Shipping Details -->
-                    <div class="detail-card">
-                        <h6 class="mb-3">Shipping Details</h6>
-                        <div class="row">
-                        <?php 
-                        $shipping_details = $orders_controller->getShippingDetails($order['order_ID']) ?? [];
-                        ?>
-                            <div class="col-md-6">
-                                <div class="row mb-2">
-                                    <?php if(isset($shipping_details['user_ID'])) :  ?>
-                                        <div class="col-4 text-muted">User ID:</div>
-                                        <div class="col-8"><?= $shipping_details['user_ID'] ?? 'Error' ?></div>
-                                    <?php else: ?>
-                                        <div class="col-4 text-muted">Guest ID:</div>
-                                        <div class="col-8"><?= $shipping_details['guest_ID'] ?? 'Error' ?></div>
-                                    <?php endif; ?>    
+                                <!-- Order Items -->
+                                <div class="detail-card">
+                                    <h6 class="mb-3">Order Items</h6>
+                                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                                        <table class="table table-hover">
+                                            <thead style="position: sticky; top: 0; z-index: 1; background-color: white;">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Qty</th>
+                                                    <th>Price</th>
+                                                    <th>Subtotal</th>
+                                                    <th>Size</th>
+                                                    <th>Color</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $order_items = $orders_controller->getOrderItems($order['order_ID']);
+                                                ?>
+                                                <?php foreach ($order_items as $item) : ?>
+                                                    <tr>
+                                                        <td><a href="../products/product.php?id=<?= $item['product_ID'] ?>" target="_blank">
+                                                                <img src="../<?= $item['product_img_1'] ?>" class="product-img">
+                                                            </a></td>
+                                                        <td><?= $item['product_ID'] ?></td>
+                                                        <td><?= $item['product_name'] ?></td>
+                                                        <td><?= $item['quantity'] ?></td>
+                                                        <td>Rs <?= number_format($item['price']) ?></td>
+                                                        <td>Rs <?= number_format($item['subtotal']) ?></td>
+                                                        <td><?= $item['size'] ?></td>
+                                                        <td><?= $item['color'] ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">Name:</div>
-                                    <div class="col-8"><?= $shipping_details['first_name'] . ' ' . $shipping_details['last_name'] ?? 'Error' ?></div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">Phone:</div>
-                                    <div class="col-8"><?= $shipping_details['phone_number'] ?? 'Error' ?></div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">Email:</div>
-                                    <div class="col-8"><?= $shipping_details['email'] ?? 'Not given' ?></div>
+
+                                <!-- Shipping Details -->
+                                <div class="detail-card">
+                                    <h6 class="mb-3">Shipping Details</h6>
+                                    <div class="row">
+                                        <?php
+                                        $shipping_details = $orders_controller->getShippingDetails($order['order_ID']) ?? [];
+                                        ?>
+                                        <div class="col-md-6">
+                                            <div class="row mb-2">
+                                                <?php if (isset($shipping_details['user_ID'])) :  ?>
+                                                    <div class="col-4 text-muted">User ID:</div>
+                                                    <div class="col-8"><?= $shipping_details['user_ID'] ?? 'Error' ?></div>
+                                                <?php else: ?>
+                                                    <div class="col-4 text-muted">Guest ID:</div>
+                                                    <div class="col-8"><?= $shipping_details['guest_ID'] ?? 'Error' ?></div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">Name:</div>
+                                                <div class="col-8"><?= $shipping_details['first_name'] . ' ' . $shipping_details['last_name'] ?? 'Error' ?></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">Phone:</div>
+                                                <div class="col-8"><?= $shipping_details['phone_number'] ?? 'Error' ?></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">Email:</div>
+                                                <div class="col-8"><?= $shipping_details['email'] ?? 'Not given' ?></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">Street Address:</div>
+                                                <div class="col-8"><?= $shipping_details['street_address'] ?? 'Error' ?></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">Landmark:</div>
+                                                <div class="col-8"><?= $shipping_details['landmark'] ?? '' ?></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">City:</div>
+                                                <div class="col-8"><?= $shipping_details['city'] ?? 'Error' ?></div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-4 text-muted">State:</div>
+                                                <div class="col-8"><?= $shipping_details['state'] ?? 'Error' ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="contact-actions fs-4 d-flex justify-content-end gap-2">
+                                        <a href="https://wa.me/+92<?= $shipping_details['phone_number'] ?>" class="text-success" target="_blank"><i class="bi bi-whatsapp"></i></a>
+
+                                        <?php if (!empty($shipping_details['email'])) : ?>
+                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=<?= $shipping_details['email'] ?>" class="text-primary" target="_blank"><i class="bi bi-envelope"></i></a>
+                                        <?php endif; ?>
+
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">Street Address:</div>
-                                    <div class="col-8"><?= $shipping_details['street_address'] ?? 'Error' ?></div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">Landmark:</div>
-                                    <div class="col-8"><?= $shipping_details['landmark'] ?? '' ?></div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">City:</div>
-                                    <div class="col-8"><?= $shipping_details['city'] ?? 'Error' ?></div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 text-muted">State:</div>
-                                    <div class="col-8"><?= $shipping_details['state'] ?? 'Error' ?></div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="contact-actions fs-4 d-flex justify-content-end gap-2">
-                            <a href="https://wa.me/+92<?= $shipping_details['phone_number'] ?>" class="text-success" target="_blank"><i class="bi bi-whatsapp"></i></a>
-                                
-                            <?php if(!empty($shipping_details['email'])) : ?>
-                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=<?= $shipping_details['email'] ?>" class="text-primary" target="_blank"><i class="bi bi-envelope"></i></a>
-                            <?php endif; ?>
-                            
-                        </div>
+                    <?php endforeach; ?>
+                <?php else:  ?>
+                    <div class=" mt-5 ms-2">
+                        <p class="fs-3">No orders found for this status.</p>
                     </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-            <?php else:  ?>
-                <div class=" mt-5 ms-2">
-                    <p class="fs-3">No orders found for this status.</p>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
             </div>
         </main>
 
@@ -414,19 +403,19 @@
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-end small">
                     <div class="text-muted">
-                    Copyright &copy; <a href="<?= ROOT_URL?>index.php">AR Trouser</a> <span class="year"></span>
+                        Copyright &copy; <a href="<?= ROOT_URL ?>index.php">AR Trouser</a> <span class="year"></span>
                     </div>
                 </div>
             </div>
         </footer>
     </div>
 
-        <!-- BOOTSTRAP SCRIPT CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
-        <!-- VANILLA JS SCRIPT -->
-        <script src="js/scripts.js"></script>
+    <!-- BOOTSTRAP SCRIPT CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <!-- VANILLA JS SCRIPT -->
+    <script src="js/scripts.js"></script>
 </body>
 
 </html>

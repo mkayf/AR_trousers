@@ -78,7 +78,7 @@
         }
 
         // log out the user:
-
+ 
         public function logout(){
             if(isset($_SESSION['authenticated'])){
                 

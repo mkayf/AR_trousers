@@ -3,7 +3,7 @@
     include_once __DIR__ . '/controllers/ProductsController.php';
 
     if($_SESSION['user_data']['user_role'] !== 'admin'){
-        redirect('', '', '404.php');
+        header("location: " . ROOT_URL . "404.php");
         exit(0);
     }
 
